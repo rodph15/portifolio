@@ -1,169 +1,199 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Rodolfo Schmidt</title>
-		<meta charset="utf-8" />
-		<meta name="robots" content="index, follow">
-    <meta name="keywords" content="rodolfo schmidt, rodolfo, schmidt, dotnet, dotnet core, .net, c#, C#, DDD, design pattern, solid,
+
+<head>
+	<title>Creating Project and Design Pattern .net core</title>
+	<meta charset="utf-8" />
+	<meta name="robots" content="index, follow">
+	<meta name="keywords"
+		content="rodolfo schmidt, rodolfo, schmidt, dotnet, dotnet core, .net, c#, C#, DDD, design pattern, solid,
     api, repository, domain, javascript, angular, reactjs, react, reactnative, programação, desenvolvimento, developer, programmer, programming, tutorial,
     portifólio,portifolio, software, sistema, clean code, project, projeto,vs, visual studio,frameworks, technology, technologies, tecnnologia, tecnologias" />
-    <meta name="description" content="Rodolfo Schmidt Professional senior developer" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, user-scalable=no"
-    />
-		<link rel="stylesheet" href="assets/css/main.css" />
-		<link rel="shortcut icon" href="images/favicon.ico" />
-    <noscript><link rel="stylesheet" href="assets/css/noscript.css"/></noscript>
-  </head>
-  <body class="is-preload landing">
-    <div id="page-wrapper">
+	<meta name="description" content="Rodolfo Schmidt Professional senior developer" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+	<link rel="stylesheet" href="assets/css/main.css" />
+	<link rel="shortcut icon" href="images/favicon.ico" />
+	<noscript>
+		<link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+</head>
 
-			<!-- Header -->
-			<header id="header">
-        <h1 id="logo"><a href="index.html">Rodolfo Schmidt</a></h1>
-        <nav id="nav">
-          <ul>
-            <li><a href="index.html">Home</a></li>
-            <li>
-              <a href="#">C# .Net</a>
-              <ul>
-                <li>
-                  <a href="creating-project-netcore.html"
-                    >Creating Project .Net core</a
-                  >
-                </li>
-                <li>
-                  <a href="creating-domain-netcore.html"
-                    >Creating Domain .Net Core</a
-                  >
-                </li>
-                <li>
-                  <a href="creating-data-netcore.html"
-                    >Creating Data .Net Core</a
-                  >
-                </li>
-                <li>
-                  <a href="creating-business-netcore.html"
-                    >Creating Business .Net Core</a
-                  >
-                </li>
-                <li>
-                  <a href="creating-api-netcore.html">Creating Api .Net Core</a>
-                </li>
-                <li>
-                  <a href="creating-depedency-injection-netcore.html"
-                    >Creating DI .Net Core</a
-                  >
-                </li>
-                <li>
-                  <a href="creating-unit-test-netcore.html"
-                    >Creating Unit test .Net Core</a
-                  >
-                </li>
-              </ul>
-            </li>
-            <li><a href="creating-order-angular.html">Angular</a></li>
-            <li><a href="creating-order-react.html">ReactJS</a></li>
-            <li><a href="creating-order-react-native.html">ReactNative</a></li>
-          </ul>
-        </nav>
-      </header>
+<body class="is-preload landing">
+	<div id="page-wrapper">
 
-				<!-- Main -->
-				<div id="main" class="wrapper style1">
-						<div class="container">
-							<header class="major">
-								<h2>Creating Project and Design Pattern</h2>
-								<p>In this session we will create the project directory the solution and each solution layer.</p>
-							</header>
-	
-							<!-- Text -->
-								<section>
-									<h3>Creating project directory </h3>
-									<p>To create our project we will use here Visual Studio 2019 Community. It is not the obligatory tool you can use for example Visual Studio Code or other as you wish.
-									To get started, let's create 2 directories. the source directory where will be the main project and tests where will be the unit test project see in the unit test session later the tests applied to our project <a href="creating-unit-test-netcore.html">here</a>.</p>
-									<a href="images/creating_design_pattern01.png" target="blank"><img width="500" src="images/creating_design_pattern01.png" alt="" /></a>
-							
-									<p>Starting visual studio let's create a new blank solution. Initially creating on the create new project button.</p>
-									<a href="images/creating_design_pattern02.png" target="blank"><img width="500" src="images/creating_design_pattern02.png" alt="" /></a>
-									<p>Now let's create a blank solution. You can type blank in the filter field to speed up the process.</p>
-									<a href="images/creating_design_pattern03.png" target="blank"><img width="500" src="images/creating_design_pattern03.png" alt="" /></a>
-									<p>Next we will choose the source directory we created to generate our solution and give our solution a name. I'll call her "rodolfo.schmidt"</p>
-									<a href="images/creating_design_pattern04.png" target="blank"><img width="500" src="images/creating_design_pattern04.png" alt="" /></a>
-									<p>The solution must be created blank, if you unintentionally create a project simply remove the automatically created project from the directory and remove it from the solution. Your solution should be as follows.</p>
-									<a href="images/creating_design_pattern05.png" target="blank"><img width="500" src="images/creating_design_pattern05.png" alt="" /></a>
-
-									<hr>
-
-									<h3>Creating the layers </h3>
-										<p>Now let's create the layers of our architecture. It is important to remember that here is just an architectural proposal in which you have complete freedom to adapt to the needs of your project.
-												Right clicking on the solution will create a .net core class library for the generation of layers with the exception of the api layer as we will see below.
-										</p>
-										<a href="images/creating_design_pattern06.png" target="blank"><img width="500" src="images/creating_design_pattern06.png" alt="" /></a>
-										<br />
-										<a href="images/creating_design_pattern07.png" target="blank"><img width="500" src="images/creating_design_pattern07.png" alt="" /></a>
-										<p>Let's start with the dependency injection layer in which to choose to use the "Cross Cutting" pattern thinking about the scalability of the project.</p>
-										<a href="images/creating_design_pattern08.png" target="blank"><img width="500" src="images/creating_design_pattern08.png" alt="" /></a>
-										<p>The same procedure you should repeat for the layers "Rodolfo.Schmidt.Domain", "Rodolfo.Schmidt.Data" and "Rodolfo.Schmidt.Application" like this</p>
-										<a href="images/creating_design_pattern09.png" target="blank"><img width="500" src="images/creating_design_pattern09.png" alt="" /></a>
-										<p>E agora vamos criar a camada da api e vamos falar dela com detalhes na sessão da criação da api <a href="creating-api-netcore.html">here</a>. 
-											Below example of how to create the api layer
-										</p>
-										<a href="images/creating_design_pattern10.png" target="blank"><img width="500" src="images/creating_design_pattern10.png" alt="" /></a>
-										<br />
-										<a href="images/creating_design_pattern11.png" target="blank"><img width="500" src="images/creating_design_pattern11.png" alt="" /></a>
-										<p>For our project we will use the following settings in the version below</p>
-										<a href="images/creating_design_pattern12.png" target="blank"><img width="500" src="images/creating_design_pattern12.png" alt="" /></a>
-										<p>And now let's get our test project created and finalize our architecture.
-												To create the test project we follow the same path we learned earlier by selecting the xUnit project. Let's use the xUnit testing framework here. You can use MSTest or one of your own.
-										</p>
-										<a href="images/creating_design_pattern13.png" target="blank"><img width="500" src="images/creating_design_pattern13.png" alt="" /></a>
-										<p>The default name is the same just let's change the directory to the test directory we created it at the beginning.</p>
-										<a href="images/creating_design_pattern14.png" target="blank"><img width="500" src="images/creating_design_pattern14.png" alt="" /></a>
-										<p>And finally we arrive at the desired architecture. Now just follow in the following sessions teaching you how to create layer by layer. Always remembering what we are working on here is on my available github. <a href="https://github.com/rodph15">here</a></p>
-										<a href="images/creating_design_pattern15.png" target="blank"><img width="500" src="images/creating_design_pattern15.png" alt="" /></a>
-										
-								</section>
-	
-	
-						</div>
-					</div>
-
-	      <!-- Footer -->
-				<footer id="footer">
-						<ul class="icons">
+		<!-- Header -->
+		<header id="header">
+			<h1 id="logo"><a href="index.html">Rodolfo Schmidt</a></h1>
+			<nav id="nav">
+				<ul>
+					<li><a href="index.html">Home</a></li>
+					<li>
+						<a href="#">C# .Net</a>
+						<ul>
 							<li>
-								<a href="https://www.linkedin.com/in/rodolfo-schmidt-623042b6/" class="icon brands alt fa-linkedin-in"
-									><span class="label">LinkedIn</span></a
-								>
+								<a href="creating-project-netcore.html">Creating Project .Net core</a>
 							</li>
 							<li>
-								<a href="https://github.com/rodph15" class="icon brands alt fa-github"
-									><span class="label">GitHub</span></a
-								>
+								<a href="creating-domain-netcore.html">Creating Domain .Net Core</a>
 							</li>
 							<li>
-								<a href="mailto:rodph15@gmail.com" class="icon solid alt fa-envelope"
-									><span class="label">Email</span></a
-								>
+								<a href="creating-data-netcore.html">Creating Data .Net Core</a>
+							</li>
+							<li>
+								<a href="creating-business-netcore.html">Creating Business .Net Core</a>
+							</li>
+							<li>
+								<a href="creating-api-netcore.html">Creating Api .Net Core</a>
+							</li>
+							<li>
+								<a href="creating-depedency-injection-netcore.html">Creating DI .Net Core</a>
+							</li>
+							<li>
+								<a href="creating-unit-test-netcore.html">Creating Unit test .Net Core</a>
 							</li>
 						</ul>
-						<ul class="copyright">
-							<li>&copy; Rodolfo Schmidt. All rights reserved.</li>
-						</ul>
-					</footer>
-				</div>
-		
-				<!-- Scripts -->
-				<script src="assets/js/jquery.min.js"></script>
-				<script src="assets/js/jquery.scrolly.min.js"></script>
-				<script src="assets/js/jquery.dropotron.min.js"></script>
-				<script src="assets/js/jquery.scrollex.min.js"></script>
-				<script src="assets/js/browser.min.js"></script>
-				<script src="assets/js/breakpoints.min.js"></script>
-				<script src="assets/js/util.js"></script>
-				<script src="assets/js/main.js"></script>
-			</body>
-		</html>
-		
+					</li>
+					<li><a href="creating-order-angular.html">Angular</a></li>
+					<li><a href="creating-order-react.html">ReactJS</a></li>
+					<li><a href="creating-order-react-native.html">ReactNative</a></li>
+				</ul>
+			</nav>
+		</header>
+
+		<!-- Main -->
+		<div id="main" class="wrapper style1">
+			<div class="container">
+				<header class="major">
+					<h2>Creating Project and Design Pattern</h2>
+					<p>In this session we will create the project directory the solution and each solution layer.</p>
+				</header>
+
+				<!-- Text -->
+				<section>
+					<h3>Creating project directory </h3>
+					<p>To create our project we will use here Visual Studio 2019 Community. It is not the obligatory
+						tool you can use for example Visual Studio Code or other as you wish.
+						To get started, let's create 2 directories. the source directory where will be the main project
+						and tests where will be the unit test project see in the unit test session later the tests
+						applied to our project <a href="creating-unit-test-netcore.html">here</a>.</p>
+					<a href="images/creating_design_pattern01.png" target="blank"><img width="500"
+							src="images/creating_design_pattern01.png" alt="" /></a>
+
+					<p>Starting visual studio let's create a new blank solution. Initially creating on the create new
+						project button.</p>
+					<a href="images/creating_design_pattern02.png" target="blank"><img width="500"
+							src="images/creating_design_pattern02.png" alt="" /></a>
+					<p>Now let's create a blank solution. You can type blank in the filter field to speed up the
+						process.</p>
+					<a href="images/creating_design_pattern03.png" target="blank"><img width="500"
+							src="images/creating_design_pattern03.png" alt="" /></a>
+					<p>Next we will choose the source directory we created to generate our solution and give our
+						solution a name. I'll call her "rodolfo.schmidt"</p>
+					<a href="images/creating_design_pattern04.png" target="blank"><img width="500"
+							src="images/creating_design_pattern04.png" alt="" /></a>
+					<p>The solution must be created blank, if you unintentionally create a project simply remove the
+						automatically created project from the directory and remove it from the solution. Your solution
+						should be as follows.</p>
+					<a href="images/creating_design_pattern05.png" target="blank"><img width="500"
+							src="images/creating_design_pattern05.png" alt="" /></a>
+
+					<hr>
+
+					<h3>Creating the layers </h3>
+					<p>Now let's create the layers of our architecture. It is important to remember that here is just an
+						architectural proposal in which you have complete freedom to adapt to the needs of your project.
+						Right clicking on the solution will create a .net core class library for the generation of
+						layers with the exception of the api layer as we will see below.
+					</p>
+					<a href="images/creating_design_pattern06.png" target="blank"><img width="500"
+							src="images/creating_design_pattern06.png" alt="" /></a>
+					<br />
+					<a href="images/creating_design_pattern07.png" target="blank"><img width="500"
+							src="images/creating_design_pattern07.png" alt="" /></a>
+					<p>Let's start with the dependency injection layer in which to choose to use the "Cross Cutting"
+						pattern thinking about the scalability of the project.</p>
+					<a href="images/creating_design_pattern08.png" target="blank"><img width="500"
+							src="images/creating_design_pattern08.png" alt="" /></a>
+					<p>The same procedure you should repeat for the layers "Rodolfo.Schmidt.Domain",
+						"Rodolfo.Schmidt.Data" and "Rodolfo.Schmidt.Application" like this</p>
+					<a href="images/creating_design_pattern09.png" target="blank"><img width="500"
+							src="images/creating_design_pattern09.png" alt="" /></a>
+					<p>E agora vamos criar a camada da api e vamos falar dela com detalhes na sessão da criação da api
+						<a href="creating-api-netcore.html">here</a>.
+						Below example of how to create the api layer
+					</p>
+					<a href="images/creating_design_pattern10.png" target="blank"><img width="500"
+							src="images/creating_design_pattern10.png" alt="" /></a>
+					<br />
+					<a href="images/creating_design_pattern11.png" target="blank"><img width="500"
+							src="images/creating_design_pattern11.png" alt="" /></a>
+					<p>For our project we will use the following settings in the version below</p>
+					<a href="images/creating_design_pattern12.png" target="blank"><img width="500"
+							src="images/creating_design_pattern12.png" alt="" /></a>
+					<p>And now let's get our test project created and finalize our architecture.
+						To create the test project we follow the same path we learned earlier by selecting the xUnit
+						project. Let's use the xUnit testing framework here. You can use MSTest or one of your own.
+					</p>
+					<a href="images/creating_design_pattern13.png" target="blank"><img width="500"
+							src="images/creating_design_pattern13.png" alt="" /></a>
+					<p>The default name is the same just let's change the directory to the test directory we created it
+						at the beginning.</p>
+					<a href="images/creating_design_pattern14.png" target="blank"><img width="500"
+							src="images/creating_design_pattern14.png" alt="" /></a>
+					<p>And finally we arrive at the desired architecture. Now just follow in the following sessions
+						teaching you how to create layer by layer. Always remembering what we are working on here is on
+						my available github. <a href="https://github.com/rodph15">here</a></p>
+					<a href="images/creating_design_pattern15.png" target="blank"><img width="500"
+							src="images/creating_design_pattern15.png" alt="" /></a>
+
+				</section>
+
+
+			</div>
+		</div>
+
+		<!-- Footer -->
+		<footer id="footer">
+			<ul class="icons">
+				<li>
+					<a href="https://www.linkedin.com/in/rodolfo-schmidt-623042b6/"
+						class="icon brands alt fa-linkedin-in"><span class="label">LinkedIn</span></a>
+				</li>
+				<li>
+					<a href="https://github.com/rodph15" class="icon brands alt fa-github"><span
+							class="label">GitHub</span></a>
+				</li>
+				<li>
+					<a href="mailto:rodph15@gmail.com" class="icon solid alt fa-envelope"><span
+							class="label">Email</span></a>
+				</li>
+			</ul>
+			<ul class="copyright">
+				<li>&copy; Rodolfo Schmidt. All rights reserved.</li>
+			</ul>
+		</footer>
+	</div>
+
+	<!-- Scripts -->
+	<script src="assets/js/jquery.min.js"></script>
+	<script src="assets/js/jquery.scrolly.min.js"></script>
+	<script src="assets/js/jquery.dropotron.min.js"></script>
+	<script src="assets/js/jquery.scrollex.min.js"></script>
+	<script src="assets/js/browser.min.js"></script>
+	<script src="assets/js/breakpoints.min.js"></script>
+	<script src="assets/js/util.js"></script>
+	<script src="assets/js/main.js"></script>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-31817705-1"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag() { dataLayer.push(arguments); }
+		gtag('js', new Date());
+
+		gtag('config', 'UA-31817705-1');
+	</script>
+
+	<script data-ad-client="ca-pub-6253952190714514" async
+		src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+</body>
+
+</html>

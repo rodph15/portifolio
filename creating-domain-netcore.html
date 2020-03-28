@@ -1,104 +1,113 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Rodolfo Schmidt</title>
-    <meta charset="utf-8" />
-    <meta name="robots" content="index, follow">
-    <meta name="keywords" content="rodolfo schmidt, rodolfo, schmidt, dotnet, dotnet core, .net, c#, C#, DDD, design pattern, solid,
+
+<head>
+  <title>Creating Domain .net core</title>
+  <meta charset="utf-8" />
+  <meta name="robots" content="index, follow">
+  <meta name="keywords"
+    content="rodolfo schmidt, rodolfo, schmidt, dotnet, dotnet core, .net, c#, C#, DDD, design pattern, solid,
     api, repository, domain, javascript, angular, reactjs, react, reactnative, programação, desenvolvimento, developer, programmer, programming, tutorial,
     portifólio,portifolio, software, sistema, clean code, project, projeto,vs, visual studio,frameworks, technology, technologies, tecnnologia, tecnologias" />
-    <meta name="description" content="Rodolfo Schmidt Professional senior developer" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, user-scalable=no"
-    />
-		<link rel="stylesheet" href="assets/css/main.css" />
-		<link rel="shortcut icon" href="images/favicon.ico" />
-    <noscript><link rel="stylesheet" href="assets/css/noscript.css"/></noscript>
-  </head>
-  <body class="is-preload landing">
-    <div id="page-wrapper">
+  <meta name="description" content="Rodolfo Schmidt Professional senior developer" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+  <link rel="stylesheet" href="assets/css/main.css" />
+  <link rel="shortcut icon" href="images/favicon.ico" />
+  <noscript>
+    <link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+</head>
 
-			<!-- Header -->
-			<header id="header">
-        <h1 id="logo"><a href="index.html">Rodolfo Schmidt</a></h1>
-        <nav id="nav">
-          <ul>
-            <li><a href="index.html">Home</a></li>
-            <li>
-              <a href="#">C# .Net</a>
-              <ul>
-                <li>
-                  <a href="creating-project-netcore.html"
-                    >Creating Project .Net core</a
-                  >
-                </li>
-                <li>
-                  <a href="creating-domain-netcore.html"
-                    >Creating Domain .Net Core</a
-                  >
-                </li>
-                <li>
-                  <a href="creating-data-netcore.html"
-                    >Creating Data .Net Core</a
-                  >
-                </li>
-                <li>
-                  <a href="creating-business-netcore.html"
-                    >Creating Business .Net Core</a
-                  >
-                </li>
-                <li>
-                  <a href="creating-api-netcore.html">Creating Api .Net Core</a>
-                </li>
-                <li>
-                  <a href="creating-depedency-injection-netcore.html"
-                    >Creating DI .Net Core</a
-                  >
-                </li>
-                <li>
-                  <a href="creating-unit-test-netcore.html"
-                    >Creating Unit test .Net Core</a
-                  >
-                </li>
-              </ul>
-            </li>
-            <li><a href="creating-order-angular.html">Angular</a></li>
-            <li><a href="creating-order-react.html">ReactJS</a></li>
-            <li><a href="creating-order-react-native.html">ReactNative</a></li>
-          </ul>
-        </nav>
-      </header>
+<body class="is-preload landing">
+  <div id="page-wrapper">
 
-				<!-- Main -->
-				<div id="main" class="wrapper style1">
-          <div class="container">
-            <header class="major">
-              <h2>Creating Domain Layer</h2>
-              <p>In this session we will create the full domain layer of our application.</p>
-            </header>
+    <!-- Header -->
+    <header id="header">
+      <h1 id="logo"><a href="index.html">Rodolfo Schmidt</a></h1>
+      <nav id="nav">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li>
+            <a href="#">C# .Net</a>
+            <ul>
+              <li>
+                <a href="creating-project-netcore.html">Creating Project .Net core</a>
+              </li>
+              <li>
+                <a href="creating-domain-netcore.html">Creating Domain .Net Core</a>
+              </li>
+              <li>
+                <a href="creating-data-netcore.html">Creating Data .Net Core</a>
+              </li>
+              <li>
+                <a href="creating-business-netcore.html">Creating Business .Net Core</a>
+              </li>
+              <li>
+                <a href="creating-api-netcore.html">Creating Api .Net Core</a>
+              </li>
+              <li>
+                <a href="creating-depedency-injection-netcore.html">Creating DI .Net Core</a>
+              </li>
+              <li>
+                <a href="creating-unit-test-netcore.html">Creating Unit test .Net Core</a>
+              </li>
+            </ul>
+          </li>
+          <li><a href="creating-order-angular.html">Angular</a></li>
+          <li><a href="creating-order-react.html">ReactJS</a></li>
+          <li><a href="creating-order-react-native.html">ReactNative</a></li>
+        </ul>
+      </nav>
+    </header>
 
-            <!-- Text -->
-              <section>
-                <h3>Creating directories </h3>
-                <p>First let's create the directories that will be used in our project. We will create the directory of entities, enums and interfaces. Within interfaces we will create the directory of the repository interfaces and our unit of work (UoW).</p>
-                <a href="images/creating_domain_layer01.png" target="blank"><img width="500" src="images/creating_domain_layer01.png" alt="" /></a>
-            
-                <hr>
+    <!-- Main -->
+    <div id="main" class="wrapper style1">
+      <div class="container">
+        <header class="major">
+          <h2>Creating Domain Layer</h2>
+          <p>In this session we will create the full domain layer of our application.</p>
+        </header>
 
-                <h3>Creating the Files </h3>
-                  <p>Before we create our entity that we will work on in our project let's create a base entity to avoid code repetition.
-                    Before we create our entity that we will work on in our project let's create a base entity to avoid code repetition. To create this entity we will create a class by right-clicking on the entities directory we will create the class and call it BaseEntity, it will contain the Id that will be reused in all entities of our project in the Domain layer.
-                  </p>
-                  <a href="images/creating_domain_layer02.png" target="blank"><img width="500" src="images/creating_domain_layer02.png" alt="" /></a><br />
-                  <a href="images/creating_domain_layer03.png" target="blank"><img width="500" src="images/creating_domain_layer03.png" alt="" /></a><br />
-                  <a href="images/creating_domain_layer04.png" target="blank"><img width="500" src="images/creating_domain_layer04.png" alt="" /></a>
-                 <p>Now let's create the person entity that we will use to work on our project. Remembering that for good practices you should NOT "dirty" the class. In the domain class should contain only the clean attributes and nothing more! Other configurations used on screen or for database purposes for ORM configuration purposes will all be made in their respective layers.</p>
-                 <a href="images/creating_domain_layer05.png" target="blank"><img width="500" src="images/creating_domain_layer05.png" alt="" /></a>
-                 <p>Now let's create our interfaces starting with the generic repository. Always remember that by definition interfaces start with "I" always. Follow the same steps to create a class just by differentiating the interface option.</p>
-                 <a href="images/creating_domain_layer06.png" target="blank"><img width="500" src="images/creating_domain_layer06.png" alt="" /></a>
-                 <p>Since every interface is a contract, let's get our contract ready to implement in the Data <a href="creating-data-netcore.html">here</a> layer session. As an initial suggestion I already leave the code below with these defined methods and you have complete freedom to enrich your generic repository even more.</p>
-                  <pre><code>
+        <!-- Text -->
+        <section>
+          <h3>Creating directories </h3>
+          <p>First let's create the directories that will be used in our project. We will create the directory of
+            entities, enums and interfaces. Within interfaces we will create the directory of the repository interfaces
+            and our unit of work (UoW).</p>
+          <a href="images/creating_domain_layer01.png" target="blank"><img width="500"
+              src="images/creating_domain_layer01.png" alt="" /></a>
+
+          <hr>
+
+          <h3>Creating the Files </h3>
+          <p>Before we create our entity that we will work on in our project let's create a base entity to avoid code
+            repetition.
+            Before we create our entity that we will work on in our project let's create a base entity to avoid code
+            repetition. To create this entity we will create a class by right-clicking on the entities directory we will
+            create the class and call it BaseEntity, it will contain the Id that will be reused in all entities of our
+            project in the Domain layer.
+          </p>
+          <a href="images/creating_domain_layer02.png" target="blank"><img width="500"
+              src="images/creating_domain_layer02.png" alt="" /></a><br />
+          <a href="images/creating_domain_layer03.png" target="blank"><img width="500"
+              src="images/creating_domain_layer03.png" alt="" /></a><br />
+          <a href="images/creating_domain_layer04.png" target="blank"><img width="500"
+              src="images/creating_domain_layer04.png" alt="" /></a>
+          <p>Now let's create the person entity that we will use to work on our project. Remembering that for good
+            practices you should NOT "dirty" the class. In the domain class should contain only the clean attributes and
+            nothing more! Other configurations used on screen or for database purposes for ORM configuration purposes
+            will all be made in their respective layers.</p>
+          <a href="images/creating_domain_layer05.png" target="blank"><img width="500"
+              src="images/creating_domain_layer05.png" alt="" /></a>
+          <p>Now let's create our interfaces starting with the generic repository. Always remember that by definition
+            interfaces start with "I" always. Follow the same steps to create a class just by differentiating the
+            interface option.</p>
+          <a href="images/creating_domain_layer06.png" target="blank"><img width="500"
+              src="images/creating_domain_layer06.png" alt="" /></a>
+          <p>Since every interface is a contract, let's get our contract ready to implement in the Data <a
+              href="creating-data-netcore.html">here</a> layer session. As an initial suggestion I already leave the
+            code below with these defined methods and you have complete freedom to enrich your generic repository even
+            more.</p>
+          <pre><code>
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
@@ -128,9 +137,11 @@ namespace Rodolfo.Schmidt.Domain.Interfaces.Repositories
 
                   </code>
                 </pre>
-                <a href="images/creating_domain_layer07.png" target="blank"><img width="500" src="images/creating_domain_layer07.png" alt="" /></a>
-                <p>With our interface of our generic repository created we will create the repository of our entity "Person" as code below.</p>
-                <pre>
+          <a href="images/creating_domain_layer07.png" target="blank"><img width="500"
+              src="images/creating_domain_layer07.png" alt="" /></a>
+          <p>With our interface of our generic repository created we will create the repository of our entity "Person"
+            as code below.</p>
+          <pre>
                   <code >
 using Rodolfo.Schmidt.Domain.Entities;
 using System;
@@ -153,9 +164,11 @@ namespace Rodolfo.Schmidt.Domain.Interfaces.Repositories
 
                   </code>
                 </pre>
-                <a href="images/creating_domain_layer08.png" target="blank"><img width="500" src="images/creating_domain_layer08.png" alt="" /></a>
-                <p>And finally we will create the interface of our unit of work responsible for commiting all operations done by ORM (EF) more details in the layer session data <a href="creating-data-netcore.html">here</a>.</p>
-                <pre>
+          <a href="images/creating_domain_layer08.png" target="blank"><img width="500"
+              src="images/creating_domain_layer08.png" alt="" /></a>
+          <p>And finally we will create the interface of our unit of work responsible for commiting all operations done
+            by ORM (EF) more details in the layer session data <a href="creating-data-netcore.html">here</a>.</p>
+          <pre>
                   <code>
 using System;
 using System.Collections.Generic;
@@ -172,48 +185,56 @@ namespace Rodolfo.Schmidt.Domain.Interfaces.UoW
 
                   </code>
                 </pre>
-                <a href="images/creating_domain_layer09.png" target="blank"><img width="500" src="images/creating_domain_layer09.png" alt="" /></a>
-                <p>Our domain layer is ready, we just leave the enums directory created for later if needed.</p>
-              </section>
+          <a href="images/creating_domain_layer09.png" target="blank"><img width="500"
+              src="images/creating_domain_layer09.png" alt="" /></a>
+          <p>Our domain layer is ready, we just leave the enums directory created for later if needed.</p>
+        </section>
 
 
-          </div>
-        </div>
+      </div>
+    </div>
 
-	      <!-- Footer -->
-				<footer id="footer">
-						<ul class="icons">
-							<li>
-								<a href="https://www.linkedin.com/in/rodolfo-schmidt-623042b6/" class="icon brands alt fa-linkedin-in"
-									><span class="label">LinkedIn</span></a
-								>
-							</li>
-							<li>
-								<a href="https://github.com/rodph15" class="icon brands alt fa-github"
-									><span class="label">GitHub</span></a
-								>
-							</li>
-							<li>
-								<a href="mailto:rodph15@gmail.com" class="icon solid alt fa-envelope"
-									><span class="label">Email</span></a
-								>
-							</li>
-						</ul>
-						<ul class="copyright">
-							<li>&copy; Rodolfo Schmidt. All rights reserved.</li>
-						</ul>
-					</footer>
-				</div>
-		
-				<!-- Scripts -->
-				<script src="assets/js/jquery.min.js"></script>
-				<script src="assets/js/jquery.scrolly.min.js"></script>
-				<script src="assets/js/jquery.dropotron.min.js"></script>
-				<script src="assets/js/jquery.scrollex.min.js"></script>
-				<script src="assets/js/browser.min.js"></script>
-				<script src="assets/js/breakpoints.min.js"></script>
-				<script src="assets/js/util.js"></script>
-				<script src="assets/js/main.js"></script>
-			</body>
-		</html>
-		
+    <!-- Footer -->
+    <footer id="footer">
+      <ul class="icons">
+        <li>
+          <a href="https://www.linkedin.com/in/rodolfo-schmidt-623042b6/" class="icon brands alt fa-linkedin-in"><span
+              class="label">LinkedIn</span></a>
+        </li>
+        <li>
+          <a href="https://github.com/rodph15" class="icon brands alt fa-github"><span class="label">GitHub</span></a>
+        </li>
+        <li>
+          <a href="mailto:rodph15@gmail.com" class="icon solid alt fa-envelope"><span class="label">Email</span></a>
+        </li>
+      </ul>
+      <ul class="copyright">
+        <li>&copy; Rodolfo Schmidt. All rights reserved.</li>
+      </ul>
+    </footer>
+  </div>
+
+  <!-- Scripts -->
+  <script src="assets/js/jquery.min.js"></script>
+  <script src="assets/js/jquery.scrolly.min.js"></script>
+  <script src="assets/js/jquery.dropotron.min.js"></script>
+  <script src="assets/js/jquery.scrollex.min.js"></script>
+  <script src="assets/js/browser.min.js"></script>
+  <script src="assets/js/breakpoints.min.js"></script>
+  <script src="assets/js/util.js"></script>
+  <script src="assets/js/main.js"></script>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-31817705-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'UA-31817705-1');
+  </script>
+
+  <script data-ad-client="ca-pub-6253952190714514" async
+    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+</body>
+
+</html>

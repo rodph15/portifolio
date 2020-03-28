@@ -1,99 +1,96 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Rodolfo Schmidt</title>
-    <meta charset="utf-8" />
-    <meta name="robots" content="index, follow">
-    <meta name="keywords" content="rodolfo schmidt, rodolfo, schmidt, dotnet, dotnet core, .net, c#, C#, DDD, design pattern, solid,
+
+<head>
+  <title>Creating Database .Net Core</title>
+  <meta charset="utf-8" />
+  <meta name="robots" content="index, follow">
+  <meta name="keywords"
+    content="rodolfo schmidt, rodolfo, schmidt, dotnet, dotnet core, .net, c#, C#, DDD, design pattern, solid,
     api, repository, domain, javascript, angular, reactjs, react, reactnative, programação, desenvolvimento, developer, programmer, programming, tutorial,
     portifólio,portifolio, software, sistema, clean code, project, projeto,vs, visual studio,frameworks, technology, technologies, tecnnologia, tecnologias" />
-    <meta name="description" content="Rodolfo Schmidt Professional senior developer" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, user-scalable=no"
-    />
-		<link rel="stylesheet" href="assets/css/main.css" />
-		<link rel="shortcut icon" href="images/favicon.ico" />
-    <noscript><link rel="stylesheet" href="assets/css/noscript.css"/></noscript>
-  </head>
-  <body class="is-preload landing">
-    <div id="page-wrapper">
+  <meta name="description" content="Rodolfo Schmidt Professional senior developer" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+  <link rel="stylesheet" href="assets/css/main.css" />
+  <link rel="shortcut icon" href="images/favicon.ico" />
+  <noscript>
+    <link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+</head>
 
-			<!-- Header -->
-			<header id="header">
-        <h1 id="logo"><a href="index.html">Rodolfo Schmidt</a></h1>
-        <nav id="nav">
-          <ul>
-            <li><a href="index.html">Home</a></li>
-            <li>
-              <a href="#">C# .Net</a>
-              <ul>
-                <li>
-                  <a href="creating-project-netcore.html"
-                    >Creating Project .Net core</a
-                  >
-                </li>
-                <li>
-                  <a href="creating-domain-netcore.html"
-                    >Creating Domain .Net Core</a
-                  >
-                </li>
-                <li>
-                  <a href="creating-data-netcore.html"
-                    >Creating Data .Net Core</a
-                  >
-                </li>
-                <li>
-                  <a href="creating-business-netcore.html"
-                    >Creating Business .Net Core</a
-                  >
-                </li>
-                <li>
-                  <a href="creating-api-netcore.html">Creating Api .Net Core</a>
-                </li>
-                <li>
-                  <a href="creating-depedency-injection-netcore.html"
-                    >Creating DI .Net Core</a
-                  >
-                </li>
-                <li>
-                  <a href="creating-unit-test-netcore.html"
-                    >Creating Unit test .Net Core</a
-                  >
-                </li>
-              </ul>
-            </li>
-            <li><a href="creating-order-angular.html">Angular</a></li>
-            <li><a href="creating-order-react.html">ReactJS</a></li>
-            <li><a href="creating-order-react-native.html">ReactNative</a></li>
-          </ul>
-        </nav>
-      </header>
+<body class="is-preload landing">
+  <div id="page-wrapper">
 
-	<!-- Main -->
-  <div id="main" class="wrapper style1">
-    <div class="container">
-      <header class="major">
-        <h2>Creating Data Layer</h2>
-        <p>In this session we will create the full data layer of our application using Entity Framework.</p>
-      </header>
+    <!-- Header -->
+    <header id="header">
+      <h1 id="logo"><a href="index.html">Rodolfo Schmidt</a></h1>
+      <nav id="nav">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li>
+            <a href="#">C# .Net</a>
+            <ul>
+              <li>
+                <a href="creating-project-netcore.html">Creating Project .Net core</a>
+              </li>
+              <li>
+                <a href="creating-domain-netcore.html">Creating Domain .Net Core</a>
+              </li>
+              <li>
+                <a href="creating-data-netcore.html">Creating Data .Net Core</a>
+              </li>
+              <li>
+                <a href="creating-business-netcore.html">Creating Business .Net Core</a>
+              </li>
+              <li>
+                <a href="creating-api-netcore.html">Creating Api .Net Core</a>
+              </li>
+              <li>
+                <a href="creating-depedency-injection-netcore.html">Creating DI .Net Core</a>
+              </li>
+              <li>
+                <a href="creating-unit-test-netcore.html">Creating Unit test .Net Core</a>
+              </li>
+            </ul>
+          </li>
+          <li><a href="creating-order-angular.html">Angular</a></li>
+          <li><a href="creating-order-react.html">ReactJS</a></li>
+          <li><a href="creating-order-react-native.html">ReactNative</a></li>
+        </ul>
+      </nav>
+    </header>
 
-      <!-- Text -->
+    <!-- Main -->
+    <div id="main" class="wrapper style1">
+      <div class="container">
+        <header class="major">
+          <h2>Creating Data Layer</h2>
+          <p>In this session we will create the full data layer of our application using Entity Framework.</p>
+        </header>
+
+        <!-- Text -->
         <section>
           <h3>Creating directories </h3>
-          <p>First let's create the directories that will be used in our project. We will create the directory of Configuration, Context, extensions, Repositories and UoW.</p>
-          <a href="images/creating_data_layer01.png" target="blank"><img width="500" src="images/creating_data_layer01.png" alt="" /></a>
-      
+          <p>First let's create the directories that will be used in our project. We will create the directory of
+            Configuration, Context, extensions, Repositories and UoW.</p>
+          <a href="images/creating_data_layer01.png" target="blank"><img width="500"
+              src="images/creating_data_layer01.png" alt="" /></a>
+
           <hr>
 
           <h3>Creating the Files </h3>
-            <p>Now first of all let's install Entity Framework core by right clicking on dependencies as below example.</p>
-            <a href="images/creating_data_layer02.png" target="blank"><img width="500" src="images/creating_data_layer02.png" alt="" /></a><br />
-            <a href="images/creating_data_layer03.png" target="blank"><img width="500" src="images/creating_data_layer03.png" alt="" /></a><br />
-            <p>Same for lib Microsoft.EntityFrameworkCore where its function is to customize through fluent api entity vs database</p>
-            <a href="images/creating_data_layer05.png" target="blank"><img width="500" src="images/creating_data_layer05.png" alt="" /></a><br />
-            <p>Now let's first create the extension that we will use in implementing our generic repository to concatenate expressions.</p>
-            <pre>
+          <p>Now first of all let's install Entity Framework core by right clicking on dependencies as below example.
+          </p>
+          <a href="images/creating_data_layer02.png" target="blank"><img width="500"
+              src="images/creating_data_layer02.png" alt="" /></a><br />
+          <a href="images/creating_data_layer03.png" target="blank"><img width="500"
+              src="images/creating_data_layer03.png" alt="" /></a><br />
+          <p>Same for lib Microsoft.EntityFrameworkCore where its function is to customize through fluent api entity vs
+            database</p>
+          <a href="images/creating_data_layer05.png" target="blank"><img width="500"
+              src="images/creating_data_layer05.png" alt="" /></a><br />
+          <p>Now let's first create the extension that we will use in implementing our generic repository to concatenate
+            expressions.</p>
+          <pre>
               <code>
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -120,9 +117,11 @@ namespace Rodolfo.Schmidt.Data.Extensions
 
               </code>
             </pre>
-            <a href="images/creating_data_layer04.png" target="blank"><img width="500" src="images/creating_data_layer04.png" alt="" /></a><br />
-            <p>Now let's create the configuration file responsible for parameterizing the entity according to your database standards as well as field type specific settings among others.</p>
-            <pre>
+          <a href="images/creating_data_layer04.png" target="blank"><img width="500"
+              src="images/creating_data_layer04.png" alt="" /></a><br />
+          <p>Now let's create the configuration file responsible for parameterizing the entity according to your
+            database standards as well as field type specific settings among others.</p>
+          <pre>
               <code>
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -162,9 +161,13 @@ namespace Rodolfo.Schmidt.Data.Configuration
 
               </code>
             </pre>
-            <a href="images/creating_data_layer06.png" target="blank"><img width="500" src="images/creating_data_layer06.png" alt="" /></a><br />
-            <p>Next we will create the file responsible for configuring our ORM. Let's call it RodolfoSchmidtDbContext. In it we will put our configuration file to set the bank settings for our mapped entity in ORM. We also created an overloaded constructor to receive the bank connection string and initialize ORM and finally map our entire Domain with the bank through ORM.</p>
-            <pre>
+          <a href="images/creating_data_layer06.png" target="blank"><img width="500"
+              src="images/creating_data_layer06.png" alt="" /></a><br />
+          <p>Next we will create the file responsible for configuring our ORM. Let's call it RodolfoSchmidtDbContext. In
+            it we will put our configuration file to set the bank settings for our mapped entity in ORM. We also created
+            an overloaded constructor to receive the bank connection string and initialize ORM and finally map our
+            entire Domain with the bank through ORM.</p>
+          <pre>
               <code>
 using Microsoft.EntityFrameworkCore;
 using Rodolfo.Schmidt.Data.Configuration;
@@ -196,9 +199,10 @@ namespace Rodolfo.Schmidt.Data.Context
 
               </code>
             </pre>
-            <a href="images/creating_data_layer07.png" target="blank"><img width="500" src="images/creating_data_layer07.png" alt="" /></a><br />
-            <p>We're almost there, now let's implement our generic repository</p>
-            <pre>
+          <a href="images/creating_data_layer07.png" target="blank"><img width="500"
+              src="images/creating_data_layer07.png" alt="" /></a><br />
+          <p>We're almost there, now let's implement our generic repository</p>
+          <pre>
               <code>
                 
 using Microsoft.EntityFrameworkCore;
@@ -275,9 +279,10 @@ namespace Rodolfo.Schmidt.Data.Repositories
 
               </code>
             </pre>
-            <a href="images/creating_data_layer08.png" target="blank"><img width="500" src="images/creating_data_layer08.png" alt="" /></a><br />
-            <p>And finally, our unit of work responsible for committing any ORM memory changes / insertions</p>
-            <pre>
+          <a href="images/creating_data_layer08.png" target="blank"><img width="500"
+              src="images/creating_data_layer08.png" alt="" /></a><br />
+          <p>And finally, our unit of work responsible for committing any ORM memory changes / insertions</p>
+          <pre>
               <code>
 using Rodolfo.Schmidt.Data.Context;
 using Rodolfo.Schmidt.Domain.Interfaces.UoW;
@@ -307,9 +312,10 @@ namespace Rodolfo.Schmidt.Data.UoW
 
               </code>
             </pre>
-            <a href="images/creating_data_layer09.png" target="blank"><img width="500" src="images/creating_data_layer09.png" alt="" /></a><br />
-            <p>Now to close the data layer with all pre sets done we can implement the person repository</p>
-            <pre>
+          <a href="images/creating_data_layer09.png" target="blank"><img width="500"
+              src="images/creating_data_layer09.png" alt="" /></a><br />
+          <p>Now to close the data layer with all pre sets done we can implement the person repository</p>
+          <pre>
               <code>
                   using Rodolfo.Schmidt.Data.Context;
                   using Rodolfo.Schmidt.Domain.Entities;
@@ -345,48 +351,56 @@ namespace Rodolfo.Schmidt.Data.UoW
                   
               </code>
               </pre>
-              <a href="images/creating_data_layer09.png" target="blank"><img width="500" src="images/creating_data_layer09.png" alt="" /></a><br />
-              <p>Our data layer is ready.</p>
+          <a href="images/creating_data_layer09.png" target="blank"><img width="500"
+              src="images/creating_data_layer09.png" alt="" /></a><br />
+          <p>Our data layer is ready.</p>
         </section>
 
 
+      </div>
     </div>
+
+    <!-- Footer -->
+    <footer id="footer">
+      <ul class="icons">
+        <li>
+          <a href="https://www.linkedin.com/in/rodolfo-schmidt-623042b6/" class="icon brands alt fa-linkedin-in"><span
+              class="label">LinkedIn</span></a>
+        </li>
+        <li>
+          <a href="https://github.com/rodph15" class="icon brands alt fa-github"><span class="label">GitHub</span></a>
+        </li>
+        <li>
+          <a href="mailto:rodph15@gmail.com" class="icon solid alt fa-envelope"><span class="label">Email</span></a>
+        </li>
+      </ul>
+      <ul class="copyright">
+        <li>&copy; Rodolfo Schmidt. All rights reserved.</li>
+      </ul>
+    </footer>
   </div>
 
-	      <!-- Footer -->
-				<footer id="footer">
-						<ul class="icons">
-							<li>
-								<a href="https://www.linkedin.com/in/rodolfo-schmidt-623042b6/" class="icon brands alt fa-linkedin-in"
-									><span class="label">LinkedIn</span></a
-								>
-							</li>
-							<li>
-								<a href="https://github.com/rodph15" class="icon brands alt fa-github"
-									><span class="label">GitHub</span></a
-								>
-							</li>
-							<li>
-								<a href="mailto:rodph15@gmail.com" class="icon solid alt fa-envelope"
-									><span class="label">Email</span></a
-								>
-							</li>
-						</ul>
-						<ul class="copyright">
-							<li>&copy; Rodolfo Schmidt. All rights reserved.</li>
-						</ul>
-					</footer>
-				</div>
-		
-				<!-- Scripts -->
-				<script src="assets/js/jquery.min.js"></script>
-				<script src="assets/js/jquery.scrolly.min.js"></script>
-				<script src="assets/js/jquery.dropotron.min.js"></script>
-				<script src="assets/js/jquery.scrollex.min.js"></script>
-				<script src="assets/js/browser.min.js"></script>
-				<script src="assets/js/breakpoints.min.js"></script>
-				<script src="assets/js/util.js"></script>
-				<script src="assets/js/main.js"></script>
-			</body>
-		</html>
-		
+  <!-- Scripts -->
+  <script src="assets/js/jquery.min.js"></script>
+  <script src="assets/js/jquery.scrolly.min.js"></script>
+  <script src="assets/js/jquery.dropotron.min.js"></script>
+  <script src="assets/js/jquery.scrollex.min.js"></script>
+  <script src="assets/js/browser.min.js"></script>
+  <script src="assets/js/breakpoints.min.js"></script>
+  <script src="assets/js/util.js"></script>
+  <script src="assets/js/main.js"></script>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-31817705-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'UA-31817705-1');
+  </script>
+
+  <script data-ad-client="ca-pub-6253952190714514" async
+    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+</body>
+
+</html>

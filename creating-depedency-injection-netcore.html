@@ -1,96 +1,94 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Rodolfo Schmidt</title>
-    <meta charset="utf-8" />
-    <meta name="robots" content="index, follow">
-    <meta name="keywords" content="rodolfo schmidt, rodolfo, schmidt, dotnet, dotnet core, .net, c#, C#, DDD, design pattern, solid,
+
+<head>
+  <title>Creating Depedency Injection .net core</title>
+  <meta charset="utf-8" />
+  <meta name="robots" content="index, follow">
+  <meta name="keywords"
+    content="rodolfo schmidt, rodolfo, schmidt, dotnet, dotnet core, .net, c#, C#, DDD, design pattern, solid,
     api, repository, domain, javascript, angular, reactjs, react, reactnative, programação, desenvolvimento, developer, programmer, programming, tutorial,
     portifólio,portifolio, software, sistema, clean code, project, projeto,vs, visual studio,frameworks, technology, technologies, tecnnologia, tecnologias" />
-    <meta name="description" content="Rodolfo Schmidt Professional senior developer" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, user-scalable=no"
-    />
-		<link rel="stylesheet" href="assets/css/main.css" />
-		<link rel="shortcut icon" href="images/favicon.ico" />
-    <noscript><link rel="stylesheet" href="assets/css/noscript.css"/></noscript>
-  </head>
-  <body class="is-preload landing">
-    <div id="page-wrapper">
+  <meta name="description" content="Rodolfo Schmidt Professional senior developer" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+  <link rel="stylesheet" href="assets/css/main.css" />
+  <link rel="shortcut icon" href="images/favicon.ico" />
+  <noscript>
+    <link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+</head>
 
-			<!-- Header -->
-			<header id="header">
-        <h1 id="logo"><a href="index.html">Rodolfo Schmidt</a></h1>
-        <nav id="nav">
-          <ul>
-            <li><a href="index.html">Home</a></li>
-            <li>
-              <a href="#">C# .Net</a>
-              <ul>
-                <li>
-                  <a href="creating-project-netcore.html"
-                    >Creating Project .Net core</a
-                  >
-                </li>
-                <li>
-                  <a href="creating-domain-netcore.html"
-                    >Creating Domain .Net Core</a
-                  >
-                </li>
-                <li>
-                  <a href="creating-data-netcore.html"
-                    >Creating Data .Net Core</a
-                  >
-                </li>
-                <li>
-                  <a href="creating-business-netcore.html"
-                    >Creating Business .Net Core</a
-                  >
-                </li>
-                <li>
-                  <a href="creating-api-netcore.html">Creating Api .Net Core</a>
-                </li>
-                <li>
-                  <a href="creating-depedency-injection-netcore.html"
-                    >Creating DI .Net Core</a
-                  >
-                </li>
-                <li>
-                  <a href="creating-unit-test-netcore.html"
-                    >Creating Unit test .Net Core</a
-                  >
-                </li>
-              </ul>
-            </li>
-            <li><a href="creating-order-angular.html">Angular</a></li>
-            <li><a href="creating-order-react.html">ReactJS</a></li>
-            <li><a href="creating-order-react-native.html">ReactNative</a></li>
-          </ul>
-        </nav>
-      </header>
+<body class="is-preload landing">
+  <div id="page-wrapper">
 
-				<!-- Main -->
-  <div id="main" class="wrapper style1">
+    <!-- Header -->
+    <header id="header">
+      <h1 id="logo"><a href="index.html">Rodolfo Schmidt</a></h1>
+      <nav id="nav">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li>
+            <a href="#">C# .Net</a>
+            <ul>
+              <li>
+                <a href="creating-project-netcore.html">Creating Project .Net core</a>
+              </li>
+              <li>
+                <a href="creating-domain-netcore.html">Creating Domain .Net Core</a>
+              </li>
+              <li>
+                <a href="creating-data-netcore.html">Creating Data .Net Core</a>
+              </li>
+              <li>
+                <a href="creating-business-netcore.html">Creating Business .Net Core</a>
+              </li>
+              <li>
+                <a href="creating-api-netcore.html">Creating Api .Net Core</a>
+              </li>
+              <li>
+                <a href="creating-depedency-injection-netcore.html">Creating DI .Net Core</a>
+              </li>
+              <li>
+                <a href="creating-unit-test-netcore.html">Creating Unit test .Net Core</a>
+              </li>
+            </ul>
+          </li>
+          <li><a href="creating-order-angular.html">Angular</a></li>
+          <li><a href="creating-order-react.html">ReactJS</a></li>
+          <li><a href="creating-order-react-native.html">ReactNative</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <!-- Main -->
+    <div id="main" class="wrapper style1">
       <div class="container">
         <header class="major">
           <h2>Creating Depedency Injection Layer</h2>
           <p>In this session we will create the full Injection layer of our api.</p>
         </header>
-  
+
         <!-- Text -->
-          <section>
-            <h3>Creating directories </h3>
-            <p>Our dependency injection layer is in the design layer we call Cross Cutting IoC which are concepts within the architecture for scalability so let's not go into the level of detail here in this activity and remembering again that here we are giving an architectural tip that you can and should adapt to your needs and interests. Here's a file called NativeInjectorBootStrapper.cs that will be responsible for dependency injection and a directory called scopeInjectors with the files RepositoryScopeInjector and ServiceScopeInjectors.</p>
-            <a href="images/creating_di_layer01.png" target="blank"><img width="500" src="images/creating_di_layer01.png" alt="" /></a>
-        
-            <hr>
-  
-            <h3>Creating the Files </h3>
-              <p>As seen in previous sessions it is necessary to install some dependencies which we will use for our dependency injection as listed below.</p>
-              <a href="images/creating_di_layer02.png" target="blank"><img width="500" src="images/creating_di_layer02.png" alt="" /></a><br />
-              <p>Now in the files responsible for injecting the scope of the application our services and repositories we will implement as below</p>
-             <pre>
+        <section>
+          <h3>Creating directories </h3>
+          <p>Our dependency injection layer is in the design layer we call Cross Cutting IoC which are concepts within
+            the architecture for scalability so let's not go into the level of detail here in this activity and
+            remembering again that here we are giving an architectural tip that you can and should adapt to your needs
+            and interests. Here's a file called NativeInjectorBootStrapper.cs that will be responsible for dependency
+            injection and a directory called scopeInjectors with the files RepositoryScopeInjector and
+            ServiceScopeInjectors.</p>
+          <a href="images/creating_di_layer01.png" target="blank"><img width="500" src="images/creating_di_layer01.png"
+              alt="" /></a>
+
+          <hr>
+
+          <h3>Creating the Files </h3>
+          <p>As seen in previous sessions it is necessary to install some dependencies which we will use for our
+            dependency injection as listed below.</p>
+          <a href="images/creating_di_layer02.png" target="blank"><img width="500" src="images/creating_di_layer02.png"
+              alt="" /></a><br />
+          <p>Now in the files responsible for injecting the scope of the application our services and repositories we
+            will implement as below</p>
+          <pre>
                <code>
                   using Microsoft.Extensions.DependencyInjection;
                   using Rodolfo.Schmidt.Data.Repositories;
@@ -115,8 +113,9 @@
                   
                </code>
              </pre>
-             <a href="images/creating_di_layer03.png" target="blank"><img width="500" src="images/creating_di_layer03.png" alt="" /></a><br />
-             <pre>
+          <a href="images/creating_di_layer03.png" target="blank"><img width="500" src="images/creating_di_layer03.png"
+              alt="" /></a><br />
+          <pre>
                <code>
                   using Microsoft.Extensions.DependencyInjection;
                   using Rodolfo.Schmidt.Application.Interfaces;
@@ -138,9 +137,13 @@
                   
                </code>
              </pre>
-             <a href="images/creating_di_layer04.png" target="blank"><img width="500" src="images/creating_di_layer04.png" alt="" /></a><br />
-             <p>And finally in the class responsible for injecting the dependencies we will inject our services, repositories, mappers, database connection among other important dependencies for the operation of our api as below. Using the Injection Layer Did You Understand in the Api Layer Session <a href="creating-api-netcore.html">here</a></p>
-             <pre>
+          <a href="images/creating_di_layer04.png" target="blank"><img width="500" src="images/creating_di_layer04.png"
+              alt="" /></a><br />
+          <p>And finally in the class responsible for injecting the dependencies we will inject our services,
+            repositories, mappers, database connection among other important dependencies for the operation of our api
+            as below. Using the Injection Layer Did You Understand in the Api Layer Session <a
+              href="creating-api-netcore.html">here</a></p>
+          <pre>
                <code>
                   using Microsoft.AspNetCore.Mvc;
                   using Microsoft.Extensions.Configuration;
@@ -195,47 +198,55 @@
                   
                </code>
              </pre>
-             <a href="images/creating_di_layer04.png" target="blank"><img width="500" src="images/creating_di_layer04.png" alt="" /></a><br />
-          </section>
-  
-  
+          <a href="images/creating_di_layer04.png" target="blank"><img width="500" src="images/creating_di_layer04.png"
+              alt="" /></a><br />
+        </section>
+
+
       </div>
     </div>
 
-	      <!-- Footer -->
-				<footer id="footer">
-						<ul class="icons">
-							<li>
-								<a href="https://www.linkedin.com/in/rodolfo-schmidt-623042b6/" class="icon brands alt fa-linkedin-in"
-									><span class="label">LinkedIn</span></a
-								>
-							</li>
-							<li>
-								<a href="https://github.com/rodph15" class="icon brands alt fa-github"
-									><span class="label">GitHub</span></a
-								>
-							</li>
-							<li>
-								<a href="mailto:rodph15@gmail.com" class="icon solid alt fa-envelope"
-									><span class="label">Email</span></a
-								>
-							</li>
-						</ul>
-						<ul class="copyright">
-							<li>&copy; Rodolfo Schmidt. All rights reserved.</li>
-						</ul>
-					</footer>
-				</div>
-		
-				<!-- Scripts -->
-				<script src="assets/js/jquery.min.js"></script>
-				<script src="assets/js/jquery.scrolly.min.js"></script>
-				<script src="assets/js/jquery.dropotron.min.js"></script>
-				<script src="assets/js/jquery.scrollex.min.js"></script>
-				<script src="assets/js/browser.min.js"></script>
-				<script src="assets/js/breakpoints.min.js"></script>
-				<script src="assets/js/util.js"></script>
-				<script src="assets/js/main.js"></script>
-			</body>
-		</html>
-		
+    <!-- Footer -->
+    <footer id="footer">
+      <ul class="icons">
+        <li>
+          <a href="https://www.linkedin.com/in/rodolfo-schmidt-623042b6/" class="icon brands alt fa-linkedin-in"><span
+              class="label">LinkedIn</span></a>
+        </li>
+        <li>
+          <a href="https://github.com/rodph15" class="icon brands alt fa-github"><span class="label">GitHub</span></a>
+        </li>
+        <li>
+          <a href="mailto:rodph15@gmail.com" class="icon solid alt fa-envelope"><span class="label">Email</span></a>
+        </li>
+      </ul>
+      <ul class="copyright">
+        <li>&copy; Rodolfo Schmidt. All rights reserved.</li>
+      </ul>
+    </footer>
+  </div>
+
+  <!-- Scripts -->
+  <script src="assets/js/jquery.min.js"></script>
+  <script src="assets/js/jquery.scrolly.min.js"></script>
+  <script src="assets/js/jquery.dropotron.min.js"></script>
+  <script src="assets/js/jquery.scrollex.min.js"></script>
+  <script src="assets/js/browser.min.js"></script>
+  <script src="assets/js/breakpoints.min.js"></script>
+  <script src="assets/js/util.js"></script>
+  <script src="assets/js/main.js"></script>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-31817705-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'UA-31817705-1');
+  </script>
+
+  <script data-ad-client="ca-pub-6253952190714514" async
+    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+</body>
+
+</html>
