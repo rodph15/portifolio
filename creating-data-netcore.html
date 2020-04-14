@@ -72,6 +72,11 @@
     <!-- Main -->
     <div id="main" class="wrapper style1">
       <div class="container">
+        <ul class="nav-ul">
+          <li class="nav-li"><a href="index.html">Home</a>&nbsp;-></li>
+          <li class="nav-li"><a href="#"> C# .Net</a>&nbsp;-></li>
+          <li class="nav-li"><a href="creating-data-netcore.html"> Creating Data .Net Core</a></li>
+        </ul>
         <header class="major">
           <h2>Creating Data Layer</h2>
           <p>In this session we will create the full data layer of our application using Entity Framework.</p>
@@ -82,7 +87,7 @@
           <h3>Creating directories </h3>
           <p>First let's create the directories that will be used in our project. We will create the directory of
             Configuration, Context, extensions, Repositories and UoW.</p>
-          <a href="images/creating_data_layer01.png" target="blank"><img width="500"
+          <a href="images/creating_data_layer01.png" target="blank" class="image fit"><img width="500"
               src="images/creating_data_layer01.png" alt="" /></a>
 
           <hr>
@@ -90,17 +95,17 @@
           <h3>Creating the Files </h3>
           <p>Now first of all let's install Entity Framework core by right clicking on dependencies as below example.
           </p>
-          <a href="images/creating_data_layer02.png" target="blank"><img width="500"
+          <a href="images/creating_data_layer02.png" target="blank" class="image fit"><img width="500"
               src="images/creating_data_layer02.png" alt="" /></a><br />
-          <a href="images/creating_data_layer03.png" target="blank"><img width="500"
+          <a href="images/creating_data_layer03.png" target="blank" class="image fit"><img width="500"
               src="images/creating_data_layer03.png" alt="" /></a><br />
           <p>Same for lib Microsoft.EntityFrameworkCore where its function is to customize through fluent api entity vs
             database</p>
-          <a href="images/creating_data_layer05.png" target="blank"><img width="500"
+          <a href="images/creating_data_layer05.png" target="blank" class="image fit"><img width="500"
               src="images/creating_data_layer05.png" alt="" /></a><br />
           <p>Now let's first create the extension that we will use in implementing our generic repository to concatenate
             expressions.</p>
-          <pre>
+          <pre class="image fit">
               <code>
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -127,11 +132,11 @@ namespace Rodolfo.Schmidt.Data.Extensions
 
               </code>
             </pre>
-          <a href="images/creating_data_layer04.png" target="blank"><img width="500"
+          <a href="images/creating_data_layer04.png" target="blank" class="image fit"><img width="500"
               src="images/creating_data_layer04.png" alt="" /></a><br />
           <p>Now let's create the configuration file responsible for parameterizing the entity according to your
             database standards as well as field type specific settings among others.</p>
-          <pre>
+          <pre class="image fit">
               <code>
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -171,13 +176,13 @@ namespace Rodolfo.Schmidt.Data.Configuration
 
               </code>
             </pre>
-          <a href="images/creating_data_layer06.png" target="blank"><img width="500"
+          <a href="images/creating_data_layer06.png" target="blank" class="image fit"><img width="500"
               src="images/creating_data_layer06.png" alt="" /></a><br />
           <p>Next we will create the file responsible for configuring our ORM. Let's call it RodolfoSchmidtDbContext. In
             it we will put our configuration file to set the bank settings for our mapped entity in ORM. We also created
             an overloaded constructor to receive the bank connection string and initialize ORM and finally map our
             entire Domain with the bank through ORM.</p>
-          <pre>
+          <pre class="image fit">
               <code>
 using Microsoft.EntityFrameworkCore;
 using Rodolfo.Schmidt.Data.Configuration;
@@ -209,10 +214,10 @@ namespace Rodolfo.Schmidt.Data.Context
 
               </code>
             </pre>
-          <a href="images/creating_data_layer07.png" target="blank"><img width="500"
+          <a href="images/creating_data_layer07.png" target="blank" class="image fit"><img width="500"
               src="images/creating_data_layer07.png" alt="" /></a><br />
           <p>We're almost there, now let's implement our generic repository</p>
-          <pre>
+          <pre class="image fit">
               <code>
                 
 using Microsoft.EntityFrameworkCore;
@@ -289,10 +294,10 @@ namespace Rodolfo.Schmidt.Data.Repositories
 
               </code>
             </pre>
-          <a href="images/creating_data_layer08.png" target="blank"><img width="500"
+          <a href="images/creating_data_layer08.png" target="blank" class="image fit"><img width="500"
               src="images/creating_data_layer08.png" alt="" /></a><br />
           <p>And finally, our unit of work responsible for committing any ORM memory changes / insertions</p>
-          <pre>
+          <pre class="image fit">
               <code>
 using Rodolfo.Schmidt.Data.Context;
 using Rodolfo.Schmidt.Domain.Interfaces.UoW;
@@ -322,10 +327,10 @@ namespace Rodolfo.Schmidt.Data.UoW
 
               </code>
             </pre>
-          <a href="images/creating_data_layer09.png" target="blank"><img width="500"
+          <a href="images/creating_data_layer09.png" target="blank" class="image fit"><img width="500"
               src="images/creating_data_layer09.png" alt="" /></a><br />
           <p>Now to close the data layer with all pre sets done we can implement the person repository</p>
-          <pre>
+          <pre class="image fit">
               <code>
                   using Rodolfo.Schmidt.Data.Context;
                   using Rodolfo.Schmidt.Domain.Entities;
@@ -361,7 +366,7 @@ namespace Rodolfo.Schmidt.Data.UoW
                   
               </code>
               </pre>
-          <a href="images/creating_data_layer09.png" target="blank"><img width="500"
+          <a href="images/creating_data_layer09.png" target="blank" class="image fit"><img width="500"
               src="images/creating_data_layer09.png" alt="" /></a><br />
           <p>Our data layer is ready.</p>
         </section>

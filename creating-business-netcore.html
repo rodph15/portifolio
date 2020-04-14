@@ -72,6 +72,11 @@
     <!-- Main -->
     <div id="main" class="wrapper style1">
       <div class="container">
+        <ul class="nav-ul">
+          <li class="nav-li"><a href="index.html">Home</a>&nbsp;-></li>
+          <li class="nav-li"><a href="#"> C# .Net</a>&nbsp;-></li>
+          <li class="nav-li"><a href="creating-business-netcore.html">Creating Business .Net Core</a></li>
+        </ul>
         <header class="major">
           <h2>Creating Business Layer</h2>
           <p>In this session we will create the full business layer of our application.</p>
@@ -85,17 +90,17 @@
             which it is in charge of transporting data from our domain, be it to a third party view, file or api. In
             mapping we will create our lib Mapping configuration file that will assist us in making this transfer of
             data from our Domain to our Dto and finally in services we will implement the business rule itself.</p>
-          <a href="images/creating_business_layer01.png" target="blank"><img width="500"
+          <a href="images/creating_business_layer01.png" target="blank" class="image fit"><img width="500"
               src="images/creating_business_layer01.png" alt="" /></a>
 
           <hr>
 
           <h3>Creating the Files </h3>
           <p>Using what we have learned in previous sessions we will install lib AutoMapper.</p>
-          <a href="images/creating_business_layer02.png" target="blank"><img width="500"
+          <a href="images/creating_business_layer02.png" target="blank" class="image fit"><img width="500"
               src="images/creating_business_layer02.png" alt="" /></a><br />
           <p>After lib is installed we will create our Dto class and our auto mapper configuration file</p>
-          <pre>
+          <pre class="image fit">
               <code>
                   using System;
                   using System.Collections.Generic;
@@ -116,9 +121,9 @@
                   
               </code>
             </pre>
-          <a href="images/creating_business_layer03.png" target="blank"><img width="500"
+          <a href="images/creating_business_layer03.png" target="blank" class="image fit"><img width="500"
               src="images/creating_business_layer03.png" alt="" /></a><br />
-          <pre>
+          <pre class="image fit">
               <code>
                 using AutoMapper.Configuration;
                 using Rodolfo.Schmidt.Application.Dto;
@@ -144,10 +149,10 @@
                 
               </code>
             </pre>
-          <a href="images/creating_business_layer04.png" target="blank"><img width="500"
+          <a href="images/creating_business_layer04.png" target="blank" class="image fit"><img width="500"
               src="images/creating_business_layer04.png" alt="" /></a><br />
           <p>Now let's implement our interface to finally implement the rules in our service.</p>
-          <pre>
+          <pre class="image fit">
               <code>
                   using Rodolfo.Schmidt.Application.Dto;
                   using Rodolfo.Schmidt.Domain.Entities;
@@ -170,11 +175,11 @@
                   
               </code>
             </pre>
-          <a href="images/creating_business_layer05.png" target="blank"><img width="500"
+          <a href="images/creating_business_layer05.png" target="blank" class="image fit"><img width="500"
               src="images/creating_business_layer05.png" alt="" /></a><br />
           <p>Now to finish the business layer! In it we will inject our repository and auto mapper and using C #'s
             Tuppla feature we will send 2 variables in return when needed.</p>
-          <pre>
+          <pre class="image fit">
               <code>
                   using AutoMapper;
                   using Rodolfo.Schmidt.Application.Dto;
@@ -247,9 +252,9 @@
                   
               </code>
             </pre>
-          <a href="images/creating_business_layer06.png" target="blank"><img width="500"
+          <a href="images/creating_business_layer06.png" target="blank" class="image fit"><img width="500"
               src="images/creating_business_layer06.png" alt="" /></a><br />
-          <a href="images/creating_business_layer07.png" target="blank"><img width="500"
+          <a href="images/creating_business_layer07.png" target="blank" class="image fit"><img width="500"
               src="images/creating_business_layer07.png" alt="" /></a><br />
         </section>
 

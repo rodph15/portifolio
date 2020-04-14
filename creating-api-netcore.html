@@ -5,8 +5,7 @@
   <title>Creating Api .Net Core</title>
   <meta charset="utf-8" />
   <meta name="robots" content="index, follow">
-  <meta name="keywords"
-  content="rodolfo schmidt, rodolfo, schmidt, dotnet, dotnet core, .net, .net core, c#, C#, DDD, design pattern, solid,
+  <meta name="keywords" content="rodolfo schmidt, rodolfo, schmidt, dotnet, dotnet core, .net, .net core, c#, C#, DDD, design pattern, solid,
   api, repository, domain, javascript, angular, react, react, react native, programação, desenvolvimento, developer, 
   aprendendo c#, aprendendo dotnet core, aprendendo .netcore, learning c#, learning .net core, learning dotnet core,
   programmer, programming, tutorial, aprendendo a programar, aprendendo programação, learn programming, tutoriais programação
@@ -23,7 +22,7 @@
   <link rel="shortcut icon" href="images/favicon.ico" />
   <noscript>
     <link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
-    <script data-ad-client="ca-pub-6253952190714514" async
+  <script data-ad-client="ca-pub-6253952190714514" async
     src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 </head>
 
@@ -72,6 +71,11 @@
     <!-- Main -->
     <div id="main" class="wrapper style1">
       <div class="container">
+        <ul class="nav-ul">
+          <li class="nav-li"><a href="index.html">Home</a>&nbsp;-></li>
+          <li class="nav-li"><a href="#"> C# .Net</a>&nbsp;-></li>
+          <li class="nav-li"><a href="creating-api-netcore.html"> Creating Project .Net core</a></li>
+        </ul>
         <header class="major">
           <h2>Creating API Layer</h2>
           <p>In this session we will create the full API layer of our application.</p>
@@ -83,15 +87,15 @@
           <p>With all our architecture ready, it was quick and easy to implement as routes from our API. Before we
             start, we should delete everything that was injected, automatically created in our Startup.cs file and our
             injection layer extender, as below.</p>
-          <a href="images/creating_api_layer01.png" target="blank"><img width="500"
-              src="images/creating_api_layer01.png" alt="" /></a><br />
+          <a href="images/creating_api_layer01.png" target="blank" class="image fit"><img
+              src="images/creating_api_layer01.png" alt="" /></a>
           <p>Now let's create in our api configuration file which is a json an attribute that we will use to retrieve
             the database settings in case the connection string, database name, username and password. Remembering that
             our application has by default 2 json configuration files appsettings.json and appsettings.Development.json.
             The difference between them is simple, .Development runs only when your project is in debug mode and the
             other in release mode.</p>
-          <pre>
-              <code>
+          <pre class="image fit">
+              <code >
                   {
                     "Logging": {
                       "LogLevel": {
@@ -105,10 +109,10 @@
                   }
               </code>
             </pre>
-          <a href="images/creating_api_layer02.png" target="blank"><img width="500"
+          <a href="images/creating_api_layer02.png" target="blank" class="image fit"><img width="500"
               src="images/creating_api_layer02.png" alt="" /></a><br />
           <p>And finally we will create our PersonController and inject the service into it to be consumed as below</p>
-          <pre>
+          <pre class="image fit">
               <code>
                   using System;
                   using System.Collections.Generic;
@@ -260,7 +264,7 @@
                   
               </code>
             </pre>
-          <a href="images/creating_api_layer03.png" target="blank"><img width="500"
+          <a href="images/creating_api_layer03.png" target="blank" class="image fit"><img width="500"
               src="images/creating_api_layer03.png" alt="" /></a><br />
           <p>With our first application finalized we will start to implement the unit tests in our next session <a
               href="creating-unit-test-netcore.html">here</a>.</p>

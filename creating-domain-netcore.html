@@ -72,6 +72,11 @@
     <!-- Main -->
     <div id="main" class="wrapper style1">
       <div class="container">
+        <ul class="nav-ul">
+          <li class="nav-li"><a href="index.html">Home</a>&nbsp;-></li>
+          <li class="nav-li"><a href="#"> C# .Net</a>&nbsp;-></li>
+          <li class="nav-li"><a href="creating-domain-netcore.html"> Creating Domain .Net Core</a></li>
+        </ul>
         <header class="major">
           <h2>Creating Domain Layer</h2>
           <p>In this session we will create the full domain layer of our application.</p>
@@ -83,7 +88,7 @@
           <p>First let's create the directories that will be used in our project. We will create the directory of
             entities, enums and interfaces. Within interfaces we will create the directory of the repository interfaces
             and our unit of work (UoW).</p>
-          <a href="images/creating_domain_layer01.png" target="blank"><img width="500"
+          <a href="images/creating_domain_layer01.png" target="blank" class="image fit"><img width="500"
               src="images/creating_domain_layer01.png" alt="" /></a>
 
           <hr>
@@ -96,28 +101,28 @@
             create the class and call it BaseEntity, it will contain the Id that will be reused in all entities of our
             project in the Domain layer.
           </p>
-          <a href="images/creating_domain_layer02.png" target="blank"><img width="500"
+          <a href="images/creating_domain_layer02.png" target="blank" class="image fit"><img width="500"
               src="images/creating_domain_layer02.png" alt="" /></a><br />
-          <a href="images/creating_domain_layer03.png" target="blank"><img width="500"
+          <a href="images/creating_domain_layer03.png" target="blank" class="image fit"><img width="500"
               src="images/creating_domain_layer03.png" alt="" /></a><br />
-          <a href="images/creating_domain_layer04.png" target="blank"><img width="500"
+          <a href="images/creating_domain_layer04.png" target="blank" class="image fit"><img width="500"
               src="images/creating_domain_layer04.png" alt="" /></a>
           <p>Now let's create the person entity that we will use to work on our project. Remembering that for good
             practices you should NOT "dirty" the class. In the domain class should contain only the clean attributes and
             nothing more! Other configurations used on screen or for database purposes for ORM configuration purposes
             will all be made in their respective layers.</p>
-          <a href="images/creating_domain_layer05.png" target="blank"><img width="500"
+          <a href="images/creating_domain_layer05.png" target="blank" class="image fit"><img width="500"
               src="images/creating_domain_layer05.png" alt="" /></a>
           <p>Now let's create our interfaces starting with the generic repository. Always remember that by definition
             interfaces start with "I" always. Follow the same steps to create a class just by differentiating the
             interface option.</p>
-          <a href="images/creating_domain_layer06.png" target="blank"><img width="500"
+          <a href="images/creating_domain_layer06.png" target="blank" class="image fit"><img width="500"
               src="images/creating_domain_layer06.png" alt="" /></a>
           <p>Since every interface is a contract, let's get our contract ready to implement in the Data <a
               href="creating-data-netcore.html">here</a> layer session. As an initial suggestion I already leave the
             code below with these defined methods and you have complete freedom to enrich your generic repository even
             more.</p>
-          <pre><code>
+          <pre class="image fit"><code>
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
@@ -147,11 +152,11 @@ namespace Rodolfo.Schmidt.Domain.Interfaces.Repositories
 
                   </code>
                 </pre>
-          <a href="images/creating_domain_layer07.png" target="blank"><img width="500"
+          <a href="images/creating_domain_layer07.png" target="blank" class="image fit"><img width="500"
               src="images/creating_domain_layer07.png" alt="" /></a>
           <p>With our interface of our generic repository created we will create the repository of our entity "Person"
             as code below.</p>
-          <pre>
+          <pre class="image fit">
                   <code >
 using Rodolfo.Schmidt.Domain.Entities;
 using System;
@@ -174,11 +179,11 @@ namespace Rodolfo.Schmidt.Domain.Interfaces.Repositories
 
                   </code>
                 </pre>
-          <a href="images/creating_domain_layer08.png" target="blank"><img width="500"
+          <a href="images/creating_domain_layer08.png" target="blank" class="image fit"><img width="500"
               src="images/creating_domain_layer08.png" alt="" /></a>
           <p>And finally we will create the interface of our unit of work responsible for commiting all operations done
             by ORM (EF) more details in the layer session data <a href="creating-data-netcore.html">here</a>.</p>
-          <pre>
+          <pre class="image fit">
                   <code>
 using System;
 using System.Collections.Generic;
@@ -195,7 +200,7 @@ namespace Rodolfo.Schmidt.Domain.Interfaces.UoW
 
                   </code>
                 </pre>
-          <a href="images/creating_domain_layer09.png" target="blank"><img width="500"
+          <a href="images/creating_domain_layer09.png" target="blank" class="image fit"><img width="500"
               src="images/creating_domain_layer09.png" alt="" /></a>
           <p>Our domain layer is ready, we just leave the enums directory created for later if needed.</p>
         </section>
