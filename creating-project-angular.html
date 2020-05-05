@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Creating Angular Project</title>
+  <meta charset="utf-8" />
+  <meta name="robots" content="index, follow">
+  <meta name="keywords" content="rodolfo schmidt, rodolfo, schmidt, programação, desenvolvimento, developer, 
+  programmer, programming, tutorial, aprendendo a programar, aprendendo programação, learn programming, tutoriais programação
+  software, sistema, clean code, project, projeto,vs, visual studio code,frameworks, technology, 
+  technologies, tecnologia, tecnologias, creating angular project, build angular project, angular project, learn angular,
+  angular tutorial, learning angular, initial angular, angular cli, angular command, npm, node, curso de angular, aprendendo angular,
+  iniciando angular, criar projeto angular, criando projeto angular, angular course, criando projeto em angular, criar projeto em angular,
+  criando projeto com angular, criar projeto com angular" />
+  <meta name="description" content="Rodolfo Schmidt Professional senior developer" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+  <link rel="stylesheet" href="assets/css/main.css" />
+  <link rel="shortcut icon" href="images/favicon.ico" />
+  <noscript>
+    <link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+  <script data-ad-client="ca-pub-6253952190714514" async
+    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+</head>
+
+<body class="is-preload landing">
+  <div id="page-wrapper">
+
+    <!-- Header -->
+    <header id="header">
+      <h1 id="logo"><a href="index.html">Rodolfo Schmidt</a></h1>
+      <nav id="nav">
+        <ul>
+          <li><a href="index.html">Portfolio</a></li>
+          <li>
+            <a href="#">C# .Net</a>
+            <ul>
+              <li>
+                <a href="creating-project-netcore.html">Creating Project .Net core</a>
+              </li>
+              <li>
+                <a href="creating-domain-netcore.html">Creating Domain .Net Core</a>
+              </li>
+              <li>
+                <a href="creating-data-netcore.html">Creating Data .Net Core</a>
+              </li>
+              <li>
+                <a href="creating-business-netcore.html">Creating Business .Net Core</a>
+              </li>
+              <li>
+                <a href="creating-api-netcore.html">Creating Api .Net Core</a>
+              </li>
+              <li>
+                <a href="creating-depedency-injection-netcore.html">Creating DI .Net Core</a>
+              </li>
+              <li>
+                <a href="creating-unit-test-netcore.html">Creating Unit test .Net Core</a>
+              </li>
+            </ul>
+          </li>
+          <li><a href="#">Angular</a>
+            <ul>
+              <li>
+                <a href="creating-project-angular.html">Creating Project Angular</a>
+              </li>
+            </ul>
+          </li>
+          <li><a href="creating-order-react.html">React</a></li>
+          <li><a href="creating-order-react-native.html">ReactNative</a></li>
+          <li><a href="about-me.html">About me</a></li>
+          <li><a href="contact-me.html">Contact me</a></li>
+          <li><a href="privacy-policy.html">Privacy Policy</a></li>
+          <li><a href="disclaimer.html">Disclaimer</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <!-- Main -->
+    <div id="main" class="wrapper style1">
+      <div class="container">
+        <header class="major">
+          <h2>Creating Project Angular</h2>
+          <p>In this session we will create the angular project and explain about your struct.</p>
+        </header>
+
+        <!-- Text -->
+        <section>
+
+          <p>To create the angular project, we will use Visual Studio Code, but you don't need this tool specifically to
+            do this. <a href="https://code.visualstudio.com/download">Here</a> is the link to download the visual studio
+            code if you choose to use </p>
+          <p>You will need to install node.js to work with the angular, to download it you can find it <a
+              href="https://nodejs.org/en/">here</a></p>
+          <p>Everything ready to start let's open our chosen code editor in the case of visual studio and let's open it
+            in our project directory</p>
+          <a href="images/creating_project_angular01.png" target="blank" class="image fit"><img
+              src="images/creating_project_angular01.png" alt="" /></a>
+          <p>Now let's open our terminal, where we will insert the angular's command lines to work generating our
+            project and among other angular operations.</p>
+          <a href="images/creating_project_angular02.png" target="blank" class="image fit"><img
+              src="images/creating_project_angular02.png" alt="" /></a>
+          <p>At the terminal we will type the command 'npm install -g @ angular / cli' to install the angular cli and
+            press enter</p>
+          <a href="images/creating_project_angular03.png" target="blank" class="image fit"><img
+              src="images/creating_project_angular03.png" alt="" /></a>
+          <p>Wait a few moments
+            until the installation is finished at the terminal and then enter the following
+            command to create the angular project 'ng new project-name' and press enter again, a question will appear
+            on your console, asking for permission to create the route file, in this example we will answer that yes
+            this will facilitate starting with our created route file we will talk about it later. To do so, simply
+            answer as shown in the image below.
+          </p>
+          <a href="images/creating_project_angular04.png" target="blank" class="image fit"><img
+              src="images/creating_project_angular04.png" alt="" /></a>
+          <p>In the sequence, he will ask which style sheet he intends to use in the project for him to create
+            initially, with the arrow on the keyboard up and down you select the one of your preference.</p>
+          <a href="images/creating_project_angular05.png" target="blank" class="image fit"><img
+              src="images/creating_project_angular05.png" alt="" /></a>
+          <p>There, your project will be created. Wait a few moments for completion and open your project directory
+            according to the name using the command 'cd show-case' from the console.
+            Once your project is created, now we will understand its file-by-file structure in a basic way so that you
+            have full capacity to follow with an angular project.</p>
+          <a href="images/creating_project_angular06.png" target="blank" class="image fit"><img
+              src="images/creating_project_angular06.png" alt="" /></a>
+          <p><b>e2e</b>: End to end testing (E2E) or also known as integration testing is a great way to make sure at a
+            high-level
+            overview that our applications function correctly. Commonly we use E2E tests to help ensure our components
+            are working correctly together to create an entirely functioning feature cohesively. E2E tests are not Unit
+            tests. Unit tests should test a small isolated piece of code while the E2E test is a high-level test of a
+            feature or several interactions. E2E tests are also ideal for making sure critical line of business features
+            such as checkouts and sign-ups are well tested. I won’t dig into all the details of Unit tests vs. E2E tests
+            but focus on how integration and E2E tests work in Angular.</p>
+          <p><b>node_modules</b>: node_modules is the directory you should never upload to your versioning system. It is
+            very large and heavy and it is totally unnecessary to put it in your repository because whenever a developer
+            has downloaded his project he will use the command 'npm i' and behind the package.json configuration file
+            that directory will be downloaded according to the your project's needs. In node_modules you have all the
+            librarys that will be used throughout your project as well as the angular itself, for this reason NEVER
+            change anything in that directory.</p>
+          <p><b>src</b>: src is the root directory of your application let's talk in detail about each file inside it
+            below</p>
+          <p>
+            <b>.editorconfig</b>: Configuration file of your visual studio, responsible for configuring formats etc.
+          </p>
+          <p>
+            <b>.gitignore</b>:
+            Git configuration file created automatically by the angular cli. By default, it already ignores some project
+            files that are unnecessary for its repository such as node_modules.
+          </p>
+          <p>
+            <b>angular.json</b>:
+            Angular project configuration file. It is not recommended for those who are starting to touch this file. By
+            default it already has everything configured but it is important to know as shown in the image below it is
+            possible to add style sheets, scripts and assets in general where they were used in the application has
+            these directory settings. In scripts you will add external scripts that will be loaded automatically and
+            read throughout the application. In styles by default it starts with styles.css which is the global css
+          </p>
+          <a href="images/creating_project_angular07.png" target="blank" class="image fit"><img
+              src="images/creating_project_angular07.png" alt="" /></a>
+          <p><b>browserslist</b>: The browserlist is a config file in which you can define your target browsers. It is
+            not something Angular-specific but a standard across many frontend related tools.
+
+            Angular uses it in it's build process to decide if differential loading should be used. Basically Angular is
+            able to create a application bundle for modern browsers, which is using new features and can be smaller and
+            more performant, as well as an application bundle for older browsers which don't support the new features
+            and need polyfills to work properly.
+
+            With browserlist you can tell Angular which broqsers your application will run on and Angular can then
+            decide which bundles to create based on that</p>
+          <p><b>karma.conf.js</b>: Karma is the foundation of our testing workflow. It brings together our other testing
+            tools to define the framework we want to use, the environment to test under, the specific actions we want to
+            perform, etc. In order to do this Karma relies on a configuration file named by default karma.conf.js.</p>
+          <p><b>package-lock.json</b>: The purpose of the package-lock is to avoid the situation described above, where
+            installing
+            modules from the same package.json results in two different installs. Package-lock.json was added in npm
+            version 5.x.x, so if you are using major version 5 or higher, you will see it generated unless you disabled
+            it.</p>
+          <p><b>package.json</b>:
+            File responsible for storing all the dependencies of your project</p>
+          <p><b>readme.md</b>: File automatically generated by the angular CLI in which it will be displayed in your
+            repository for the project's informational purposes</p>
+          <p><b>tsconfig</b>: The remaining 3 tsconfig files are typescript and node configuration files. You will
+            rarely need to touch it and if you are going to touch it very carefully consult the angular api to do it
+            carefully.</p>
+          <p>Now let's talk about the src directory</p>
+          <a href="images/creating_project_angular08.png" target="blank" class="image fit"><img
+              src="images/creating_project_angular08.png" alt="" /></a>
+          <p><b>app</b>: It is the directory responsible for the files that actually gave life to your application, this
+            is where the game begins, we will talk about in the sequence</p>
+          <p><b>assets</b>: Root directory of the application assets which, as we saw earlier, is configured in
+            angular.json</p>
+          <p><b>environments</b>:
+            In this directory there are 2 files: environment.prod.ts and environment.ts. Both are files with constants
+            that must be used throughout your project in different situations and different environments. For example,
+            there we can configure the production url and homologation url and when executing the project in its
+            respective environment the angular will get the correct URL, so you use this constant throughout your
+            application without having to change it everywhere whenever you need to change environment.</p>
+          <a href="images/creating_project_angular09.png" target="blank" class="image fit"><img
+              src="images/creating_project_angular09.png" alt="" /></a>
+          <a href="images/creating_project_angular10.png" target="blank" class="image fit"><img
+              src="images/creating_project_angular10.png" alt="" /></a>
+          <p>Attention! Because it is a constant and an object, you can add as many attributes as you need and the type
+            you find necessary!</p>
+          <p><b>Favicon.ico</b>: Standard application favicon file. Just replace with the favicon you want.</p>
+          <p><b>index.html</b>: Main html file of the application, root file where everything starts. Inside the body
+            tag there is an app-root tag, this is the angle tag where you will render your entire application. You
+            shouldn't touch this tag. The rest is standard html where you can add meta tags etc, according to your need.
+            The 'base' tag should also not be tampered with at this point, when the project is published to an
+            environment in which the root domain will be configured. We will see this in the project's publishing
+            session.</p>
+          <a href="images/creating_project_angular11.png" target="blank" class="image fit"><img
+              src="images/creating_project_angular11.png" alt="" /></a>
+          <p><b>main.ts</b>: Angular is a framework that works in a modular way, it is in this main.ts file that the
+            main application module is started. Avoid messing with this file, you will most likely not need to change
+            anything here. Any changes made incorrectly here will cause your application to stop working properly.</p>
+          <p><b>polyfills.ts</b>: This file includes polyfills needed by Angular and is loaded before the app. ou can
+            add your own extra polyfills to this file</p>
+          <p><b>styles.css</b>: As we saw earlier this file is imported into angular.json as the global css file. You
+            can add global styles to this file, and also import other style files.</p>
+          <p><b>test.ts</b>: File responsible for running application tests.</p>
+          <p>And finally let's talk about the 'APP' directory</p>
+          <a href="images/creating_project_angular12.png" target="blank" class="image fit"><img
+              src="images/creating_project_angular12.png" alt="" /></a>
+          <p>The angular as previously said it works in a modular and componentized way. You can create components to
+            use in any part of the application but for that component to have life within the application it needs to be
+            inserted inside a module. You can have several different modules, we will see all this in practice
+            throughout the training. This first structure created is the root module in which the initial files with
+            'app.' You should avoid messing with the nomemclature of these files, as any changes here impact the overall
+            functioning of the application.</p>
+          <p><b>app-routing.module.ts</b>: Configuration file for module routes. Within the matrix declared as a
+            constant called Routes is where we will insert our routes. We will see this in practice in another session
+          </p>
+          <a href="images/creating_project_angular13.png" target="blank" class="image fit"><img
+              src="images/creating_project_angular13.png" alt="" /></a>
+          <p><b>app.component.css</b>: File where styling specifically for the component in question will be
+            implemented. In this case the 'App'</p>
+          <p><b>app.component.html</b>: File responsible for implementing the html that will be displayed by the
+            component. In the html we can reflect all and any result processing done by the App.Component through
+            variables displayed through the notation {{}} as well as we can also use other components and
+            functionalities applied to the html tags. We will see in detail in the next sessions</p>
+          <p><b>app.component.spec.ts</b>: File responsible for the implementation of unit tests applied to the
+            component in question.</p>
+          <p><b>app.component.ts</b>: File responsible for implementing events, creating variables, etc. The logic
+            behind the component is responsible for bringing the component and HTML to life. We will see in detail below
+            how the file works.</p>
+          <p><b>app.module.ts</b>: In the App.module we will import all the modules of the systems and their respective
+            components and also providers and external libraries that for reasons of specific and situational need of
+            your project should be imported globally. We will also see in sequence that it works in practice.
+          </p>
+          <p>
+            Now finally, are we going to test our application?
+            The angular by default already creates this structure and you can test if everything went well, let's run
+            the command ng serves on the console and wait for the application to start. After processing you must put
+            the address that will be displayed on the console in your browser to test and see your application running.
+            By default it is http: // localhost: 4200 /. The angular has a very interesting mechanism that you can
+            change your code without stopping the execution and it already updates automatically for you to save the
+            exception of when you insert a new library in the application, in which case you need to stop and run the
+            project again. To stop the project, press ctrl c in the case of windows or command c in IOS.</p>
+        </section>
+        <a href="images/creating_project_angular14.png" target="blank" class="image fit"><img
+            src="images/creating_project_angular14.png" alt="" /></a>
+        <a href="images/creating_project_angular16.png" target="blank" class="image fit"><img
+            src="images/creating_project_angular16.png" alt="" /></a>
+        <a href="images/creating_project_angular15.png" target="blank" class="image fit"><img
+            src="images/creating_project_angular15.png" alt="" /></a>
+        <p>The project created during the training will be available here on my github! <a
+            href="https://github.com/rodph15/angular-project-show-case">here</a></p>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer id="footer">
+      <ul class="icons">
+        <li>
+          <a href="https://www.linkedin.com/in/rodolfo-schmidt-623042b6/" class="icon brands alt fa-linkedin-in"><span
+              class="label">LinkedIn</span></a>
+        </li>
+        <li>
+          <a href="https://github.com/rodph15" class="icon brands alt fa-github"><span class="label">GitHub</span></a>
+        </li>
+        <li>
+          <a href="mailto:rodph15@gmail.com" class="icon solid alt fa-envelope"><span class="label">Email</span></a>
+        </li>
+      </ul>
+      <ul class="copyright">
+        <li>&copy; Rodolfo Schmidt. All rights reserved.</li>
+      </ul>
+    </footer>
+  </div>
+
+  <!-- Scripts -->
+  <script src="assets/js/jquery.min.js"></script>
+  <script src="assets/js/jquery.scrolly.min.js"></script>
+  <script src="assets/js/jquery.dropotron.min.js"></script>
+  <script src="assets/js/jquery.scrollex.min.js"></script>
+  <script src="assets/js/browser.min.js"></script>
+  <script src="assets/js/breakpoints.min.js"></script>
+  <script src="assets/js/util.js"></script>
+  <script src="assets/js/main.js"></script>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-31817705-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'UA-31817705-1');
+  </script>
+
+</body>
+
+</html>
