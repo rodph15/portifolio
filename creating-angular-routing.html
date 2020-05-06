@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Creating Angular Routing</title>
+  <meta charset="utf-8" />
+  <meta name="robots" content="index, follow">
+  <meta name="keywords" content="rodolfo schmidt, rodolfo, schmidt, programação, desenvolvimento, developer, 
+  programmer, programming, tutorial, aprendendo a programar, aprendendo programação, learn programming, tutoriais programação
+  software, sistema, clean code, project, projeto,vs, visual studio code,frameworks, technology, creating project angular,
+  technologies, tecnologia, tecnologias, creating angular project, build angular project, angular project, learn angular,
+  angular tutorial, learning angular, initial angular, angular cli, angular command, npm, node, curso de angular, aprendendo angular,
+  iniciando angular, criar projeto angular, criando projeto angular, angular course, criando projeto em angular, criar projeto em angular,
+  criando projeto com angular, criar projeto com angular, tutorial angular, navegar entre paginas angular, navegação angular, rotas angular,
+  criar rotas angular, criar rotas em angular, criação de rotas angular, angular route, angular routing, angular routes, creating angular routes,
+  learn angular routes, learning angular routes, learning angular routing, angular routing, angular navigation, tutorial angular routes,
+  tutorial angular routing, easy way angular routing" />
+  <meta name="description" content="Rodolfo Schmidt Professional senior developer" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+  <link rel="stylesheet" href="assets/css/main.css" />
+  <link rel="shortcut icon" href="images/favicon.ico" />
+  <noscript>
+    <link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+  <script data-ad-client="ca-pub-6253952190714514" async
+    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+</head>
+
+<body class="is-preload landing">
+  <div id="page-wrapper">
+
+    <!-- Header -->
+    <header id="header">
+      <h1 id="logo"><a href="index.html">Rodolfo Schmidt</a></h1>
+      <nav id="nav">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li>
+            <a href="#">C# .Net</a>
+            <ul>
+              <li>
+                <a href="creating-project-netcore.html">Creating Project .Net core</a>
+              </li>
+              <li>
+                <a href="creating-domain-netcore.html">Creating Domain .Net Core</a>
+              </li>
+              <li>
+                <a href="creating-data-netcore.html">Creating Data .Net Core</a>
+              </li>
+              <li>
+                <a href="creating-business-netcore.html">Creating Business .Net Core</a>
+              </li>
+              <li>
+                <a href="creating-depedency-injection-netcore.html">Creating DI .Net Core</a>
+              </li>
+              <li>
+                <a href="creating-api-netcore.html">Creating Api .Net Core</a>
+              </li>
+              <li>
+                <a href="creating-unit-test-netcore.html">Creating Unit test .Net Core</a>
+              </li>
+            </ul>
+          </li>
+          <li><a href="#">Angular</a>
+            <ul>
+              <li>
+                <a href="creating-project-angular.html">Creating Project Angular</a>
+              </li>
+              <li>
+                <a href="creating-angular-routing.html">Creating Angular Routing</a>
+              </li>
+            </ul>
+          </li>
+          <li><a href="creating-order-react.html">React</a></li>
+          <li><a href="creating-order-react-native.html">ReactNative</a></li>
+          <li><a href="about-me.html">About me</a></li>
+          <li><a href="contact-me.html">Contact me</a></li>
+          <li><a href="privacy-policy.html">Privacy Policy</a></li>
+          <li><a href="disclaimer.html">Disclaimer</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <!-- Main -->
+    <div id="main" class="wrapper style1">
+      <div class="container">
+        <header class="major">
+          <h2>Creating Angular Routing</h2>
+          <p>In this session we will prepare the routes and directories for creating our order CRUD.</p>
+        </header>
+
+        <!-- Text -->
+        <section>
+
+          <p>To make our project more organized we will create a directory for our features and within them separate
+            them to facilitate the maintenance and separation of the logic of each feature, all within the 'app'
+            directory.</p>
+          <a href="images/creating_angular_routing01.png" target="blank" class="image fit"><img
+              src="images/creating_angular_routing01.png" alt="" /></a>
+          <a href="images/creating_angular_routing02.png" target="blank" class="image fit"><img
+              src="images/creating_angular_routing02.png" alt="" /></a>
+          <p>Now we are going to create 3 directories, 1 to register, 1 to edit and 1 to list. But for that we will
+            already create using the angular CLI to generate everything we need in these components. First we will go
+            through the console to navigate to the 'features' directory and then we will run the command 'ng generate
+            component order-list'.</p>
+          <a href="images/creating_angular_routing03.png" target="blank" class="image fit"><img
+              src="images/creating_angular_routing03.png" alt="" /></a>
+
+          <p>Now let's create the module and route with the command 'ng generate module order-list --routing = true'
+            note that we did not change the project directory on the console by running the command with the same name
+            'order-list' it will add in the directory already created</p>
+          <a href="images/creating_angular_routing04.png" target="blank" class="image fit"><img
+              src="images/creating_angular_routing04.png" alt="" /></a>
+          <p>repeat the process creating 'order-create' and 'order-edit'</p>
+          <a href="images/creating_angular_routing05.png" target="blank" class="image fit"><img
+              src="images/creating_angular_routing05.png" alt="" /></a>
+          <p>We will use the template automatically generated by the angular to create our CRUD. Remove the content from
+            the page inside the tag 'div class = "content" role = "main"' replace at the top welcome with Orders by
+            inserting a tag 'a' to create a simple menu and change the css in that same file to white so we leave it
+            well simple the page to work</p>
+          <a href="images/creating_angular_routing06.png" target="blank" class="image fit"><img
+              src="images/creating_angular_routing06.png" alt="" /></a>
+          <a href="images/creating_angular_routing07.png" target="blank" class="image fit"><img
+              src="images/creating_angular_routing07.png" alt="" /></a>
+          <a href="images/creating_angular_routing08.png" target="blank" class="image fit"><img
+              src="images/creating_angular_routing08.png" alt="" /></a>
+          <a href="images/creating_angular_routing09.png" target="blank" class="image fit"><img
+              src="images/creating_angular_routing09.png" alt="" /></a>
+          <p>Now we are going to prepare the routes and link them with the components. First we need to play inside the
+            main div where we clean all our content the tag generated by the angular named 'router-outlet'. This tag
+            indicates to the angular that the contents of the routes will be rendered within this tag.</p>
+          <a href="images/creating_angular_routing10.png" target="blank" class="image fit"><img
+              src="images/creating_angular_routing10.png" alt="" /></a>
+          <p>When we use the commands from the angular CLI, the component references were automatically generated in the
+            main module, we need to remove them from there.</p>
+          <a href="images/creating_angular_routing11.png" target="blank" class="image fit"><img
+              src="images/creating_angular_routing11.png" alt="" /></a>
+          <p>getting like this.</p>
+          <a href="images/creating_angular_routing12.png" target="blank" class="image fit"><img
+              src="images/creating_angular_routing12.png" alt="" /></a>
+          <p>Now we are going to import the modules that we created in our main module.</p>
+          <a href="images/creating_angular_routing13.png" target="blank" class="image fit"><img
+              src="images/creating_angular_routing13.png" alt="" /></a>
+          <p>
+            In the main routes file of the application we will create it by default as soon as we load into the project
+            root bring our order list module using path: '', redirectTo: '/ order-list', pathMatch: 'full' and when not
+            find no URL in the tracking we will also configure to redirect to our list of orders 'path:' ** ',
+            component: OrderListComponent'
+          </p>
+          <a href="images/creating_angular_routing14.png" target="blank" class="image fit"><img
+              src="images/creating_angular_routing14.png" alt="" /></a>
+          <p>We must not forget to inform in each module created in our features which component it belongs to as below
+          </p>
+          <a href="images/creating_angular_routing15.png" target="blank" class="image fit"><img
+              src="images/creating_angular_routing15.png" alt="" /></a>
+
+          <p>And now in each module, configure your own route</p>
+          <a href="images/creating_angular_routing16.png" target="blank" class="image fit"><img
+              src="images/creating_angular_routing16.png" alt="" /></a>
+          <p>and to end this session we’ll add the link in our orders menu to our order listing route. In the next
+            session we will create our crud and work more with routes by linking the editing and creation route for
+            example. To do this add the following command routerLink = "order-list"</p>
+          <a href="images/creating_angular_routing17.png" target="blank" class="image fit"><img
+              src="images/creating_angular_routing17.png" alt="" /></a>
+          <p>Then run the project as we saw in the <a href="creating-project-angular.html">project creation session </a>
+            and check the routes</p>
+          <a href="images/creating_angular_routing18.png" target="blank" class="image fit"><img
+              src="images/creating_angular_routing18.png" alt="" /></a>
+        </section>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer id="footer">
+      <ul class="icons">
+        <li>
+          <a href="https://www.linkedin.com/in/rodolfo-schmidt-623042b6/" class="icon brands alt fa-linkedin-in"><span
+              class="label">LinkedIn</span></a>
+        </li>
+        <li>
+          <a href="https://github.com/rodph15" class="icon brands alt fa-github"><span class="label">GitHub</span></a>
+        </li>
+        <li>
+          <a href="mailto:rodph15@gmail.com" class="icon solid alt fa-envelope"><span class="label">Email</span></a>
+        </li>
+      </ul>
+      <ul class="copyright">
+        <li>&copy; Rodolfo Schmidt. All rights reserved.</li>
+      </ul>
+    </footer>
+  </div>
+
+  <!-- Scripts -->
+  <script src="assets/js/jquery.min.js"></script>
+  <script src="assets/js/jquery.scrolly.min.js"></script>
+  <script src="assets/js/jquery.dropotron.min.js"></script>
+  <script src="assets/js/jquery.scrollex.min.js"></script>
+  <script src="assets/js/browser.min.js"></script>
+  <script src="assets/js/breakpoints.min.js"></script>
+  <script src="assets/js/util.js"></script>
+  <script src="assets/js/main.js"></script>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-31817705-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'UA-31817705-1');
+  </script>
+
+</body>
+
+</html>
