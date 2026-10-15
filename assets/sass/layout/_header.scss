@@ -1,0 +1,25 @@
+.site-header {
+  position: sticky; z-index: 10; top: 0;
+  border-bottom: 1px solid rgb(255 255 255 / 6%);
+  background: rgb(16 16 15 / 92%); backdrop-filter: blur(16px);
+}
+
+.header-inner { min-height: 80px; display: flex; align-items: center; justify-content: space-between; gap: 2rem; }
+
+.brand { display: inline-flex; align-items: center; gap: .7rem; font-size: .93rem; font-weight: 600; letter-spacing: -.025em; }
+
+.brand-mark { display: grid; width: 34px; height: 34px; place-items: center; border-radius: 50%; background: var(--color-accent); color: var(--color-bg); font-size: .9rem; font-weight: 750; letter-spacing: -.08em; }
+
+.site-nav { display: flex; align-items: center; gap: clamp(1.25rem, 3vw, 2.5rem); }
+
+.site-nav > a { color: var(--color-muted); font-size: .82rem; transition: color .2s ease; }
+
+.site-nav > a:hover, .social-links a:hover { color: var(--color-accent); }
+
+.site-nav > .nav-contact { color: var(--color-text); }
+
+.nav-contact span { margin-left: .3rem; color: var(--color-accent); }
+
+.language-control select { padding: .45rem .5rem; border: 1px solid var(--color-line); border-radius: 3px; background: var(--color-bg); font-size: .72rem; cursor: pointer; }
+
+.menu-toggle { display: none; }

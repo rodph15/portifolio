@@ -1,0 +1,41 @@
+.article-page { min-height: 100vh; }
+
+.article-back { color: var(--color-muted); font-size: .8rem; }
+
+.article-back:hover { color: var(--color-accent); }
+
+.article-content { max-width: 800px; padding-block: clamp(4rem, 9vw, 7.5rem); }
+
+.article-content > h1 { margin: 0 0 1.5rem; font-size: clamp(2.8rem, 8vw, 5.8rem); line-height: 1.02; }
+
+.article-summary { margin-bottom: 1.5rem; color: var(--color-muted); font-size: clamp(1.05rem, 2vw, 1.3rem); }
+
+.article-tags { display: flex; flex-wrap: wrap; gap: .5rem; padding-bottom: 2.2rem; border-bottom: 1px solid var(--color-line); }
+
+.article-tags span { padding: .3rem .55rem; border: 1px solid var(--color-line); border-radius: 2px; color: var(--color-muted); font-size: .65rem; }
+
+.article-body { padding-top: 1.8rem; color: var(--color-muted); font-size: 1rem; line-height: 1.8; }
+
+.article-body h2, .article-body h3, .article-body h4, .article-body h5 { margin: 2.5rem 0 .8rem; color: var(--color-text); letter-spacing: -.04em; }
+
+.article-body h2 { font-size: 2rem; }
+
+.article-body h3 { font-size: 1.6rem; }
+
+.article-body h4, .article-body h5 { font-size: 1.25rem; }
+
+.article-body p, .article-body ul, .article-body pre { margin-bottom: 1.3rem; }
+
+.article-body ul { padding-left: 1.4rem; list-style: disc; }
+
+.article-body li { padding-left: .3rem; }
+
+.article-body a { color: var(--color-accent); text-decoration: underline; text-underline-offset: 3px; }
+
+.article-body code { padding: .15rem .35rem; border-radius: 3px; background: var(--color-surface-light); color: var(--color-accent); font-size: .87em; }
+
+.article-body pre { overflow-x: auto; padding: 1rem; border: 1px solid var(--color-line); background: var(--color-surface); }
+
+.article-body pre code { padding: 0; background: transparent; color: var(--color-text); }
+
+.article-back-bottom { display: inline-block; margin-top: 2.5rem; }

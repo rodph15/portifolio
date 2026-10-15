@@ -1,0 +1,14 @@
+:root {
+  color-scheme: dark;
+  --color-bg: #10100f;
+  --color-surface: #171715;
+  --color-surface-light: #20201d;
+  --color-text: #f3f1eb;
+  --color-muted: #aaa9a1;
+  --color-faint: #73736d;
+  --color-accent: #c9f36a;
+  --color-line: #30302c;
+  --font-body: "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --container: 1160px;
+  --space-section: clamp(5.5rem, 11vw, 9rem);
+}

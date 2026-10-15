@@ -1,0 +1,41 @@
+.work-section { background: var(--color-surface); }
+
+.section-heading { display: flex; align-items: end; justify-content: space-between; gap: 3rem; margin-bottom: 3.5rem; }
+
+.section-kicker { margin-bottom: 1.5rem; color: var(--color-accent); }
+
+.section-heading h2, .about-content h2 { margin-bottom: 0; font-size: clamp(2.8rem, 5.6vw, 4.8rem); line-height: 1.02; }
+
+.section-aside { max-width: 310px; margin-bottom: .35rem; color: var(--color-muted); font-size: .9rem; }
+
+.about-section { background: var(--color-bg); }
+
+.about-grid { display: grid; grid-template-columns: .7fr 1.3fr; gap: 4rem; }
+
+.about-label { display: flex; flex-direction: column; justify-content: space-between; }
+
+.profile-portrait { width: clamp(92px, 12vw, 140px); aspect-ratio: 1; margin-block: 1.8rem; border: 1px solid var(--color-line); border-radius: 50%; object-fit: cover; }
+
+.profile-portrait[hidden], .profile-headline[hidden] { display: none; }
+
+.profile-headline { margin: -1rem 0 1.5rem; color: var(--color-accent); font-size: .9rem; }
+
+.about-mark { color: #272823; font-size: clamp(4rem, 9vw, 8rem); font-weight: 700; letter-spacing: -.12em; line-height: .8; }
+
+.about-mark span { color: var(--color-accent); }
+
+.about-content h2 { margin-bottom: 1.7rem; }
+
+.about-copy { max-width: 650px; color: var(--color-muted); font-size: 1rem; }
+
+.contact-section { padding-block: clamp(5rem, 10vw, 8.5rem); background: var(--color-accent); color: var(--color-bg); }
+
+.contact-inner { text-align: center; }
+
+.contact-section .section-kicker { margin-bottom: 1.7rem; color: #444d2c; }
+
+.contact-section h2 { margin-bottom: 2rem; font-size: clamp(3.2rem, 7vw, 6.4rem); line-height: .98; }
+
+.contact-section .accent { color: #687e37; }
+
+.contact-note { margin: 1.15rem 0 0; color: #515b37; font-size: .72rem; }
