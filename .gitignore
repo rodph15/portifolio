@@ -1,0 +1,12 @@
+# Local editor and integration settings
+.idea/
+.vscode/
+.mcp.json
+
+# Operating system files
+.DS_Store
+Thumbs.db
+
+# Temporary editor files
+*.swp
+*.swo

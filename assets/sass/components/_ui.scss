@@ -96,7 +96,13 @@
 
 .journal-list { border-top: 1px solid var(--color-line); }
 
-.journal-card { display: grid; grid-template-columns: .55fr 2fr .6fr 20px; align-items: center; gap: 1.5rem; padding: 1.8rem .2rem; border-bottom: 1px solid var(--color-line); }
+.journal-card { border-bottom: 1px solid var(--color-line); }
+
+.journal-card-link { display: grid; grid-template-columns: .75fr 2fr 20px; align-items: center; gap: 1.5rem; padding: 1.8rem .2rem; color: inherit; }
+
+.journal-card-link:hover .journal-main h3 { color: var(--color-accent); }
+
+.journal-card-link:focus-visible { outline: 1px solid var(--color-accent); outline-offset: 4px; }
 
 .journal-date { color: var(--color-text); font-size: .8rem; }
 
@@ -107,8 +113,6 @@
 .journal-main h3 { margin: .35rem 0; font-size: 1.25rem; letter-spacing: -.045em; transition: color .2s ease; }
 
 .journal-main p { margin: 0; color: var(--color-muted); font-size: .76rem; }
-
-.journal-read { justify-self: end; color: var(--color-faint); font-size: .56rem; letter-spacing: .1em; }
 
 .journal-arrow { color: var(--color-accent); }
 
