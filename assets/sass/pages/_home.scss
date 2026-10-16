@@ -1,12 +1,16 @@
-.hero { min-height: min(790px, calc(100svh - 80px)); padding-block: clamp(5rem, 9vw, 8rem) 2rem; display: flex; flex-direction: column; justify-content: center; overflow: hidden; }
+.hero { position: relative; min-height: min(790px, calc(100svh - 80px)); padding-block: clamp(5rem, 9vw, 8rem) 2rem; display: flex; flex-direction: column; justify-content: center; overflow: hidden; }
+
+.hero::before { position: absolute; inset: 0; background-image: linear-gradient(rgb(141 245 166 / 2.5%) 1px, transparent 1px), linear-gradient(90deg, rgb(141 245 166 / 2.5%) 1px, transparent 1px); background-size: 42px 42px; content: ""; mask-image: linear-gradient(90deg, transparent, #000 45%, #000); pointer-events: none; }
+
+.hero-grid, .hero-bottom { position: relative; z-index: 1; }
 
 .hero-grid { display: grid; grid-template-columns: 1.15fr .85fr; align-items: center; gap: 4rem; }
 
-.eyebrow { color: var(--color-muted); font-size: .68rem; font-weight: 600; letter-spacing: .13em; line-height: 1.5; text-transform: uppercase; }
+.eyebrow { color: var(--color-muted); font-family: var(--font-mono); font-size: .68rem; font-weight: 600; letter-spacing: .08em; line-height: 1.5; text-transform: uppercase; }
 
 .hero-copy > .eyebrow { display: flex; align-items: center; gap: .65rem; margin-bottom: 2rem; }
 
-.status-dot { display: inline-block; width: 7px; height: 7px; flex: 0 0 7px; border-radius: 50%; background: var(--color-accent); box-shadow: 0 0 14px rgb(201 243 106 / 45%); }
+.status-dot { display: inline-block; width: 7px; height: 7px; flex: 0 0 7px; border-radius: 50%; background: var(--color-accent); box-shadow: 0 0 14px rgb(141 245 166 / 45%); }
 
 .hero h1 { max-width: 760px; margin-bottom: 1.6rem; font-size: clamp(3.5rem, 7.7vw, 6.8rem); line-height: .99; }
 
@@ -14,7 +18,7 @@
 
 .hero-actions { display: flex; align-items: center; gap: 1.7rem; }
 
-.hero-meta { display: flex; gap: 2.1rem; margin-top: 4.5rem; color: var(--color-faint); font-size: .72rem; }
+.hero-meta { display: flex; gap: 2.1rem; margin-top: 4.5rem; color: var(--color-faint); font-family: var(--font-mono); font-size: .68rem; }
 
 .hero-meta strong { color: var(--color-muted); font-weight: 500; }
 

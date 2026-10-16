@@ -1,16 +1,17 @@
 .site-header {
   position: sticky; z-index: 10; top: 0;
-  border-bottom: 1px solid rgb(255 255 255 / 6%);
   background: rgb(16 16 15 / 92%); backdrop-filter: blur(16px);
 }
 
-.header-inner { min-height: 80px; display: flex; align-items: center; justify-content: space-between; gap: 2rem; }
+.header-inner { min-height: 66px; display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; gap: 1rem; }
 
 .brand { display: inline-flex; align-items: center; gap: .7rem; font-size: .93rem; font-weight: 600; letter-spacing: -.025em; }
 
 .brand-mark { width: 34px; height: 34px; flex: 0 0 34px; border: 1px solid var(--color-line); border-radius: 50%; object-fit: cover; }
 
-.site-nav { display: flex; align-items: center; gap: clamp(1.25rem, 3vw, 2.5rem); }
+.site-nav { justify-self: end; display: flex; align-items: center; gap: clamp(.8rem, 2vw, 1.75rem); }
+
+.terminal-window-title { min-width: 0; display: inline-flex; align-items: center; color: #8f958f; font-family: var(--font-mono); font-size: .68rem; letter-spacing: .01em; white-space: nowrap; }
 
 .site-nav > a { color: var(--color-muted); font-size: .82rem; transition: color .2s ease; }
 
