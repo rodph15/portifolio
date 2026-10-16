@@ -49,6 +49,9 @@
       "category-notes": "LEADERSHIP & CULTURE",
       "post-one": "The valuable contributor paradox",
       "post-one-description": "People who spot problems and propose change can be seen as difficult precisely because they help teams improve. How can that friction become productive innovation?",
+      "post-ai-category": "AI & SOFTWARE ENGINEERING",
+      "post-ai-title": "AI's impact on software development",
+      "post-ai-description": "AI speeds up delivery, but also raises the bar for new professionals and demands closer attention to code quality and security.",
       "journal-footnote": "Full articles, published directly on this portfolio.",
       "contact-label": "HAVE A PROJECT IN MIND?",
       "contact-title": "Let's make something<br>meaningful<span class=\"accent\">.</span>",
@@ -107,6 +110,9 @@
       "category-notes": "LIDERANÇA E CULTURA",
       "post-one": "O paradoxo do colaborador valioso",
       "post-one-description": "Quem aponta falhas e propõe mudanças pode ser visto como difícil justamente por contribuir para a evolução. Como transformar esse atrito em inovação produtiva?",
+      "post-ai-category": "IA E ENGENHARIA DE SOFTWARE",
+      "post-ai-title": "O impacto da IA no desenvolvimento de software",
+      "post-ai-description": "A IA acelera entregas, mas também pressiona a entrada de novos profissionais e exige atenção redobrada à qualidade e à segurança do código.",
       "journal-footnote": "Artigos completos, publicados diretamente neste portfólio.",
       "contact-label": "TEM UM PROJETO EM MENTE?",
       "contact-title": "Vamos criar algo<br>com significado<span class=\"accent\">.</span>",
@@ -119,6 +125,7 @@
   };
 
   const portugueseRegions = new Set(["AO", "BR", "CV", "GQ", "GW", "MZ", "PT", "ST", "TL"]);
+  const languageStorageKey = "portfolio-language";
   const languageSelect = document.querySelector("#language-select");
   const menuToggle = document.querySelector(".menu-toggle");
   const siteNav = document.querySelector("#site-nav");
@@ -161,8 +168,13 @@
     if (loadedPosts.length) renderJournalPosts(loadedPosts);
   }
 
-  languageSelect.addEventListener("change", (event) => setLanguage(event.target.value));
-  setLanguage(detectLanguage());
+  languageSelect.addEventListener("change", (event) => {
+    const language = event.target.value;
+    localStorage.setItem(languageStorageKey, language);
+    setLanguage(language);
+  });
+  const savedLanguage = localStorage.getItem(languageStorageKey);
+  setLanguage(translations[savedLanguage] ? savedLanguage : detectLanguage());
 
   menuToggle.addEventListener("click", () => {
     const isExpanded = menuToggle.getAttribute("aria-expanded") === "true";

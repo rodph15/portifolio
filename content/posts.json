@@ -1,5 +1,22 @@
 [
   {
+    "slug": "2026-10-16-ia-desenvolvimento-software",
+    "url": "blog/2026-10-16-ia-desenvolvimento-software.html",
+    "title": {
+      "pt": "O impacto da IA no desenvolvimento de software",
+      "en": "AI's impact on software development"
+    },
+    "summary": {
+      "pt": "A IA acelera entregas, mas também pressiona a entrada de novos profissionais e exige atenção redobrada à qualidade e à segurança do código. O papel da experiência e da revisão especializada nunca foi tão importante.",
+      "en": "AI speeds up delivery, but also raises the bar for new professionals and demands closer attention to code quality and security. Experience and expert review have never mattered more."
+    },
+    "category": {
+      "pt": "IA e engenharia de software",
+      "en": "AI & software engineering"
+    },
+    "publishedAt": "2026-10-16T20:15:00+01:00"
+  },
+  {
     "slug": "2026-10-16-colaborador-valioso",
     "url": "blog/2026-10-16-colaborador-valioso.html",
     "title": {
