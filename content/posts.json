@@ -1,5 +1,22 @@
 [
   {
+    "slug": "2026-10-19-polly-taxa-manutencao-alternativas",
+    "url": "blog/2026-10-19-polly-taxa-manutencao-alternativas.html",
+    "title": {
+      "pt": "Polly vai ficar paga? Entenda a taxa de manutenção e as alternativas no .NET",
+      "en": "Is Polly becoming paid? The maintenance fee and .NET alternatives"
+    },
+    "summary": {
+      "pt": "A Polly anunciou uma taxa de manutenção para algumas empresas a partir de novembro de 2026 — mas a biblioteca e o código continuam open source. Veja quem será afetado e quais caminhos existem no .NET.",
+      "en": "Polly announced a maintenance fee for some companies starting in November 2026—but the library and its source remain open source. See who is affected and what options .NET developers have."
+    },
+    "category": {
+      "pt": ".NET e resiliência",
+      "en": ".NET & resilience"
+    },
+    "publishedAt": "2026-10-19T20:31:00+01:00"
+  },
+  {
     "slug": "2026-10-16-ia-desenvolvimento-software",
     "url": "blog/2026-10-16-ia-desenvolvimento-software.html",
     "title": {

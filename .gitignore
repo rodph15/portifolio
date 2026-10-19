@@ -3,6 +3,9 @@
 .vscode/
 .mcp.json
 
+# Local Copilot skills and workflows; do not publish with the portfolio
+/.github/skills/
+
 # Operating system files
 .DS_Store
 Thumbs.db
