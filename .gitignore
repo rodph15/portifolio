@@ -6,6 +6,9 @@
 # Local Copilot skills and workflows; do not publish with the portfolio
 /.github/skills/
 
+# Temporary LinkedIn post drafts and media
+/.linkedin-drafts/
+
 # Operating system files
 .DS_Store
 Thumbs.db

@@ -1,5 +1,22 @@
 [
   {
+    "slug": "2026-10-20-github-comandos-fluxos-boas-praticas",
+    "url": "blog/2026-10-20-github-comandos-fluxos-boas-praticas.html",
+    "title": {
+      "pt": "GitHub além do repositório: comandos, colaboração e fluxo de trabalho",
+      "en": "GitHub beyond the repository: commands, collaboration, and workflow"
+    },
+    "summary": {
+      "pt": "Aprenda a instalar e configurar o Git localmente, usar Conventional Commits e Conventional Comments e escolher entre GitHub Flow, trunk-based development e Gitflow, com exemplos e ferramentas gratuitas.",
+      "en": "Set up Git locally, use Conventional Commits and Conventional Comments, and choose GitHub Flow, trunk-based development, or Gitflow with practical examples and free tools."
+    },
+    "category": {
+      "pt": "Git e colaboração",
+      "en": "Git & collaboration"
+    },
+    "publishedAt": "2026-10-20T17:16:00+01:00"
+  },
+  {
     "slug": "2026-10-19-polly-taxa-manutencao-alternativas",
     "url": "blog/2026-10-19-polly-taxa-manutencao-alternativas.html",
     "title": {

@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#10100f">
+    <meta name="author" content="Rodolfo Schmidt">
+    <meta name="description" content="Aprenda a instalar e configurar o Git localmente, usar Conventional Commits e Conventional Comments e escolher entre GitHub Flow, trunk-based development e Gitflow, com exemplos e ferramentas gratuitas." data-i18n="github-meta-description" data-i18n-attr="content">
+    <title data-i18n="github-page-title">GitHub além do repositório: comandos, colaboração e fluxo de trabalho — Rodolfo Schmidt</title>
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Rodolfo Schmidt">
+    <meta property="og:title" content="GitHub além do repositório: comandos, colaboração e fluxo de trabalho — Rodolfo Schmidt" data-i18n="github-page-title" data-i18n-attr="content">
+    <meta property="og:description" content="Aprenda a instalar e configurar o Git localmente, usar Conventional Commits e Conventional Comments e escolher entre GitHub Flow, trunk-based development e Gitflow, com exemplos e ferramentas gratuitas." data-i18n="github-meta-description" data-i18n-attr="content">
+    <meta property="article:published_time" content="2026-10-20T17:16:00+01:00">
+    <meta property="article:author" content="Rodolfo Schmidt">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="GitHub além do repositório: comandos, colaboração e fluxo de trabalho — Rodolfo Schmidt" data-i18n="github-page-title" data-i18n-attr="content">
+    <meta name="twitter:description" content="Aprenda a instalar e configurar o Git localmente, usar Conventional Commits e Conventional Comments e escolher entre GitHub Flow, trunk-based development e Gitflow, com exemplos e ferramentas gratuitas." data-i18n="github-meta-description" data-i18n-attr="content">
+    <link rel="icon" type="image/svg+xml" href="../images/favicon.svg">
+    <link rel="stylesheet" href="../assets/css/main.css">
+    <script src="../assets/js/article.js" defer></script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": "GitHub além do repositório: comandos, colaboração e fluxo de trabalho",
+        "description": "Aprenda a instalar e configurar o Git localmente, usar Conventional Commits e Conventional Comments e escolher entre GitHub Flow, trunk-based development e Gitflow, com exemplos e ferramentas gratuitas.",
+        "datePublished": "2026-10-20T17:16:00+01:00",
+        "inLanguage": "pt-BR",
+        "author": {
+          "@type": "Person",
+          "name": "Rodolfo Schmidt",
+          "sameAs": "https://www.linkedin.com/in/rodolfo-schmidt-623042b6/"
+        },
+        "keywords": [
+          "GitHub",
+          "Git",
+          "GitHub CLI",
+          "GitHub Flow",
+          "Trunk-based development",
+          "Gitflow",
+          "Pull requests"
+        ]
+      }
+    </script>
+  </head>
+  <body class="article-page">
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="../index.html#home" aria-label="Rodolfo Schmidt, início" data-i18n="brand-home" data-i18n-attr="aria-label">
+          <img class="brand-mark" src="https://media.licdn.com/dms/image/v2/C4E03AQEjvDpnBcZBBA/profile-displayphoto-shrink_100_100/profile-displayphoto-shrink_100_100/0/1652768084602?e=1793836800&amp;v=beta&amp;t=JAGe0l0jADz3eiOGHqDDew7zNt_kU4Po18SgMgVKfZc" alt="">
+          <span>Rodolfo Schmidt</span>
+        </a>
+        <span class="terminal-window-title"><span data-i18n="terminal-title">rodolfo@portfolio: ~/blog</span><span class="terminal-cursor" aria-hidden="true"></span></span>
+        <nav class="site-nav" aria-label="Navegação principal" data-i18n="navigation" data-i18n-attr="aria-label">
+          <a href="../index.html#journal" data-i18n="nav-blog">Blog</a>
+          <a href="../index.html#about" data-i18n="nav-about">Sobre</a>
+          <a class="nav-contact" href="../index.html#contact"><span data-i18n="nav-contact">Contato</span> <span aria-hidden="true">↗</span></a>
+          <label class="language-control">
+            <span class="visually-hidden" data-i18n="language-label">Escolher idioma</span>
+            <select id="article-language-select" aria-label="Escolher idioma" data-i18n="language-label" data-i18n-attr="aria-label">
+              <option value="pt">PT</option>
+              <option value="en">EN</option>
+            </select>
+          </label>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container article-content">
+      <a class="article-back" href="../index.html#journal" data-i18n="back-blog">← Voltar ao blog</a>
+      <p class="eyebrow section-kicker"><span data-i18n="github-category">GIT E COLABORAÇÃO</span> · <time datetime="2026-10-20T17:16:00+01:00" data-article-date>20 out. 2026, 17:16</time></p>
+      <h1 data-i18n="github-article-title">GitHub além do repositório: comandos, colaboração e fluxo de trabalho</h1>
+      <p class="article-summary" data-i18n="github-article-summary">Aprenda a instalar e configurar o Git localmente, usar Conventional Commits e Conventional Comments e escolher entre GitHub Flow, trunk-based development e Gitflow, com exemplos e ferramentas gratuitas.</p>
+      <div class="article-tags" aria-label="Temas do artigo" data-i18n="github-article-tags" data-i18n-attr="aria-label">
+        <span data-i18n="github-tag-git">Fundamentos de Git</span>
+        <span data-i18n="github-tag-workflow">Fluxos de equipe</span>
+        <span data-i18n="github-tag-quality">Práticas de engenharia</span>
+      </div>
+      <article class="article-body">
+        <p data-i18n="github-intro">Muitas vezes, o GitHub é tratado como um backup remoto: envie o código, abra um pull request e siga em frente. Essa visão ignora seu papel nas conversas sobre decisões, revisão de mudanças, automação de verificações, gestão de releases e preservação do histórico de um produto. Negligenciar essas práticas cria atritos evitáveis: commits sem contexto, merges arriscados, falta de informação e conhecimento concentrado em poucas pessoas.</p>
+
+        <h2 data-i18n="github-heading-difference">Git e GitHub não são a mesma coisa</h2>
+        <p data-i18n="github-paragraph-difference">Git é o sistema distribuído de controle de versão que roda no seu computador. Ele registra snapshots, branches e merges. GitHub é uma plataforma construída em torno de repositórios Git, com pull requests, issues, permissões, automação, releases e colaboração. A maioria dos comandos abaixo é do Git; os comandos que começam com gh pertencem ao GitHub CLI, um cliente opcional de terminal para o GitHub.</p>
+
+        <h2 data-i18n="github-heading-install">Instale o Git e prepare o ambiente local</h2>
+        <p data-i18n="github-paragraph-install">O Git funciona localmente; não é necessário ter uma conta no GitHub para criar commits, branches ou repositórios locais. Instale-o pelo site oficial do Git (Windows), use xcode-select --install ou Homebrew no macOS, ou o gerenciador de pacotes da sua distribuição Linux. O Git para Windows inclui Git Bash e Git Credential Manager; no macOS e Linux, instale o Git Credential Manager separadamente se ele ainda não estiver disponível. Siga as políticas de software e autenticação da sua organização.</p>
+        <p><strong data-i18n="github-code-install-label">Instale e verifique o Git</strong></p>
+        <pre><code>Windows: download Git for Windows from git-scm.com/downloads
+git --version</code></pre>
+        <p><strong data-i18n="github-code-install-macos">macOS: escolha um método de instalação</strong></p>
+        <pre><code>xcode-select --install
+# ou, com Homebrew:
+brew install git</code></pre>
+        <p><strong data-i18n="github-code-install-linux">Ubuntu ou Debian</strong></p>
+        <pre><code>sudo apt update
+sudo apt install git</code></pre>
+        <p><strong data-i18n="github-code-config-label">Configure sua identidade de commit e a branch padrão</strong></p>
+        <pre><code>git config --global user.name "Seu Nome"
+git config --global user.email "seu-email"
+git config --global init.defaultBranch main
+git config --list</code></pre>
+        <p data-i18n="github-paragraph-install-detail">Depois da instalação, git --version confirma que o comando está disponível. Configure o nome e o e-mail que serão registrados nos commits; esses dados são metadados do commit, não o login do GitHub. Use um e-mail associado à sua conta do GitHub ou o endereço privado no-reply do GitHub se preferir não expor seu e-mail pessoal. Para clonar repositórios privados ou enviar mudanças, autentique-se separadamente com HTTPS via Git Credential Manager ou com chaves SSH. O GitHub CLI é opcional: gh auth login autentica o CLI, mas não instala o Git.</p>
+
+        <h2 data-i18n="github-heading-basics">Os comandos Git do dia a dia</h2>
+        <p data-i18n="github-paragraph-basics">Você não precisa decorar todas as opções. Comece entendendo este ciclo simples e confiável: inspecione a árvore de trabalho, prepare as mudanças pretendidas, registre um snapshot coerente e sincronize com o repositório remoto.</p>
+        <p><strong data-i18n="github-code-basics-label">Inicie um repositório ou obtenha uma cópia local</strong></p>
+        <pre><code>git init
+git clone https://github.com/ORG/REPO.git</code></pre>
+        <p><strong data-i18n="github-code-changes-label">Inspecione e prepare mudanças</strong></p>
+        <pre><code>git status
+git diff
+git diff --staged
+git add src/arquivo.js
+git add -p
+git restore src/arquivo.js
+git restore --staged src/arquivo.js</code></pre>
+        <p><strong data-i18n="github-code-history-label">Registre e consulte o histórico</strong></p>
+        <pre><code>git commit -m "Add invoice export"
+git log --oneline --graph --decorate
+git show HEAD</code></pre>
+        <h3 data-i18n="github-heading-commits">Conventional Commits: uma estrutura compartilhada para mensagens</h3>
+        <p data-i18n="github-paragraph-commits">Conventional Commits dá às mensagens uma estrutura previsível: tipo(escopo, opcional): descrição. É uma convenção da comunidade, não uma exigência imposta pelo Git. A equipe pode usá-la para entender o histórico, automatizar notas de versão ou orientar versionamento semântico — desde que documente os tipos e configure as ferramentas para usá-los.</p>
+        <p><strong data-i18n="github-code-commits-label">Exemplos comuns de Conventional Commits</strong></p>
+        <pre><code>feat(auth): add passkey sign-in
+fix(api): handle expired session
+docs: explain local setup
+refactor(search): simplify query builder
+perf(images): defer offscreen loading
+feat(api)!: require pagination
+
+BREAKING CHANGE: clients must send page and pageSize</code></pre>
+        <p data-i18n="github-paragraph-commits-detail">Tipos comuns incluem feat para uma funcionalidade visível ao usuário, fix para uma correção, docs para documentação, test para testes, refactor para mudanças de código sem nova funcionalidade nem correção de comportamento, perf para desempenho e chore para manutenção. O escopo é opcional e indica a área afetada. Use ! ou um rodapé BREAKING CHANGE para uma mudança incompatível. Mantenha a descrição curta e específica; escreva o corpo quando o contexto ou o motivo da mudança for importante. A equipe pode definir tipos adicionais, mas consistência e uma regra documentada importam mais que o vocabulário exato.</p>
+        <p><strong data-i18n="github-code-remote-label">Sincronize com o GitHub</strong></p>
+        <pre><code>git remote -v
+git fetch origin
+git pull --ff-only
+git push -u origin feat/invoice-export</code></pre>
+        <p data-i18n="github-paragraph-basics-detail">git status e git diff merecem uso frequente: status mostra quais arquivos foram alterados ou preparados, e diff permite revisar as mudanças reais antes de entrarem em um commit. git add seleciona o que vai para o próximo snapshot; ele não envia nada ao GitHub. git restore &lt;arquivo&gt; descarta alterações ainda não preparadas nesse arquivo, então use-o somente quando isso for intencional; git restore --staged &lt;arquivo&gt; tira o arquivo da área de preparação sem descartar as alterações. git commit registra um snapshot localmente. git push publica commits no remoto, enquanto git fetch baixa referências remotas sem integrá-las à branch atual.</p>
+
+        <h2 data-i18n="github-heading-branch">Branches, merges e resolução de conflitos</h2>
+        <p data-i18n="github-paragraph-branch">Branches permitem que o trabalho avance sem alterar imediatamente a branch padrão compartilhada. Use nomes curtos e descritivos, ligados a uma tarefa, como feat/exportacao-faturas ou fix/timeout-login. Crie ou troque de branch explicitamente e depois integre as mudanças com merge ou rebase, conforme a política da equipe.</p>
+        <p><strong data-i18n="github-code-branch-label">Crie uma branch, atualize-a e integre as mudanças</strong></p>
+        <pre><code>git switch -c feat/invoice-export
+git switch main
+git pull --ff-only
+git switch feat/invoice-export
+git merge main
+# ou, se a politica da equipe permitir:
+git rebase main
+# depois da revisao e dos testes:
+git push -u origin feat/invoice-export</code></pre>
+        <p data-i18n="github-paragraph-conflicts">Um conflito é o Git pedindo que você escolha o resultado combinado correto; não é motivo para aceitar um dos lados sem análise. Abra cada arquivo em conflito, entenda as duas mudanças, edite o resultado desejado, execute os testes relevantes e marque a resolução com git add antes de concluir o merge ou rebase. Evite reescrever uma branch que outras pessoas já estão usando.</p>
+
+        <h2 data-i18n="github-heading-pr">Pull requests são conversa e controle de qualidade</h2>
+        <p data-i18n="github-paragraph-pr">Um pull request deve explicar o problema, a abordagem escolhida, os riscos e como ela foi testada. Mantenha-o focado o suficiente para revisão, vincule a issue relacionada e inclua capturas de tela ou exemplos quando o comportamento for visual ou voltado ao usuário. Revisores devem avaliar correção, casos extremos, testes, implicações de segurança e facilidade de manutenção — não apenas formatação. Autores devem responder ao feedback de forma construtiva e manter a discussão ligada à mudança.</p>
+        <h3 data-i18n="github-heading-comments">Conventional Comments: facilite a compreensão dos comentários de revisão</h3>
+        <p data-i18n="github-paragraph-comments">Conventional Comments é um formato leve para comentários escritos em revisões, não um recurso do Git nem uma configuração obrigatória do GitHub. Sua estrutura é rótulo, decorador opcional e um assunto conciso, seguido de contexto e — quando útil — uma sugestão. O rótulo comunica a intenção; decoradores esclarecem urgência ou escopo. A equipe deve combinar como interpretar os rótulos, especialmente quais deles bloqueiam a aprovação.</p>
+        <p><strong data-i18n="github-code-comments-label">Um comentário de revisão usando Conventional Comments</strong></p>
+        <pre><code>issue (blocking): This can return stale permissions
+
+The cached role is not refreshed after a team change.
+Could we invalidate this cache when membership updates?</code></pre>
+        <p data-i18n="github-paragraph-comments-detail">Use praise para destacar uma boa escolha, suggestion para uma melhoria a considerar, issue para um problema que deve ser resolvido, question quando precisar de esclarecimento, thought para uma observação não bloqueante e nitpick para um detalhe pequeno. Decoradores como (blocking), (non-blocking) ou (if-minor) deixam a prioridade explícita. Seja respeitoso e específico; explique o motivo e o resultado esperado, diferenciando uma correção obrigatória de uma ideia opcional. Por exemplo, um comentário issue (blocking) deve dizer o que falha e como reproduzir — não apenas chamar o código de “errado”.</p>
+        <p><strong data-i18n="github-code-pr-label">Um exemplo simples com GitHub CLI</strong></p>
+        <pre><code>gh auth login
+gh pr create
+gh pr view --web</code></pre>
+        <p data-i18n="github-paragraph-pr-detail">O GitHub CLI (gh) permite criar e consultar pull requests, issues, repositórios e execuções de workflows pelo terminal. Instale e autentique-o de acordo com o método aprovado pela sua organização. Por exemplo, gh pr create abre o fluxo interativo para criar um pull request, enquanto gh pr view --web abre o pull request atual no navegador. A interface web continua útil; usar a CLI é uma opção, não uma obrigação.</p>
+
+        <h2 data-i18n="github-heading-gh">Comandos úteis do GitHub CLI</h2>
+        <p data-i18n="github-paragraph-gh">Estes são pontos de partida comuns, não um inventário completo das opções do GitHub CLI. Execute gh help ou gh &lt;comando&gt; --help para ver as opções atuais e os requisitos de autenticação.</p>
+        <p><strong data-i18n="github-code-gh-label">Comandos comuns de gh</strong></p>
+        <pre><code>gh repo clone ORG/REPO
+gh issue list
+gh issue create
+gh pr list
+gh pr checkout 42
+gh pr review 42
+gh run list
+gh release list</code></pre>
+
+        <h2 data-i18n="github-heading-practices">Hábitos que mantêm um repositório saudável</h2>
+        <ul>
+          <li data-i18n="github-list-commit">Escreva commits que expliquem uma mudança coerente. Um assunto conciso no imperativo, como “Adiciona exportação de faturas”, é mais fácil de entender do que “atualizações”. Separe mudanças sem relação; não inclua arquivos gerados, configurações locais, credenciais nem segredos.</li>
+          <li data-i18n="github-list-review">Revise seu próprio diff antes de enviar. Use .gitignore para arquivos que não devem ser versionados e lembre-se de que ignorar um arquivo não o remove se ele já foi commitado. Nunca inclua tokens ou senhas; se um segredo for exposto, revogue-o ou troque-o imediatamente — apagá-lo em um commit posterior não o remove do histórico.</li>
+          <li data-i18n="github-list-automation">Automatize verificações repetíveis com CI: testes, lint, builds e verificações de segurança apropriadas. Exija verificações bem-sucedidas e revisão antes do merge quando o projeto precisar desse controle. Proteja a branch padrão, defina responsáveis com CODEOWNERS quando fizer sentido e documente configuração e contribuições nos arquivos README e CONTRIBUTING.</li>
+          <li data-i18n="github-list-communication">Trate issues e pull requests como contexto duradouro do projeto. Use issues para problemas, propostas ou tarefas; descreva o resultado esperado e as restrições relevantes. Mantenha labels e milestones úteis, não decorativas, e encerre ou atualize discussões antigas para que o histórico do projeto continue confiável.</li>
+        </ul>
+
+        <h2 data-i18n="github-heading-tools">Ferramentas gratuitas para facilitar o fluxo</h2>
+        <p data-i18n="github-paragraph-tools">Estas opções são gratuitas para uso ou open source na data de publicação do artigo; planos e condições podem mudar, então confira as licenças e os limites atuais de cada projeto. Você não precisa de todas: comece pelo Git e só adicione ferramentas quando resolverem um atrito real.</p>
+        <ul>
+          <li><a href="https://desktop.github.com/" data-i18n="github-tool-desktop">GitHub Desktop</a> — <span data-i18n="github-tool-desktop-detail">cliente gráfico para visualizar mudanças, commits, branches e pull requests.</span></li>
+          <li><a href="https://code.visualstudio.com/" data-i18n="github-tool-vscode">Visual Studio Code</a> — <span data-i18n="github-tool-vscode-detail">editor com controle de versão integrado e extensões.</span></li>
+          <li><a href="https://cli.github.com/" data-i18n="github-tool-gh">GitHub CLI</a> — <span data-i18n="github-tool-gh-detail">comandos de terminal para pull requests, issues e workflows.</span></li>
+          <li><a href="https://github.com/git-ecosystem/git-credential-manager" data-i18n="github-tool-gcm">Git Credential Manager</a> — <span data-i18n="github-tool-gcm-detail">gerencia credenciais HTTPS sem precisar salvar tokens manualmente.</span></li>
+          <li><a href="https://commitizen-tools.github.io/commitizen/" data-i18n="github-tool-commitizen">Commitizen</a> — <span data-i18n="github-tool-commitizen-detail">orienta a criação de mensagens de commit no padrão escolhido.</span></li>
+          <li><a href="https://commitlint.js.org/" data-i18n="github-tool-commitlint">commitlint</a> — <span data-i18n="github-tool-commitlint-detail">valida mensagens de commit na máquina local ou na CI; GitHub Actions também permite automatizar verificações dentro dos limites do plano.</span></li>
+        </ul>
+        <p data-i18n="github-tools-warning">Hooks locais são úteis como feedback, mas podem ser ignorados: use também verificações no servidor quando a regra precisar ser aplicada ao time.</p>
+
+        <h2 data-i18n="github-heading-patterns">Como escolher um padrão de branches e entrega</h2>
+        <h3 data-i18n="github-heading-github-flow">GitHub Flow: um padrão prático para muitas equipes</h3>
+        <p data-i18n="github-paragraph-github-flow">GitHub Flow mantém uma única branch padrão protegida. Cada mudança é desenvolvida em uma branch de curta duração, compartilhada por pull request, verificada por automação e revisão e, depois, integrada e implantada. É fácil de explicar e funciona especialmente bem quando a equipe consegue publicar pequenas mudanças com frequência.</p>
+        <p><strong data-i18n="github-code-flow-label">GitHub Flow, de forma simplificada</strong></p>
+        <pre><code>main:    A---B---------M---N
+              \       /
+feature:      C---D--</code></pre>
+
+        <h3 data-i18n="github-heading-trunk">Trunk-based development: integrar em pequenas etapas</h3>
+        <p data-i18n="github-paragraph-trunk">No trunk-based development, desenvolvedores integram ao trunk (normalmente main) com frequência, usando branches de vida muito curta ou integração direta quando a política permite. Mudanças pequenas, testes automatizados confiáveis, feature flags e feedback rápido reduzem o risco de integração. Isso não significa “enviar qualquer coisa direto para produção”: proteções de branch, requisitos de revisão e controles de implantação continuam importantes. Branches longas e merges pouco frequentes enfraquecem o modelo.</p>
+        <p><strong data-i18n="github-code-trunk-label">Uma branch curta também pode apoiar trunk-based development</strong></p>
+        <pre><code>main:       A---B---C---M---N
+                       \ /
+short-lived:            D</code></pre>
+
+        <h3 data-i18n="github-heading-gitflow">Gitflow: branches de release explícitas e mais coordenação</h3>
+        <p data-i18n="github-paragraph-gitflow">Gitflow define branches main e develop de longa duração, além de branches feature, release e hotfix. Pode ajudar produtos com releases agendadas, várias versões suportadas ou períodos formais de estabilização. A contrapartida é ter mais regras de branches e coordenação de merges; equipes que implantam continuamente podem considerar o processo e a divergência custosos.</p>
+        <p><strong data-i18n="github-code-gitflow-label">Ciclo ilustrativo de branches no Gitflow</strong></p>
+        <pre><code>main:      A----------------R---------H
+            |                \       /
+develop:   B---F1---F2--------R'-----
+                 \ /
+feature:          C</code></pre>
+        <p data-i18n="github-paragraph-patterns">Nenhum modelo de branches é universalmente melhor. Escolha com base na frequência de releases, risco, conformidade, tamanho da equipe, capacidade de implantação e quantidade de versões que precisam ser suportadas. Combine nomenclatura, revisão, estratégia de merge e regras de release, e deixe tudo fácil de encontrar no repositório. Um fluxo consistente e leve costuma ser melhor do que copiar um diagrama popular sem adaptá-lo ao produto.</p>
+
+        <h2 data-i18n="github-heading-example">Um exemplo de ponta a ponta</h2>
+        <p data-i18n="github-paragraph-example">Para uma pequena funcionalidade em um fluxo com pull request, uma pessoa pode clonar o repositório, criar uma branch focada, implementar e testar uma mudança, revisar o diff, fazer commit, enviar a branch e abrir um pull request. Depois que verificações e revisão forem aprovadas, a mudança é integrada de acordo com a política da equipe. Os comandos abaixo ilustram a parte do Git; o pull request pode ser criado na interface web do GitHub ou com gh.</p>
+        <p><strong data-i18n="github-code-example-label">Uma mudança típica de funcionalidade</strong></p>
+        <pre><code>git clone https://github.com/ORG/REPO.git
+cd REPO
+git switch -c feat/invoice-export
+# make a focused change, then run the project's tests
+git status
+git diff
+git add src/invoice-export.js
+git commit -m "Add invoice export"
+git push -u origin feat/invoice-export
+gh pr create</code></pre>
+
+        <h2 data-i18n="github-heading-conclusion">GitHub faz parte da engenharia — não é detalhe</h2>
+        <p data-i18n="github-paragraph-conclusion">GitHub não substitui julgamento técnico, comunicação nem um processo de release bem pensado. Ele oferece à equipe um espaço compartilhado para praticá-los e ferramentas para tornar bons hábitos repetíveis. Conhecer alguns comandos importa; saber quando inspecionar, revisar, testar, proteger e comunicar importa mais. O melhor fluxo é aquele que a equipe entende, segue com consistência e aprimora conforme o produto muda.</p>
+        <p><strong data-i18n="closing-question">Uma pergunta para levar à próxima conversa:</strong> <span data-i18n="github-closing-question-detail">seu repositório facilita entender, revisar e entregar mudanças com segurança — ou apenas guarda o código?</span></p>
+      </article>
+      <p class="journal-footnote"><span class="status-dot"></span><span data-i18n="article-footer">Artigo completo publicado neste portfólio.</span></p>
+      <a class="article-back article-back-bottom" href="../index.html#journal" data-i18n="back-blog">← Voltar ao blog</a>
+    </main>
+  </body>
+</html>
