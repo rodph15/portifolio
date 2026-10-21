@@ -170,6 +170,14 @@ h1, h2 { text-wrap: balance; }
 .journal-main h3 { margin: .35rem 0; font-size: 1.25rem; letter-spacing: -.045em; transition: color .2s ease; }
 .journal-main p { margin: 0; color: var(--color-muted); font-size: .76rem; }
 .journal-arrow { color: var(--color-accent); }
+.journal-pagination { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: .45rem; margin-top: 1.5rem; }
+.journal-pagination[hidden], .journal-pagination-status[hidden] { display: none; }
+.journal-pagination button { min-width: 2.5rem; min-height: 2.5rem; padding: .45rem .65rem; border: 1px solid var(--color-line); background: transparent; color: var(--color-muted); font: inherit; font-size: .75rem; cursor: pointer; }
+.journal-pagination button:hover:not(:disabled), .journal-pagination button[aria-current="page"] { border-color: var(--color-accent); color: var(--color-accent); }
+.journal-pagination button:focus-visible { outline: 1px solid var(--color-accent); outline-offset: 3px; }
+.journal-pagination button:disabled { opacity: .4; cursor: not-allowed; }
+.journal-pagination-ellipsis { min-width: 1.5rem; color: var(--color-faint); text-align: center; }
+.journal-pagination-status { margin: .75rem 0 0; color: var(--color-faint); font-size: .68rem; text-align: center; }
 .journal-footnote { display: flex; align-items: center; gap: .65rem; margin: 1.5rem 0 0; color: var(--color-faint); font-size: .72rem; }
 .terminal-prompt { color: var(--color-accent); font-family: var(--font-mono); }
 .terminal-cursor { width: .48em; height: 1em; display: inline-block; margin-left: .2em; transform: translateY(.14em); background: var(--color-accent); animation: terminal-blink 1s steps(2, start) infinite; }

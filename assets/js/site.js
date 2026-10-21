@@ -61,6 +61,12 @@
       "post-docker-category": "DOCKER & .NET",
       "post-docker-title": "Docker in software development: from containers to a .NET 10 Web API",
       "post-docker-description": "Understand what Docker is and why it matters in development, then build and run a .NET 10 Web API in a production-ready container.",
+      "journal-pagination-label": "Blog pagination",
+      "journal-previous-page": "Previous page",
+      "journal-next-page": "Next page",
+      "journal-page-label": "Page {page}",
+      "journal-more-pages": "More pages",
+      "journal-pagination-status": "Showing {start}-{end} of {total} articles",
       "journal-footnote": "Full articles, published directly on this portfolio.",
       "contact-label": "HAVE A PROJECT IN MIND?",
       "contact-title": "Let's make something<br>meaningful<span class=\"accent\">.</span>",
@@ -131,6 +137,12 @@
       "post-docker-category": "DOCKER E .NET",
       "post-docker-title": "Docker no desenvolvimento de software: dos contêineres a uma Web API .NET 10",
       "post-docker-description": "Entenda o que é Docker e sua importância no desenvolvimento; depois, crie e execute uma Web API .NET 10 em um contêiner preparado para produção.",
+      "journal-pagination-label": "Paginação do blog",
+      "journal-previous-page": "Página anterior",
+      "journal-next-page": "Próxima página",
+      "journal-page-label": "Página {page}",
+      "journal-more-pages": "Mais páginas",
+      "journal-pagination-status": "Exibindo {start}-{end} de {total} artigos",
       "journal-footnote": "Artigos completos, publicados diretamente neste portfólio.",
       "contact-label": "TEM UM PROJETO EM MENTE?",
       "contact-title": "Vamos criar algo<br>com significado<span class=\"accent\">.</span>",
@@ -144,11 +156,13 @@
 
   const portugueseRegions = new Set(["AO", "BR", "CV", "GQ", "GW", "MZ", "PT", "ST", "TL"]);
   const languageStorageKey = "portfolio-language";
+  const postsPerPage = 3;
   const languageSelect = document.querySelector("#language-select");
   const menuToggle = document.querySelector(".menu-toggle");
   const siteNav = document.querySelector("#site-nav");
   let loadedProfile = null;
   let loadedPosts = [];
+  let currentJournalPage = 1;
 
   function detectLanguage() {
     const locales = navigator.languages?.length ? navigator.languages : [navigator.language];
@@ -205,6 +219,14 @@
       menuToggle.setAttribute("aria-expanded", "false");
       siteNav.classList.remove("is-open");
     }
+  });
+
+  document.querySelector(".journal-pagination").addEventListener("click", (event) => {
+    const pageButton = event.target.closest("button[data-page]");
+    if (!pageButton || pageButton.disabled) return;
+    currentJournalPage = Number(pageButton.dataset.page);
+    renderJournalPosts(loadedPosts);
+    document.querySelector(`.journal-pagination button[data-page="${currentJournalPage}"]`)?.focus();
   });
 
   document.querySelector("#current-year").textContent = new Date().getFullYear();
@@ -271,8 +293,8 @@
 
   function renderJournalPosts(posts) {
     const journalList = document.querySelector(".journal-list");
-    journalList.replaceChildren();
-
+    const pagination = document.querySelector(".journal-pagination");
+    const paginationStatus = document.querySelector(".journal-pagination-status");
     for (const post of posts) {
       if (!post || typeof post.slug !== "string" ||
         !/^\d{4}-\d{2}-\d{2}-[a-z0-9-]{1,64}$/.test(post.slug) ||
@@ -283,6 +305,21 @@
         Number.isNaN(Date.parse(post.publishedAt))) {
         throw new Error("The blog posts index contains an invalid entry.");
       }
+    }
+    const pageCount = Math.ceil(posts.length / postsPerPage);
+    currentJournalPage = Math.min(Math.max(currentJournalPage, 1), Math.max(pageCount, 1));
+    const firstPostIndex = (currentJournalPage - 1) * postsPerPage;
+    const visiblePosts = posts.slice(firstPostIndex, firstPostIndex + postsPerPage);
+    journalList.replaceChildren();
+    pagination.replaceChildren();
+    pagination.hidden = pageCount <= 1;
+    paginationStatus.hidden = pageCount <= 1;
+    paginationStatus.textContent = translations[document.documentElement.lang]["journal-pagination-status"]
+      .replace("{start}", String(firstPostIndex + 1))
+      .replace("{end}", String(firstPostIndex + visiblePosts.length))
+      .replace("{total}", String(posts.length));
+
+    for (const post of visiblePosts) {
       const card = document.createElement("article");
       card.className = "journal-card";
       const link = document.createElement("a");
@@ -320,6 +357,61 @@
       card.append(link);
       journalList.append(card);
     }
+
+    if (pageCount > 1) {
+      const language = document.documentElement.lang;
+      const selectedTranslations = translations[language];
+      const previous = createPaginationButton(
+        currentJournalPage - 1,
+        "←",
+        selectedTranslations["journal-previous-page"],
+        currentJournalPage === 1
+      );
+      pagination.append(previous);
+      const pages = getVisibleJournalPages(currentJournalPage, pageCount);
+      let previousPage = 0;
+      for (const page of pages) {
+        if (page - previousPage > 2) {
+          const ellipsis = document.createElement("span");
+          ellipsis.className = "journal-pagination-ellipsis";
+          ellipsis.textContent = "…";
+          ellipsis.setAttribute("aria-label", selectedTranslations["journal-more-pages"]);
+          pagination.append(ellipsis);
+        } else if (page - previousPage === 2) {
+          const intermediatePage = previousPage + 1;
+          const intermediateLabel = selectedTranslations["journal-page-label"].replace("{page}", String(intermediatePage));
+          pagination.append(createPaginationButton(intermediatePage, String(intermediatePage), intermediateLabel, false));
+        }
+        const pageLabel = selectedTranslations["journal-page-label"].replace("{page}", String(page));
+        const pageButton = createPaginationButton(page, String(page), pageLabel, false);
+        if (page === currentJournalPage) pageButton.setAttribute("aria-current", "page");
+        pagination.append(pageButton);
+        previousPage = page;
+      }
+      pagination.append(createPaginationButton(
+        currentJournalPage + 1,
+        "→",
+        selectedTranslations["journal-next-page"],
+        currentJournalPage === pageCount
+      ));
+    }
+  }
+
+  function getVisibleJournalPages(currentPage, pageCount) {
+    if (pageCount <= 7) return Array.from({ length: pageCount }, (_, index) => index + 1);
+    if (currentPage <= 3) return [1, 2, 3, 4, pageCount];
+    if (currentPage >= pageCount - 2) return [1, pageCount - 3, pageCount - 2, pageCount - 1, pageCount];
+    return [1, currentPage - 1, currentPage, currentPage + 1, pageCount];
+  }
+
+  function createPaginationButton(page, text, label, disabled) {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.dataset.page = String(page);
+    button.textContent = text;
+    button.setAttribute("aria-label", label);
+    button.disabled = disabled;
+    return button;
   }
 
   loadPortfolioContent().catch((error) => {
