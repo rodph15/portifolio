@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#10100f">
+    <meta name="author" content="Rodolfo Schmidt">
+    <meta name="description" content="Entenda o que é Docker, por que contêineres tornam o desenvolvimento mais consistente e como criar e executar uma Web API .NET 10 com uma imagem preparada para deploy." data-i18n="docker-meta-description" data-i18n-attr="content">
+    <title data-i18n="docker-page-title">Docker no desenvolvimento de software: dos contêineres a uma Web API .NET 10 — Rodolfo Schmidt</title>
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Rodolfo Schmidt">
+    <meta property="og:title" content="Docker no desenvolvimento de software: dos contêineres a uma Web API .NET 10 — Rodolfo Schmidt" data-i18n="docker-page-title" data-i18n-attr="content">
+    <meta property="og:description" content="Entenda o que é Docker, por que contêineres tornam o desenvolvimento mais consistente e como criar e executar uma Web API .NET 10 com uma imagem preparada para deploy." data-i18n="docker-meta-description" data-i18n-attr="content">
+    <meta property="article:published_time" content="2026-10-21T21:30:00+01:00">
+    <meta property="article:author" content="Rodolfo Schmidt">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Docker no desenvolvimento de software: dos contêineres a uma Web API .NET 10 — Rodolfo Schmidt" data-i18n="docker-page-title" data-i18n-attr="content">
+    <meta name="twitter:description" content="Entenda o que é Docker, por que contêineres tornam o desenvolvimento mais consistente e como criar e executar uma Web API .NET 10 com uma imagem preparada para deploy." data-i18n="docker-meta-description" data-i18n-attr="content">
+    <link rel="icon" type="image/svg+xml" href="../images/favicon.svg">
+    <link rel="stylesheet" href="../assets/css/main.css">
+    <script src="../assets/js/article.js" defer></script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Docker no desenvolvimento de software: dos contêineres a uma Web API .NET 10",
+        "description": "Entenda o que é Docker, por que contêineres tornam o desenvolvimento mais consistente e como criar e executar uma Web API .NET 10 com uma imagem preparada para deploy.",
+        "datePublished": "2026-10-21T21:30:00+01:00",
+        "inLanguage": "pt-BR",
+        "author": {
+          "@type": "Person",
+          "name": "Rodolfo Schmidt",
+          "sameAs": "https://www.linkedin.com/in/rodolfo-schmidt-623042b6/"
+        },
+        "keywords": [
+          "Docker",
+          "Contêineres",
+          ".NET 10",
+          "ASP.NET Core",
+          "Dockerfile",
+          "Web API"
+        ]
+      }
+    </script>
+  </head>
+  <body class="article-page">
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="../index.html#home" aria-label="Rodolfo Schmidt, início" data-i18n="brand-home" data-i18n-attr="aria-label">
+          <img class="brand-mark" src="https://media.licdn.com/dms/image/v2/C4E03AQEjvDpnBcZBBA/profile-displayphoto-shrink_100_100/profile-displayphoto-shrink_100_100/0/1652768084602?e=1793836800&amp;v=beta&amp;t=JAGe0l0jADz3eiOGHqDDew7zNt_kU4Po18SgMgVKfZc" alt="">
+          <span>Rodolfo Schmidt</span>
+        </a>
+        <span class="terminal-window-title"><span data-i18n="terminal-title">rodolfo@portfolio: ~/blog</span><span class="terminal-cursor" aria-hidden="true"></span></span>
+        <nav class="site-nav" aria-label="Navegação principal" data-i18n="navigation" data-i18n-attr="aria-label">
+          <a href="../index.html#journal" data-i18n="nav-blog">Blog</a>
+          <a href="../index.html#about" data-i18n="nav-about">Sobre</a>
+          <a class="nav-contact" href="../index.html#contact"><span data-i18n="nav-contact">Contato</span> <span aria-hidden="true">↗</span></a>
+          <label class="language-control">
+            <span class="visually-hidden" data-i18n="language-label">Escolher idioma</span>
+            <select id="article-language-select" aria-label="Escolher idioma" data-i18n="language-label" data-i18n-attr="aria-label">
+              <option value="pt">PT</option>
+              <option value="en">EN</option>
+            </select>
+          </label>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container article-content">
+      <a class="article-back" href="../index.html#journal" data-i18n="back-blog">← Voltar ao blog</a>
+      <p class="eyebrow section-kicker"><span data-i18n="docker-category">DOCKER E .NET</span> · <time datetime="2026-10-21T21:30:00+01:00" data-article-date>21 out. 2026, 21:30</time></p>
+      <h1 data-i18n="docker-article-title">Docker no desenvolvimento de software: dos contêineres a uma Web API .NET 10</h1>
+      <p class="article-summary" data-i18n="docker-article-summary">Entenda o que é Docker e sua importância no desenvolvimento; depois, crie, containerize e execute uma Web API .NET 10 com uma imagem multi-stage preparada para deploy.</p>
+      <div class="article-tags" aria-label="Temas do artigo" data-i18n="docker-article-tags" data-i18n-attr="aria-label">
+        <span data-i18n="docker-tag-containers">Contêineres</span>
+        <span data-i18n="docker-tag-development">Fluxo de desenvolvimento</span>
+        <span data-i18n="docker-tag-dotnet">.NET 10</span>
+      </div>
+      <article class="article-body">
+        <p data-i18n="docker-intro">“Funciona na minha máquina” é um problema conhecido em equipes de software. Um serviço pode depender de uma versão específica do runtime, biblioteca nativa, banco de dados ou variável de ambiente; outra pessoa da equipe ou o ambiente de deploy talvez não tenha a mesma configuração. O Docker ajuda a tornar essas dependências explícitas e a empacotar a aplicação para que ela rode de forma consistente nos ambientes compatíveis.</p>
+
+        <h2 data-i18n="docker-heading-what">O que é Docker?</h2>
+        <p data-i18n="docker-paragraph-what">Docker é uma plataforma e um conjunto de ferramentas para criar, distribuir e executar aplicações em contêineres. Um contêiner é um processo isolado que usa o kernel do sistema operacional hospedeiro e inclui a aplicação e as dependências de espaço de usuário necessárias. Ele é mais leve que uma máquina virtual, que normalmente inclui um sistema operacional completo próprio, mas não é uma fronteira de segurança que dispense isolamento, atualizações ou configuração adequada.</p>
+        <p data-i18n="docker-paragraph-image-container">Uma imagem é o pacote versionado, em grande parte somente leitura, usado para iniciar contêineres; um contêiner é uma instância em execução de uma imagem. Um Dockerfile descreve as etapas para criar uma imagem. Essas etapas geram camadas que podem ser armazenadas em cache e reutilizadas, tornando builds repetidos mais rápidos quando as entradas não mudam. Um registry armazena e distribui imagens, enquanto o Docker Engine as executa em uma máquina.</p>
+
+        <h2 data-i18n="docker-heading-importance">Por que Docker é importante no desenvolvimento?</h2>
+        <p data-i18n="docker-paragraph-importance">Um contêiner oferece aos desenvolvedores, pipelines de CI e plataformas de deploy uma base de runtime mais consistente. Ele ajuda a documentar pacotes do sistema operacional, versões de runtime, portas e comandos de inicialização como código; facilita testar uma dependência sem instalá-la globalmente; e reduz diferenças de configuração que causam falhas do tipo “funciona na minha máquina”. Isso não garante que todos os ambientes se comportem de forma idêntica: configuração, serviços externos, arquitetura de CPU e dados de produção continuam importantes.</p>
+        <p data-i18n="docker-paragraph-examples">Por exemplo, uma equipe pode usar localmente a mesma versão do banco de dados usada pela CI, iniciar um cache para um teste de integração sem instalá-lo em cada computador ou criar uma imagem uma única vez e promover esse artefato pelos ambientes de teste e produção. Contêineres também ajudam a separar uma aplicação em serviços construídos de forma independente. Eles não são automaticamente mais rápidos nem mais simples: projetos pequenos talvez não precisem deles, e dados persistentes, rede, segredos e monitoramento ainda exigem decisões cuidadosas.</p>
+
+        <h2 data-i18n="docker-heading-workflow">Um fluxo prático de desenvolvimento</h2>
+        <p data-i18n="docker-paragraph-workflow">Uma pessoa desenvolvedora pode iniciar um contêiner Redis descartável para trabalhar em uma integração local, mapeando apenas a porta necessária para a aplicação. A tag da imagem deixa visível a versão escolhida; `--rm` remove o contêiner quando ele é encerrado. Para uma equipe que precisa executar vários serviços juntos, Docker Compose pode descrever a aplicação, o banco de dados, as redes e os volumes em um único arquivo.</p>
+        <p><strong data-i18n="docker-code-redis-label">Inicie um serviço Redis temporário para desenvolvimento local</strong></p>
+        <pre><code>docker run --rm --name local-cache -d -p 6379:6379 redis:7
+docker stop local-cache</code></pre>
+
+        <h2 data-i18n="docker-heading-dotnet">Exemplo: crie uma Web API .NET 10</h2>
+        <p data-i18n="docker-paragraph-dotnet">O exemplo usa o SDK do .NET 10 e uma pequena API ASP.NET Core. Crie o projeto e substitua o `Program.cs` por esta Minimal API. A rota `/api/products` retorna um JSON de exemplo, enquanto `/health` oferece um endpoint simples para verificar se o processo está respondendo. Em um serviço real, health checks devem refletir as dependências e os critérios de prontidão importantes para aquela aplicação.</p>
+        <p><strong data-i18n="docker-code-project-label">Crie um projeto Web API .NET 10</strong></p>
+        <pre><code>dotnet new webapi --name Catalog.Api --framework net10.0 --no-https
+cd Catalog.Api</code></pre>
+        <p><strong data-i18n="docker-code-program-label">Catalog.Api/Program.cs</strong></p>
+        <pre><code>var builder = WebApplication.CreateBuilder(args);
+var app = builder.Build();
+
+app.MapGet("/health", () => Results.Ok(new { status = "healthy" }));
+
+app.MapGet("/api/products", () =&gt; Results.Ok(new[]
+{
+    new { id = 1, name = "Keyboard", price = 79.99 },
+    new { id = 2, name = "Mouse", price = 39.99 }
+}));
+
+app.Run();</code></pre>
+
+        <h2 data-i18n="docker-heading-dockerfile">Crie uma imagem pequena e pronta para deploy</h2>
+        <p data-i18n="docker-paragraph-dockerfile">Use um Dockerfile multi-stage: a imagem do SDK restaura e publica a aplicação; a imagem final contém apenas o runtime ASP.NET Core e os arquivos publicados. Copiar o arquivo do projeto antes do restante do código permite reutilizar a camada de restore quando somente o código da aplicação muda. O contêiner escuta na porta HTTP 8080, porta não privilegiada padrão nas imagens atuais de contêiner .NET. `USER $APP_UID` executa o processo como o usuário não root fornecido pela imagem oficial.</p>
+        <p><strong data-i18n="docker-code-dockerfile-label">Catalog.Api/Dockerfile</strong></p>
+        <pre><code>FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
+WORKDIR /src
+
+COPY ["Catalog.Api.csproj", "./"]
+RUN dotnet restore "./Catalog.Api.csproj"
+COPY . .
+RUN dotnet publish "./Catalog.Api.csproj" -c Release -o /app/publish --no-restore /p:UseAppHost=false
+
+FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS final
+WORKDIR /app
+ENV ASPNETCORE_HTTP_PORTS=8080
+EXPOSE 8080
+USER $APP_UID
+COPY --from=build /app/publish .
+ENTRYPOINT ["dotnet", "Catalog.Api.dll"]</code></pre>
+        <p data-i18n="docker-paragraph-port">O Dockerfile configura a porta HTTP do contêiner, mas não a publica no host por conta própria. `EXPOSE` documenta a porta; `-p` no momento da execução cria o mapeamento entre host e contêiner. A aplicação deve ler configurações específicas do ambiente por meio da configuração padrão, e os segredos devem ser fornecidos pela plataforma de deploy, não copiados para a imagem nem commitados no repositório.</p>
+
+        <h2 data-i18n="docker-heading-ignore">Mantenha o contexto de build limpo</h2>
+        <p data-i18n="docker-paragraph-ignore">O arquivo `.dockerignore` impede que artefatos locais de build, arquivos do editor, histórico do Git e configurações locais sejam enviados ao build do Docker. Isso reduz o tamanho do contexto e a chance de empacotar acidentalmente arquivos que não pertencem à imagem.</p>
+        <p><strong data-i18n="docker-code-ignore-label">Catalog.Api/.dockerignore</strong></p>
+        <pre><code>**/bin/
+**/obj/
+.git/
+.vs/
+*.user
+*.suo</code></pre>
+
+        <h2 data-i18n="docker-heading-run">Faça build, execute e verifique localmente</h2>
+        <p data-i18n="docker-paragraph-run">Execute estes comandos no diretório `Catalog.Api`, onde está o Dockerfile. O primeiro cria uma imagem com tag; o segundo inicia um contêiner descartável e mapeia a porta 8080 do host para a porta 8080 do contêiner. Acesse o endpoint pelo navegador ou use curl para conferir a resposta.</p>
+        <p><strong data-i18n="docker-code-build-label">Crie a imagem e inicie o contêiner</strong></p>
+        <pre><code>docker build -t catalog-api:1.0 .
+docker run --rm --name catalog-api -p 8080:8080 catalog-api:1.0</code></pre>
+        <p><strong data-i18n="docker-code-verify-label">Verifique a resposta da API</strong></p>
+        <pre><code>curl http://localhost:8080/health
+curl http://localhost:8080/api/products</code></pre>
+        <p data-i18n="docker-paragraph-lifecycle">Ao terminar, pare o processo em primeiro plano com Ctrl+C; como foi usado `--rm`, o contêiner encerrado será removido automaticamente. A imagem continua disponível até ser removida. Em uma stack real de desenvolvimento, Compose pode gerenciar serviços e volumes nomeados, enquanto o código da aplicação ainda deve seguir o fluxo de desenvolvimento adequado quando for importante editar e recarregar rapidamente.</p>
+
+        <h2 data-i18n="docker-heading-deploy">O que muda antes do deploy?</h2>
+        <p data-i18n="docker-paragraph-deploy">Uma imagem de contêiner é um artefato implantável, não uma estratégia completa de deploy. Crie e teste a imagem na CI, use uma tag baseada no commit ou release, publique-a em um registry confiável e implante exatamente essa imagem no ambiente de destino. Forneça configurações e segredos em runtime, exponha somente as portas necessárias, defina limites de recursos e verificações de saúde, e mantenha os dados persistentes fora da camada gravável do contêiner. Termine HTTPS na plataforma ou em um proxy reverso configurado corretamente e mantenha imagens-base e dependências atualizadas.</p>
+
+        <h2 data-i18n="docker-heading-conclusion">Conclusão</h2>
+        <p data-i18n="docker-paragraph-conclusion">Docker torna o runtime e o empacotamento de uma aplicação mais reproduzíveis, o que melhora o desenvolvimento local, os testes automatizados e a entrega. O valor vem de um build claro da imagem, configuração explícita e um processo de deploy que trata a imagem como artefato imutável — não de colocar toda aplicação em um contêiner por padrão. O exemplo com .NET 10 reúne essas ideias: build multi-stage, runtime não root, porta HTTP definida e uma API pequena que pode ser construída e executada com poucos comandos.</p>
+
+        <p><strong data-i18n="closing-question">Uma pergunta para levar à próxima conversa:</strong> <span data-i18n="docker-closing-question-detail">qual dependência ou diferença entre ambientes causa mais atrito no seu fluxo de desenvolvimento hoje?</span></p>
+      </article>
+      <p class="journal-footnote"><span class="status-dot"></span><span data-i18n="article-footer">Artigo completo publicado neste portfólio.</span></p>
+      <a class="article-back article-back-bottom" href="../index.html#journal" data-i18n="back-blog">← Voltar ao blog</a>
+    </main>
+  </body>
+</html>

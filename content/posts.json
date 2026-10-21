@@ -1,5 +1,22 @@
 [
   {
+    "slug": "2026-10-21-docker-dotnet10-web-api",
+    "url": "blog/2026-10-21-docker-dotnet10-web-api.html",
+    "title": {
+      "pt": "Docker no desenvolvimento de software: dos contêineres a uma Web API .NET 10",
+      "en": "Docker in software development: from containers to a .NET 10 Web API"
+    },
+    "summary": {
+      "pt": "Entenda o que é Docker e sua importância no desenvolvimento; depois, crie e execute uma Web API .NET 10 em um contêiner preparado para produção.",
+      "en": "Understand what Docker is and why it matters in development, then build and run a .NET 10 Web API in a production-ready container."
+    },
+    "category": {
+      "pt": "Docker e .NET",
+      "en": "Docker & .NET"
+    },
+    "publishedAt": "2026-10-21T21:30:00+01:00"
+  },
+  {
     "slug": "2026-10-20-github-comandos-fluxos-boas-praticas",
     "url": "blog/2026-10-20-github-comandos-fluxos-boas-praticas.html",
     "title": {
