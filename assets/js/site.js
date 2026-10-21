@@ -221,14 +221,6 @@
     }
   });
 
-  document.querySelector(".journal-pagination").addEventListener("click", (event) => {
-    const pageButton = event.target.closest("button[data-page]");
-    if (!pageButton || pageButton.disabled) return;
-    currentJournalPage = Number(pageButton.dataset.page);
-    renderJournalPosts(loadedPosts);
-    document.querySelector(`.journal-pagination button[data-page="${currentJournalPage}"]`)?.focus();
-  });
-
   document.querySelector("#current-year").textContent = new Date().getFullYear();
 
   async function loadPortfolioContent() {
@@ -310,8 +302,8 @@
     currentJournalPage = Math.min(Math.max(currentJournalPage, 1), Math.max(pageCount, 1));
     const firstPostIndex = (currentJournalPage - 1) * postsPerPage;
     const visiblePosts = posts.slice(firstPostIndex, firstPostIndex + postsPerPage);
-    journalList.replaceChildren();
-    pagination.replaceChildren();
+    journalList.textContent = "";
+    pagination.textContent = "";
     pagination.hidden = pageCount <= 1;
     paginationStatus.hidden = pageCount <= 1;
     paginationStatus.textContent = translations[document.documentElement.lang]["journal-pagination-status"]
@@ -346,16 +338,20 @@
       title.textContent = localizedProfileValue(post.title);
       const summary = document.createElement("p");
       summary.textContent = localizedProfileValue(post.summary);
-      main.append(category, title, summary);
+      main.appendChild(category);
+      main.appendChild(title);
+      main.appendChild(summary);
 
       const arrow = document.createElement("span");
       arrow.className = "journal-arrow";
       arrow.setAttribute("aria-hidden", "true");
       arrow.textContent = "↗";
 
-      link.append(date, main, arrow);
-      card.append(link);
-      journalList.append(card);
+      link.appendChild(date);
+      link.appendChild(main);
+      link.appendChild(arrow);
+      card.appendChild(link);
+      journalList.appendChild(card);
     }
 
     if (pageCount > 1) {
@@ -367,7 +363,7 @@
         selectedTranslations["journal-previous-page"],
         currentJournalPage === 1
       );
-      pagination.append(previous);
+      pagination.appendChild(previous);
       const pages = getVisibleJournalPages(currentJournalPage, pageCount);
       let previousPage = 0;
       for (const page of pages) {
@@ -376,19 +372,19 @@
           ellipsis.className = "journal-pagination-ellipsis";
           ellipsis.textContent = "…";
           ellipsis.setAttribute("aria-label", selectedTranslations["journal-more-pages"]);
-          pagination.append(ellipsis);
+          pagination.appendChild(ellipsis);
         } else if (page - previousPage === 2) {
           const intermediatePage = previousPage + 1;
           const intermediateLabel = selectedTranslations["journal-page-label"].replace("{page}", String(intermediatePage));
-          pagination.append(createPaginationButton(intermediatePage, String(intermediatePage), intermediateLabel, false));
+          pagination.appendChild(createPaginationButton(intermediatePage, String(intermediatePage), intermediateLabel, false));
         }
         const pageLabel = selectedTranslations["journal-page-label"].replace("{page}", String(page));
         const pageButton = createPaginationButton(page, String(page), pageLabel, false);
         if (page === currentJournalPage) pageButton.setAttribute("aria-current", "page");
-        pagination.append(pageButton);
+        pagination.appendChild(pageButton);
         previousPage = page;
       }
-      pagination.append(createPaginationButton(
+      pagination.appendChild(createPaginationButton(
         currentJournalPage + 1,
         "→",
         selectedTranslations["journal-next-page"],
@@ -411,6 +407,17 @@
     button.textContent = text;
     button.setAttribute("aria-label", label);
     button.disabled = disabled;
+    button.addEventListener("click", () => {
+      currentJournalPage = page;
+      renderJournalPosts(loadedPosts);
+      const pageButtons = document.querySelectorAll(".journal-pagination button[data-page]");
+      for (const pageButton of pageButtons) {
+        if (Number(pageButton.dataset.page) === currentJournalPage) {
+          pageButton.focus();
+          break;
+        }
+      }
+    });
     return button;
   }
 
