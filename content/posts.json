@@ -1,5 +1,22 @@
 [
   {
+    "slug": "2026-10-22-kubernetes-dotnet10-aks",
+    "url": "blog/2026-10-22-kubernetes-dotnet10-aks.html",
+    "title": {
+      "pt": "Kubernetes do zero: conceitos, cloud e uma Web API .NET 10 no AKS",
+      "en": "Kubernetes from scratch: concepts, cloud, and a .NET 10 Web API on AKS"
+    },
+    "summary": {
+      "pt": "Entenda como o Kubernetes orquestra contêineres, compare serviços gerenciados como AKS, EKS e GKE e publique uma API .NET 10 em um cluster Azure com teste ao vivo.",
+      "en": "Learn how Kubernetes orchestrates containers, compare managed services such as AKS, EKS, and GKE, and publish a .NET 10 API to Azure with a live test."
+    },
+    "category": {
+      "pt": "Kubernetes e cloud",
+      "en": "Kubernetes & cloud"
+    },
+    "publishedAt": "2026-10-22T18:28:00+01:00"
+  },
+  {
     "slug": "2026-10-21-docker-dotnet10-web-api",
     "url": "blog/2026-10-21-docker-dotnet10-web-api.html",
     "title": {

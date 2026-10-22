@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#10100f">
+    <meta name="author" content="Rodolfo Schmidt">
+    <meta name="description" content="Entenda o Kubernetes, seus componentes e vantagens, compare AKS, EKS e GKE e publique uma Web API .NET 10 no Azure Kubernetes Service com teste ao vivo." data-i18n="kubernetes-meta-description" data-i18n-attr="content">
+    <title data-i18n="kubernetes-page-title">Kubernetes do zero: conceitos, cloud e uma Web API .NET 10 no AKS — Rodolfo Schmidt</title>
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Rodolfo Schmidt">
+    <meta property="og:title" content="Kubernetes do zero: conceitos, cloud e uma Web API .NET 10 no AKS — Rodolfo Schmidt" data-i18n="kubernetes-page-title" data-i18n-attr="content">
+    <meta property="og:description" content="Entenda o Kubernetes, seus componentes e vantagens, compare AKS, EKS e GKE e publique uma Web API .NET 10 no Azure Kubernetes Service com teste ao vivo." data-i18n="kubernetes-meta-description" data-i18n-attr="content">
+    <meta property="article:published_time" content="2026-10-22T18:28:00+01:00">
+    <meta property="article:author" content="Rodolfo Schmidt">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Kubernetes do zero: conceitos, cloud e uma Web API .NET 10 no AKS — Rodolfo Schmidt" data-i18n="kubernetes-page-title" data-i18n-attr="content">
+    <meta name="twitter:description" content="Entenda o Kubernetes, seus componentes e vantagens, compare AKS, EKS e GKE e publique uma Web API .NET 10 no Azure Kubernetes Service com teste ao vivo." data-i18n="kubernetes-meta-description" data-i18n-attr="content">
+    <link rel="icon" type="image/svg+xml" href="../images/favicon.svg">
+    <link rel="stylesheet" href="../assets/css/main.css">
+    <script src="../assets/js/article.js" defer></script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Kubernetes do zero: conceitos, cloud e uma Web API .NET 10 no AKS",
+        "description": "Entenda o Kubernetes, seus componentes e vantagens, compare AKS, EKS e GKE e publique uma Web API .NET 10 no Azure Kubernetes Service com teste ao vivo.",
+        "datePublished": "2026-10-22T18:28:00+01:00",
+        "inLanguage": "pt-BR",
+        "author": {
+          "@type": "Person",
+          "name": "Rodolfo Schmidt",
+          "sameAs": "https://www.linkedin.com/in/rodolfo-schmidt-623042b6/"
+        },
+        "keywords": [
+          "Kubernetes",
+          "AKS",
+          "Azure",
+          "Docker",
+          ".NET 10",
+          "ASP.NET Core",
+          "Web API"
+        ]
+      }
+    </script>
+  </head>
+  <body class="article-page">
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="../index.html#home" aria-label="Rodolfo Schmidt, início" data-i18n="brand-home" data-i18n-attr="aria-label">
+          <img class="brand-mark" src="https://media.licdn.com/dms/image/v2/C4E03AQEjvDpnBcZBBA/profile-displayphoto-shrink_100_100/profile-displayphoto-shrink_100_100/0/1652768084602?e=1793836800&amp;v=beta&amp;t=JAGe0l0jADz3eiOGHqDDew7zNt_kU4Po18SgMgVKfZc" alt="">
+          <span>Rodolfo Schmidt</span>
+        </a>
+        <span class="terminal-window-title"><span data-i18n="terminal-title">rodolfo@portfolio: ~/blog</span><span class="terminal-cursor" aria-hidden="true"></span></span>
+        <nav class="site-nav" aria-label="Navegação principal" data-i18n="navigation" data-i18n-attr="aria-label">
+          <a href="../index.html#journal" data-i18n="nav-blog">Blog</a>
+          <a href="../index.html#about" data-i18n="nav-about">Sobre</a>
+          <a class="nav-contact" href="../index.html#contact"><span data-i18n="nav-contact">Contato</span> <span aria-hidden="true">↗</span></a>
+          <label class="language-control">
+            <span class="visually-hidden" data-i18n="language-label">Escolher idioma</span>
+            <select id="article-language-select" aria-label="Escolher idioma" data-i18n="language-label" data-i18n-attr="aria-label">
+              <option value="pt">PT</option>
+              <option value="en">EN</option>
+            </select>
+          </label>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container article-content">
+      <a class="article-back" href="../index.html#journal" data-i18n="back-blog">← Voltar ao blog</a>
+      <p class="eyebrow section-kicker"><span data-i18n="kubernetes-category">KUBERNETES E CLOUD</span> · <time datetime="2026-10-22T18:28:00+01:00" data-article-date>22 out. 2026, 18:28</time></p>
+      <h1 data-i18n="kubernetes-article-title">Kubernetes do zero: conceitos, cloud e uma Web API .NET 10 no AKS</h1>
+      <p class="article-summary" data-i18n="kubernetes-article-summary">Entenda para que serve o Kubernetes, como escolher um serviço gerenciado na cloud e como criar, publicar e testar uma Web API .NET 10 em um cluster Azure Kubernetes Service.</p>
+      <div class="article-tags" aria-label="Temas do artigo" data-i18n="kubernetes-article-tags" data-i18n-attr="aria-label">
+        <span data-i18n="kubernetes-tag-platform">Kubernetes</span>
+        <span data-i18n="kubernetes-tag-cloud">Cloud</span>
+        <span data-i18n="kubernetes-tag-dotnet">.NET 10</span>
+      </div>
+      <article class="article-body">
+        <p data-i18n="kubernetes-intro">Contêineres empacotam aplicações, mas operar dezenas ou centenas deles traz outras perguntas: em qual máquina cada um deve rodar? O que acontece se um processo falhar? Como distribuir tráfego, atualizar versões sem interromper usuários e aumentar ou reduzir a capacidade? Kubernetes — frequentemente abreviado como K8s — automatiza parte dessa operação por meio de um estado desejado que o cluster tenta manter.</p>
+
+        <h2 data-i18n="kubernetes-heading-what">O que é Kubernetes e para que serve?</h2>
+        <p data-i18n="kubernetes-paragraph-what">Kubernetes é uma plataforma open source para orquestrar aplicações em contêineres. Você declara recursos como réplicas, imagens, portas e verificações de saúde; os controladores do cluster observam a diferença entre o estado atual e o desejado e trabalham continuamente para reconciliá-la. Se um Pod deixa de responder, por exemplo, o controlador pode criar outro. Kubernetes não cria automaticamente uma arquitetura correta nem substitui Docker para construir imagens: ele agenda e gerencia workloads em um cluster.</p>
+
+        <h2 data-i18n="kubernetes-heading-architecture">Como um cluster funciona?</h2>
+        <p data-i18n="kubernetes-paragraph-control-plane">O control plane coordena o cluster. O API server recebe as operações e expõe a API; o etcd armazena o estado do cluster; o scheduler escolhe em qual nó um Pod pode ser executado; e o controller manager executa controladores que reconciliam o estado desejado. Em um serviço gerenciado, o provedor opera boa parte dessa camada para você.</p>
+        <p data-i18n="kubernetes-paragraph-nodes">Os worker nodes executam as aplicações. O kubelet, agente de cada nó, conversa com o control plane e mantém os Pods solicitados; um runtime compatível com Kubernetes executa os contêineres. Um Pod é a menor unidade implantável e pode conter um ou mais contêineres que compartilham rede e volumes. Na prática, Deployments gerenciam réplicas e atualizações; Services dão um endereço estável a um conjunto de Pods; e Ingress ou Gateway API ajudam a expor tráfego HTTP(S), normalmente com um controlador ou gateway instalado.</p>
+        <p data-i18n="kubernetes-paragraph-objects">ConfigMaps guardam configuração não confidencial, enquanto Secrets representam dados sensíveis — mas seus valores não devem ser tratados como protegidos só por estarem em um Secret: configure controles de acesso e criptografia em repouso. Volumes persistentes permitem solicitar armazenamento que sobrevive à recriação de Pods. Namespaces organizam recursos; labels e selectors conectam objetos. A configuração declarativa costuma ser mantida em YAML e aplicada pela API do cluster.</p>
+
+        <h2 data-i18n="kubernetes-heading-benefits">Vantagens e limites</h2>
+        <p data-i18n="kubernetes-paragraph-benefits">Kubernetes padroniza a implantação de contêineres em diferentes ambientes, mantém réplicas, oferece descoberta de serviços e permite atualizações graduais e reversões. Também integra verificações de saúde, limites de recursos, armazenamento, configuração e políticas de escala. Isso facilita automatizar operações repetitivas e dá às equipes uma plataforma comum para várias aplicações.</p>
+        <p data-i18n="kubernetes-paragraph-tradeoffs">Essa flexibilidade tem custo: há conceitos, configuração, rede, permissões, observabilidade e atualizações do cluster para aprender e operar. Kubernetes não torna um sistema automaticamente mais barato, seguro ou altamente disponível; réplicas precisam de capacidade, dados precisam de estratégia de backup e uma aplicação distribuída exige monitoramento e testes. Para uma aplicação simples, uma plataforma de aplicação gerenciada ou um único contêiner pode ser mais econômico e fácil de manter. Adote Kubernetes quando os requisitos justificarem a complexidade operacional.</p>
+
+        <h2 data-i18n="kubernetes-heading-cloud">Quais serviços de Kubernetes existem na cloud?</h2>
+        <p data-i18n="kubernetes-paragraph-cloud">Os serviços gerenciados reduzem o trabalho com o control plane e, conforme o produto e a configuração, ajudam a operar nós, rede, atualizações e integração com identidade e registry. Entre as opções mais conhecidas estão Azure Kubernetes Service (AKS), Amazon Elastic Kubernetes Service (EKS) e Google Kubernetes Engine (GKE). Todos executam Kubernetes, mas diferem em identidade, rede, observabilidade, integração com serviços do provedor, preço e detalhes de operação.</p>
+        <p data-i18n="kubernetes-paragraph-options">No Azure, AKS é a opção gerenciada; AKS Automatic oferece uma experiência mais opinativa e automatizada para clusters compatíveis. Na AWS, EKS inclui EKS Auto Mode para automatizar mais partes da infraestrutura de compute e rede. No Google Cloud, GKE Autopilot gerencia a infraestrutura de nós, enquanto o modo Standard dá mais controle. Também há serviços como DigitalOcean Kubernetes, Oracle Kubernetes Engine e ofertas gerenciadas de outros provedores. Compare regiões disponíveis, suporte, custos do plano de controle e dos nós, balanceadores, armazenamento, tráfego de saída e limites de cada serviço. “Gerenciado” não significa que o provedor administra sua aplicação, seus manifests ou todas as atualizações por você.</p>
+
+        <h2 data-i18n="kubernetes-heading-install">Instale Kubernetes para aprender localmente</h2>
+        <p data-i18n="kubernetes-paragraph-install">Para um laboratório, use um cluster local descartável em vez de começar por uma assinatura cloud. Instale Docker e kubectl, além de uma ferramenta de cluster como kind (Kubernetes in Docker) ou Minikube. No macOS, com Docker Desktop e Homebrew instalados, o comando abaixo instala kubectl e kind; em Windows ou Linux, siga os passos oficiais correspondentes ao seu sistema. Docker Desktop também pode oferecer Kubernetes integrado. O kind cria um cluster de nó único no computador; ele é útil para aprender comandos e testar manifests, mas não representa uma arquitetura de produção nem fornece um endpoint público.</p>
+        <p><strong data-i18n="kubernetes-code-install-label">No macOS com Homebrew, instale as ferramentas e crie um cluster</strong></p>
+        <pre><code>brew install kubectl kind
+kubectl version --client
+kind create cluster --name dotnet-lab
+kubectl cluster-info
+kubectl get nodes</code></pre>
+        <p data-i18n="kubernetes-paragraph-install-tools">O kubectl é o cliente de linha de comando para a API Kubernetes. Em um computador local, configure o contexto correto antes de aplicar recursos; comandos de instalação e requisitos mudam conforme o sistema operacional, portanto use a documentação oficial de kubectl e kind. Ao terminar o laboratório, remova somente o cluster local nomeado com `kind delete cluster --name dotnet-lab`.</p>
+
+        <h2 data-i18n="kubernetes-heading-api">Crie uma Web API em C# com .NET 10</h2>
+        <p data-i18n="kubernetes-paragraph-api">O exemplo usa uma Minimal API ASP.NET Core sem banco de dados para manter o tutorial focado em contêineres e Kubernetes. Instale o SDK .NET 10 e crie o projeto. A rota `/api/products` retorna dados de exemplo e `/health` será usada pelas verificações de saúde do cluster. Em uma aplicação real, configure health checks que representem os critérios de prontidão e as dependências realmente necessárias.</p>
+        <p><strong data-i18n="kubernetes-code-project-label">Crie o projeto no .NET 10</strong></p>
+        <pre><code>dotnet new web --name Catalog.Api --framework net10.0 --no-https
+cd Catalog.Api</code></pre>
+        <p><strong data-i18n="kubernetes-code-program-label">Catalog.Api/Program.cs</strong></p>
+        <pre><code>var builder = WebApplication.CreateBuilder(args);
+var app = builder.Build();
+
+app.MapGet("/health", () =&gt; Results.Ok(new { status = "healthy" }));
+
+app.MapGet("/api/products", () =&gt; Results.Ok(new[]
+{
+    new { id = 1, name = "Keyboard", price = 79.99 },
+    new { id = 2, name = "Mouse", price = 39.99 }
+}));
+
+app.Run();</code></pre>
+
+        <h2 data-i18n="kubernetes-heading-image">Empacote a API em uma imagem de contêiner</h2>
+        <p data-i18n="kubernetes-paragraph-image">Crie um Dockerfile multi-stage na pasta `Catalog.Api`. A etapa de build usa o SDK .NET 10; a imagem final contém o runtime ASP.NET Core e os arquivos publicados. O processo usa o usuário não root disponibilizado pela imagem oficial e escuta em HTTP na porta 8080. Em produção, mantenha a imagem identificada por uma tag imutável, como a versão do release ou o SHA do commit.</p>
+        <p><strong data-i18n="kubernetes-code-dockerfile-label">Catalog.Api/Dockerfile</strong></p>
+        <pre><code>FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
+WORKDIR /src
+
+COPY ["Catalog.Api.csproj", "./"]
+RUN dotnet restore "./Catalog.Api.csproj"
+COPY . .
+RUN dotnet publish "./Catalog.Api.csproj" -c Release -o /app/publish --no-restore /p:UseAppHost=false
+
+FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS final
+WORKDIR /app
+ENV ASPNETCORE_HTTP_PORTS=8080
+EXPOSE 8080
+USER $APP_UID
+COPY --from=build /app/publish .
+ENTRYPOINT ["dotnet", "Catalog.Api.dll"]</code></pre>
+
+        <h2 data-i18n="kubernetes-heading-local">Teste a imagem na sua máquina</h2>
+        <p data-i18n="kubernetes-paragraph-local">Ainda dentro de `Catalog.Api`, faça o build e inicie o contêiner antes de enviá-lo à cloud. Assim, você consegue corrigir erros de compilação e conferir as rotas sem depender do cluster. O argumento `-p` publica a porta do contêiner no computador local.</p>
+        <p><strong data-i18n="kubernetes-code-local-label">Construa e execute localmente</strong></p>
+        <pre><code>docker build -t catalog-api:v1 .
+docker run --rm --name catalog-api -p 8080:8080 catalog-api:v1</code></pre>
+        <p><strong data-i18n="kubernetes-code-local-test-label">Em outro terminal, confira os endpoints</strong></p>
+        <pre><code>curl http://localhost:8080/health
+curl http://localhost:8080/api/products</code></pre>
+        <p data-i18n="kubernetes-paragraph-local-k8s">Para experimentar no cluster kind, carregue a imagem local com `kind load docker-image catalog-api:v1 --name dotnet-lab`, depois use `image: catalog-api:v1` em um Deployment com `imagePullPolicy: IfNotPresent`. Crie um Service `ClusterIP` e acesse-o temporariamente com `kubectl port-forward service/catalog-api 8080:80`; então teste os mesmos endpoints em `http://localhost:8080`. Essa opção evita publicar uma imagem em um registry, mas o port-forward existe apenas enquanto o comando estiver em execução e não cria um serviço público na internet.</p>
+
+        <h2 data-i18n="kubernetes-heading-aks">Publique uma versão ao vivo no Azure AKS</h2>
+        <p data-i18n="kubernetes-paragraph-aks">Agora vamos criar um registry Azure Container Registry (ACR), enviar a imagem e criar um cluster AKS. Você precisará de uma conta Azure com assinatura ativa, Azure CLI atualizado e permissão para criar esses recursos. Use um resource group dedicado ao laboratório e uma região que ofereça o tamanho de VM escolhido. A imagem será construída pelo ACR a partir do Dockerfile, e a opção `--attach-acr` configura o acesso de leitura do cluster ao registry.</p>
+        <p><strong data-i18n="kubernetes-code-azure-label">Instale a Azure CLI no macOS com Homebrew e entre na sua conta</strong></p>
+        <pre><code>brew install azure-cli
+az login
+az account set --subscription "SUA-SUBSCRIPTION"
+
+RESOURCE_GROUP=rg-k8s-dotnet-demo
+LOCATION=eastus
+ACR_NAME=k8sdemoregistry12345
+AKS_NAME=aks-dotnet-demo
+
+az group create --name "$RESOURCE_GROUP" --location "$LOCATION"
+az acr create --resource-group "$RESOURCE_GROUP" --name "$ACR_NAME" --sku Basic
+
+# Execute na pasta Catalog.Api, onde estão o Dockerfile e o .csproj.
+az acr build --registry "$ACR_NAME" --image catalog-api:v1 .</code></pre>
+        <p data-i18n="kubernetes-paragraph-acr">O nome do ACR precisa ser único globalmente e conter apenas letras minúsculas e números; troque o exemplo por um nome disponível. Confirme também que a assinatura selecionada é a correta e que os custos são aceitáveis. O ACR executa o build na cloud e publica a imagem versionada como `catalog-api:v1`.</p>
+        <p><strong data-i18n="kubernetes-code-cluster-label">Crie um cluster de laboratório e configure o kubectl</strong></p>
+        <pre><code>az aks create \
+  --resource-group "$RESOURCE_GROUP" \
+  --name "$AKS_NAME" \
+  --location "$LOCATION" \
+  --tier free \
+  --node-count 1 \
+  --node-vm-size Standard_D2s_v5 \
+  --generate-ssh-keys \
+  --attach-acr "$ACR_NAME"
+
+az aks get-credentials --resource-group "$RESOURCE_GROUP" --name "$AKS_NAME"
+kubectl config current-context
+kubectl get nodes</code></pre>
+        <p data-i18n="kubernetes-paragraph-cluster">A criação do cluster pode levar vários minutos, e região, quota, disponibilidade e preço do SKU variam. O nível Free do control plane não elimina a cobrança dos nós, do registry, do balanceador, do armazenamento ou do tráfego. Este cluster de nó único é apenas uma demonstração e não oferece a tolerância a falhas de produção; confirme as opções disponíveis na sua assinatura antes de executá-lo.</p>
+
+        <h2 data-i18n="kubernetes-heading-manifest">Configure Deployment e Service</h2>
+        <p data-i18n="kubernetes-paragraph-manifest">Crie `k8s.yaml` na pasta do projeto `Catalog.Api`. Substitua `k8sdemoregistry12345` pelo nome real do seu ACR. O Deployment pede duas réplicas e define limites e solicitações de recursos; as probes verificam `/health`. O Service do tipo `LoadBalancer` solicita um endereço público Azure para o teste ao vivo. Em produção, prefira um Ingress ou Gateway com TLS e controles apropriados, e avalie rede privada quando não precisar de acesso público.</p>
+        <p><strong data-i18n="kubernetes-code-manifest-label">k8s.yaml</strong></p>
+        <pre><code>apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: catalog-api
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: catalog-api
+  template:
+    metadata:
+      labels:
+        app: catalog-api
+    spec:
+      containers:
+        - name: catalog-api
+          image: k8sdemoregistry12345.azurecr.io/catalog-api:v1
+          ports:
+            - name: http
+              containerPort: 8080
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 256Mi
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http
+            periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+            periodSeconds: 10
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: catalog-api
+spec:
+  type: LoadBalancer
+  selector:
+    app: catalog-api
+  ports:
+    - name: http
+      port: 80
+      targetPort: http</code></pre>
+        <p data-i18n="kubernetes-paragraph-apply">Aplique o manifesto e aguarde as réplicas ficarem prontas. O endereço externo pode aparecer como `&lt;pending&gt;` enquanto o Azure provisiona o balanceador; aguarde e consulte novamente. Se a aplicação não iniciar, confira os eventos, o estado dos Pods e os logs. Um erro de pull de imagem normalmente indica tag incorreta ou permissão de leitura ACR; `--attach-acr` precisa ser executado com permissões Azure suficientes para criar a atribuição necessária.</p>
+        <p><strong data-i18n="kubernetes-code-apply-label">Aplique a configuração e acompanhe a implantação</strong></p>
+        <pre><code>kubectl apply -f k8s.yaml
+kubectl rollout status deployment/catalog-api
+kubectl get pods
+kubectl get service catalog-api --watch</code></pre>
+
+        <h2 data-i18n="kubernetes-heading-test">Teste a API publicada</h2>
+        <p data-i18n="kubernetes-paragraph-test">Quando `kubectl get service` mostrar um valor em `EXTERNAL-IP`, esse endereço será o ponto de entrada HTTP público do laboratório. Em outro terminal, obtenha o IP e consulte a API. Você deve receber `{"status":"healthy"}` em `/health` e uma lista JSON de produtos em `/api/products`. Se não houver resposta, confirme que o Service recebeu um IP, que os Pods estão prontos e que a porta 80 do Service aponta para a porta 8080 do contêiner.</p>
+        <p><strong data-i18n="kubernetes-code-test-label">Consulte os endpoints pelo endereço público</strong></p>
+        <pre><code>kubectl get service catalog-api
+
+API_IP=$(kubectl get service catalog-api -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+curl "http://$API_IP/health"
+curl "http://$API_IP/api/products"</code></pre>
+        <p data-i18n="kubernetes-paragraph-observe">Experimente alterar `replicas` para 3 em `k8s.yaml` e aplicar novamente; `kubectl get pods --watch` mostra o controlador criando a réplica adicional. Para inspecionar a implantação, use `kubectl describe deployment catalog-api` e `kubectl logs deployment/catalog-api`. Acessar um IP HTTP público serve para o laboratório, não para uma API de produção: adicione TLS, autenticação e autorização, monitoramento, políticas de rede e limites adequados antes de expor dados ou usuários reais.</p>
+
+        <h2 data-i18n="kubernetes-heading-cost">Evite cobranças depois do teste</h2>
+        <p data-i18n="kubernetes-paragraph-cost">AKS e os serviços relacionados podem gerar custos enquanto existirem, mesmo sem tráfego. Para encerrar o laboratório, confirme que o resource group é dedicado a este exercício e que não contém outros recursos que deseja manter; em seguida, exclua esse resource group no portal Azure ou use `az group delete --name "$RESOURCE_GROUP" --yes --no-wait`. Essa exclusão remove todos os recursos dentro dele, incluindo cluster e ACR, e pode levar alguns minutos para concluir. Verifique no portal que a exclusão terminou e confira o uso de recursos na assinatura.</p>
+
+        <h2 data-i18n="kubernetes-heading-conclusion">Conclusão</h2>
+        <p data-i18n="kubernetes-paragraph-conclusion">Kubernetes oferece uma API declarativa e controladores para executar aplicações em contêineres com descoberta de serviços, réplicas, atualizações e verificações de saúde. Serviços como AKS, EKS e GKE reduzem parte do trabalho de operar o cluster, mas não removem a responsabilidade de construir imagens, proteger acesso, observar a aplicação e controlar custos. Comece localmente com kind ou Minikube; quando houver um caso que justifique a operação, use um serviço gerenciado. Neste tutorial, a Web API .NET 10 percorreu o ciclo completo: build de imagem, publicação no ACR, implantação no AKS e chamada dos endpoints por um endereço público temporário.</p>
+
+        <p><strong data-i18n="closing-question">Uma pergunta para levar à próxima conversa:</strong> <span data-i18n="kubernetes-closing-question-detail">qual aplicação da sua equipe realmente se beneficiaria da orquestração — e quais requisitos fariam o Kubernetes valer sua complexidade?</span></p>
+      </article>
+      <p class="journal-footnote"><span class="status-dot"></span><span data-i18n="article-footer">Artigo completo publicado neste portfólio.</span></p>
+      <a class="article-back article-back-bottom" href="../index.html#journal" data-i18n="back-blog">← Voltar ao blog</a>
+    </main>
+  </body>
+</html>
