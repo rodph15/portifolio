@@ -1,5 +1,22 @@
 [
   {
+    "slug": "2026-10-26-ef-core-dotnet-csharp-10",
+    "url": "blog/2026-10-26-ef-core-dotnet-csharp-10.html",
+    "title": {
+      "pt": "EF Core em .NET 10: por que um ORM melhora segurança, desempenho e testes",
+      "en": "EF Core in .NET 10: why an ORM improves security, performance, and testing"
+    },
+    "summary": {
+      "pt": "Entenda como o Entity Framework Core torna o acesso a dados mais seguro, expressivo e testável, sem dispensar atenção ao SQL gerado e ao desempenho.",
+      "en": "Learn how Entity Framework Core makes data access safer, more expressive, and easier to test—without removing the need to inspect generated SQL and performance."
+    },
+    "category": {
+      "pt": ".NET e dados",
+      "en": ".NET & data"
+    },
+    "publishedAt": "2026-10-26T21:42:00+00:00"
+  },
+  {
     "slug": "2026-10-22-kubernetes-dotnet10-aks",
     "url": "blog/2026-10-22-kubernetes-dotnet10-aks.html",
     "title": {

@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#10100f">
+    <meta name="author" content="Rodolfo Schmidt">
+    <meta name="description" content="Entenda por que usar Entity Framework Core em C# e .NET 10: segurança, desempenho, produtividade e testes mais confiáveis." data-i18n="efcore-meta-description" data-i18n-attr="content">
+    <title data-i18n="efcore-page-title">EF Core em .NET 10: por que um ORM melhora segurança, desempenho e testes — Rodolfo Schmidt</title>
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Rodolfo Schmidt">
+    <meta property="og:title" content="EF Core em .NET 10: por que um ORM melhora segurança, desempenho e testes — Rodolfo Schmidt" data-i18n="efcore-page-title" data-i18n-attr="content">
+    <meta property="og:description" content="Entenda por que usar Entity Framework Core em C# e .NET 10: segurança, desempenho, produtividade e testes mais confiáveis." data-i18n="efcore-meta-description" data-i18n-attr="content">
+    <meta property="article:published_time" content="2026-10-26T21:42:00+00:00">
+    <meta property="article:author" content="Rodolfo Schmidt">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="EF Core em .NET 10: por que um ORM melhora segurança, desempenho e testes — Rodolfo Schmidt" data-i18n="efcore-page-title" data-i18n-attr="content">
+    <meta name="twitter:description" content="Entenda por que usar Entity Framework Core em C# e .NET 10: segurança, desempenho, produtividade e testes mais confiáveis." data-i18n="efcore-meta-description" data-i18n-attr="content">
+    <link rel="icon" type="image/svg+xml" href="../images/favicon.svg">
+    <link rel="stylesheet" href="../assets/css/main.css">
+    <script src="../assets/js/article.js?v=20261026-efcore-post" defer></script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": "EF Core em .NET 10: por que um ORM melhora segurança, desempenho e testes",
+        "description": "Entenda por que usar Entity Framework Core em C# e .NET 10: segurança, desempenho, produtividade e testes mais confiáveis.",
+        "datePublished": "2026-10-26T21:42:00+00:00",
+        "inLanguage": "pt-BR",
+        "author": {
+          "@type": "Person",
+          "name": "Rodolfo Schmidt",
+          "sameAs": "https://www.linkedin.com/in/rodolfo-schmidt-623042b6/"
+        },
+        "keywords": [
+          "Entity Framework Core",
+          "EF Core",
+          ".NET 10",
+          "C#",
+          "ORM",
+          "SQL",
+          "Testes"
+        ]
+      }
+    </script>
+  </head>
+  <body class="article-page">
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="../index.html#home" aria-label="Rodolfo Schmidt, início" data-i18n="brand-home" data-i18n-attr="aria-label">
+          <img class="brand-mark" src="https://media.licdn.com/dms/image/v2/C4E03AQEjvDpnBcZBBA/profile-displayphoto-shrink_100_100/profile-displayphoto-shrink_100_100/0/1652768084602?e=1793836800&amp;v=beta&amp;t=JAGe0l0jADz3eiOGHqDDew7zNt_kU4Po18SgMgVKfZc" alt="">
+          <span>Rodolfo Schmidt</span>
+        </a>
+        <span class="terminal-window-title"><span data-i18n="terminal-title">rodolfo@portfolio: ~/blog</span><span class="terminal-cursor" aria-hidden="true"></span></span>
+        <nav class="site-nav" aria-label="Navegação principal" data-i18n="navigation" data-i18n-attr="aria-label">
+          <a href="../index.html#journal" data-i18n="nav-blog">Blog</a>
+          <a href="../index.html#about" data-i18n="nav-about">Sobre</a>
+          <a class="nav-contact" href="../index.html#contact"><span data-i18n="nav-contact">Contato</span> <span aria-hidden="true">↗</span></a>
+          <label class="language-control">
+            <span class="visually-hidden" data-i18n="language-label">Escolher idioma</span>
+            <select id="article-language-select" aria-label="Escolher idioma" data-i18n="language-label" data-i18n-attr="aria-label">
+              <option value="pt">PT</option>
+              <option value="en">EN</option>
+            </select>
+          </label>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container article-content">
+      <a class="article-back" href="../index.html#journal" data-i18n="back-blog">← Voltar ao blog</a>
+      <p class="eyebrow section-kicker"><span data-i18n="efcore-category">.NET E DADOS</span> · <time datetime="2026-10-26T21:42:00+00:00" data-article-date>26 out. 2026, 21:42</time></p>
+      <h1 data-i18n="efcore-article-title">EF Core em .NET 10: por que um ORM melhora segurança, desempenho e testes</h1>
+      <p class="article-summary" data-i18n="efcore-article-summary">Entity Framework Core não elimina a necessidade de entender SQL: ele torna o acesso a dados mais seguro, expressivo e testável quando usado com critérios claros.</p>
+      <div class="article-tags" aria-label="Temas do artigo" data-i18n="efcore-article-tags" data-i18n-attr="aria-label">
+        <span data-i18n="efcore-tag-orm">ORM</span>
+        <span data-i18n="efcore-tag-security">Segurança</span>
+        <span data-i18n="efcore-tag-testing">Testes</span>
+      </div>
+      <article class="article-body">
+        <p data-i18n="efcore-intro">Em uma aplicação .NET, acessar o banco de dados com comandos SQL escritos como texto pode parecer direto no início. À medida que filtros, relacionamentos, paginação, validações e mudanças no modelo crescem, essa abordagem passa a espalhar detalhes de persistência pela aplicação. O Entity Framework Core (EF Core) é um ORM: ele mapeia classes C# para tabelas e permite expressar muitas consultas e alterações com LINQ, mantendo o SQL como responsabilidade do provedor de banco.</p>
+
+        <h2 data-i18n="efcore-heading-setup">Instale e configure EF Core passo a passo</h2>
+        <p data-i18n="efcore-paragraph-setup">O exemplo abaixo usa uma Minimal API .NET 10 com SQL Server. Crie o projeto, adicione o provedor do banco e as ferramentas de migração. Em projetos reais, mantenha a versão dos pacotes EF Core alinhada à versão major do runtime usado pela aplicação.</p>
+        <p><strong data-i18n="efcore-code-install-label">1. Crie o projeto e instale os pacotes</strong></p>
+        <pre><code>dotnet new webapi --name Catalog.Api --framework net10.0
+cd Catalog.Api
+
+dotnet add package Microsoft.EntityFrameworkCore.SqlServer --version 10.*
+dotnet add package Microsoft.EntityFrameworkCore.Design --version 10.*
+dotnet tool install --global dotnet-ef</code></pre>
+        <p data-i18n="efcore-paragraph-connection">Em seguida, armazene a connection string em `appsettings.Development.json` para desenvolvimento local. Não coloque senhas ou outras credenciais em arquivos enviados ao repositório; em desenvolvimento, use User Secrets quando necessário e, em produção, use o mecanismo de segredos da plataforma.</p>
+        <p><strong data-i18n="efcore-code-settings-label">2. Configure a connection string</strong></p>
+        <pre><code>{
+  "ConnectionStrings": {
+    "Catalog": "Server=(localdb)\\mssqllocaldb;Database=CatalogDb;Trusted_Connection=True;TrustServerCertificate=True"
+  }
+}</code></pre>
+        <p data-i18n="efcore-paragraph-context">Defina a entidade e o contexto. `DbSet&lt;Product&gt;` representa a coleção de produtos consultada e alterada pela aplicação. A configuração no contexto mantém o mapeamento e as regras do banco próximos ao modelo, em vez de espalhá-los por strings SQL.</p>
+        <p><strong data-i18n="efcore-code-context-label">3. Crie a entidade e o contexto</strong></p>
+        <pre><code>using Microsoft.EntityFrameworkCore;
+
+public sealed class Product
+{
+    public int Id { get; set; }
+    public string Name { get; set; } = "";
+    public decimal Price { get; set; }
+    public bool IsActive { get; set; }
+}
+
+public sealed class CatalogDbContext(DbContextOptions&lt;CatalogDbContext&gt; options)
+    : DbContext(options)
+{
+    public DbSet&lt;Product&gt; Products =&gt; Set&lt;Product&gt;();
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity&lt;Product&gt;(entity =&gt;
+        {
+            entity.Property(product =&gt; product.Name).HasMaxLength(200);
+            entity.Property(product =&gt; product.Price).HasPrecision(18, 2);
+            entity.HasIndex(product =&gt; product.Name);
+        });
+    }
+}</code></pre>
+        <p><strong data-i18n="efcore-code-program-label">4. Registre o contexto, crie a migração e aplique o esquema</strong></p>
+        <pre><code>// Program.cs
+builder.Services.AddDbContext&lt;CatalogDbContext&gt;(options =&gt;
+    options.UseSqlServer(
+        builder.Configuration.GetConnectionString("Catalog")));
+
+// Terminal
+dotnet ef migrations add InitialCreate
+dotnet ef database update</code></pre>
+        <p data-i18n="efcore-paragraph-setup-detail">A migração é uma alteração versionada do esquema. Revise os arquivos gerados antes de aplicá-los e execute migrações no fluxo de entrega de forma controlada; iniciar a aplicação não deve ser a única estratégia para alterar um banco de produção.</p>
+
+        <h2 data-i18n="efcore-heading-security">Segurança: parâmetros por padrão, não por acidente</h2>
+        <p data-i18n="efcore-paragraph-security">O principal risco de concatenar entrada do usuário em uma string SQL é a injeção de SQL. Uma consulta LINQ do EF Core envia valores como parâmetros; o valor do filtro não se torna parte da instrução SQL. Isso reduz uma classe importante de falhas sem exigir que cada desenvolvedor se lembre da montagem correta de parâmetros em todo ponto de acesso aos dados.</p>
+        <p data-i18n="efcore-paragraph-security-caveat">Isso não torna qualquer código seguro automaticamente. Autorização, validação de regras de negócio, menor privilégio para a conta do banco e proteção de segredos continuam indispensáveis. SQL bruto ainda pode ser a escolha certa em casos específicos, mas deve usar APIs parametrizadas, como `FromSqlInterpolated`, ou parâmetros explícitos — nunca interpolar valores não confiáveis em uma string.</p>
+        <p data-i18n="efcore-paragraph-html-tags">EF Core também não aplica `strip tags` automaticamente. Tags HTML enviadas em campos de texto são dados e serão persistidas como foram recebidas. A defesa correta depende do uso: valide ou sanitize HTML no limite de entrada quando o produto permitir conteúdo rico, e faça encoding de saída no contexto de renderização para evitar XSS. Em uma API, isso geralmente é responsabilidade da camada que recebe ou exibe o conteúdo — não do ORM.</p>
+
+        <h2 data-i18n="efcore-heading-productivity">Um modelo coerente entre domínio e banco</h2>
+        <p data-i18n="efcore-paragraph-productivity">Com um `DbContext`, entidades e configurações centralizadas, o modelo de dados deixa de ser repetido em dezenas de comandos, leitores de dados e mapeamentos manuais. Migrações versionam a evolução do esquema junto ao código; relacionamentos, conversões de tipos e restrições podem ser descritos de forma explícita. Isso diminui código repetitivo e torna revisões mais focadas na intenção da mudança.</p>
+        <p><strong data-i18n="efcore-code-label">Uma consulta tipada e paginada</strong></p>
+        <pre><code>var products = await dbContext.Products
+    .AsNoTracking()
+    .Where(product =&gt; product.IsActive &amp;&amp; product.Name.Contains(searchTerm))
+    .OrderBy(product =&gt; product.Name)
+    .Select(product =&gt; new ProductListItem(
+        product.Id,
+        product.Name,
+        product.Price))
+    .Skip((page - 1) * pageSize)
+    .Take(pageSize)
+    .ToListAsync(cancellationToken);</code></pre>
+        <p data-i18n="efcore-paragraph-productivity-detail">O compilador ajuda a localizar propriedades renomeadas e tipos incompatíveis antes da aplicação chegar ao banco. Isso não substitui a revisão do SQL gerado para consultas críticas, mas cria uma interface mais segura para a maior parte do trabalho diário.</p>
+
+        <h2 data-i18n="efcore-heading-performance">Desempenho: o ORM não dispensa medir</h2>
+        <p data-i18n="efcore-paragraph-performance">EF Core gera SQL; ele não torna a latência do banco irrelevante. Uma consulta eficiente continua dependendo de índices adequados, filtros seletivos, paginação, projeção das colunas necessárias e um bom desenho do modelo. Para consultas somente de leitura, `AsNoTracking()` evita o custo de rastrear entidades que não serão alteradas. Projetar diretamente para um DTO também evita carregar colunas e grafos inteiros sem necessidade.</p>
+        <p data-i18n="efcore-paragraph-performance-nplusone">Atenção especial ao problema N+1: carregar uma lista e depois consultar uma relação para cada item pode gerar muitas viagens ao banco. Carregamento ansioso com `Include`, projeções com `Select` e consultas explícitas são ferramentas diferentes; escolha a que produz o SQL e a quantidade de dados necessários. Habilite logs em desenvolvimento, inspecione o SQL gerado e use métricas para confirmar o comportamento em cenários reais.</p>
+        <p data-i18n="efcore-paragraph-performance-balance">Há consultas analíticas, operações em massa ou recursos específicos do banco que podem justificar SQL manual, procedimentos armazenados ou uma biblioteca mais enxuta. A decisão não é ORM ou SQL: é usar a abstração certa, sem abrir mão de parâmetros, observabilidade e testes. EF Core permite combinar essas abordagens quando necessário.</p>
+
+        <h2 data-i18n="efcore-heading-testing">Testes: dependa de uma fronteira útil</h2>
+        <p data-i18n="efcore-paragraph-testing">Um `DbContext` pode ser substituído ou isolado em testes de serviços que coordenam regras de negócio, e consultas podem ser verificadas contra um banco de teste. Para testes unitários, muitas equipes extraem regras que não dependem de persistência e testam-nas sem banco. Para a integração, um banco relacional efêmero — por exemplo, SQLite em memória ou um contêiner com o mesmo motor de produção — verifica tradução de LINQ, constraints e transações de forma muito mais fiel.</p>
+        <p data-i18n="efcore-paragraph-testing-caveat">O provedor EF Core InMemory é útil para cenários simples, mas não se comporta como um banco relacional e pode esconder diferenças de SQL, relacionamentos e transações. Não use mocks para provar que uma consulta SQL funciona, nem use um teste de integração para cada regra pura. Separe as responsabilidades e escolha o tipo de teste que pode falhar pelo motivo certo.</p>
+
+        <h2 data-i18n="efcore-heading-conclusion">ORM é uma escolha de engenharia</h2>
+        <p data-i18n="efcore-paragraph-conclusion">Usar EF Core em C# e .NET 10 não significa abandonar o conhecimento de SQL; significa tornar o caminho seguro e produtivo o padrão. Consultas parametrizadas, um modelo tipado, migrações, projeções conscientes e uma estratégia de testes reduzem riscos e custos de manutenção. Conhecer o que o ORM gera — e sair dele pontualmente quando os dados mostrarem necessidade — é o equilíbrio que transforma a abstração em vantagem.</p>
+
+      </article>
+      <p class="journal-footnote"><span class="status-dot"></span><span data-i18n="article-footer">Artigo completo publicado neste portfólio.</span></p>
+      <a class="article-back article-back-bottom" href="../index.html#journal" data-i18n="back-blog">← Voltar ao blog</a>
+    </main>
+  </body>
+</html>
