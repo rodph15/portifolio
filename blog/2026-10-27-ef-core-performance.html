@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#10100f"><meta name="author" content="Rodolfo Schmidt">
+    <meta name="description" content="Técnicas práticas de EF Core para reduzir transferência de dados e custo de consultas." data-i18n="ef-performance-meta-description" data-i18n-attr="content">
+    <title data-i18n="ef-performance-page-title">Melhorando a performance com EF Core: consultas práticas sem excessos — Rodolfo Schmidt</title>
+    <meta property="og:type" content="article"><meta property="og:site_name" content="Rodolfo Schmidt"><meta property="og:title" content="Melhorando a performance com EF Core: consultas práticas sem excessos — Rodolfo Schmidt" data-i18n="ef-performance-page-title" data-i18n-attr="content"><meta property="og:description" content="Técnicas práticas de EF Core para reduzir transferência de dados e custo de consultas." data-i18n="ef-performance-meta-description" data-i18n-attr="content"><meta property="article:published_time" content="2026-10-27T20:37:00+00:00"><meta property="article:author" content="Rodolfo Schmidt">
+    <meta name="twitter:card" content="summary"><meta name="twitter:title" content="Melhorando a performance com EF Core: consultas práticas sem excessos — Rodolfo Schmidt" data-i18n="ef-performance-page-title" data-i18n-attr="content"><meta name="twitter:description" content="Técnicas práticas de EF Core para reduzir transferência de dados e custo de consultas." data-i18n="ef-performance-meta-description" data-i18n-attr="content">
+    <link rel="icon" type="image/svg+xml" href="../images/favicon.svg"><link rel="stylesheet" href="../assets/css/main.css"><script src="../assets/js/article.js?v=20261027-ef-performance" defer></script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Melhorando a performance com EF Core: consultas práticas sem excessos","description":"Técnicas práticas de EF Core para reduzir transferência de dados e custo de consultas.","datePublished":"2026-10-27T20:37:00+00:00","inLanguage":"pt-BR","author":{"@type":"Person","name":"Rodolfo Schmidt","sameAs":"https://www.linkedin.com/in/rodolfo-schmidt-623042b6/"},"keywords":["Entity Framework Core","EF Core","Performance","IQueryable","SQL","Paginação"]}</script>
+  </head>
+  <body class="article-page">
+    <header class="site-header"><div class="container header-inner">
+      <a class="brand" href="../index.html#home" aria-label="Rodolfo Schmidt, início" data-i18n="brand-home" data-i18n-attr="aria-label"><img class="brand-mark" src="https://media.licdn.com/dms/image/v2/C4E03AQEjvDpnBcZBBA/profile-displayphoto-shrink_100_100/profile-displayphoto-shrink_100_100/0/1652768084602?e=1793836800&amp;v=beta&amp;t=JAGe0l0jADz3eiOGHqDDew7zNt_kU4Po18SgMgVKfZc" alt=""><span>Rodolfo Schmidt</span></a>
+      <span class="terminal-window-title"><span data-i18n="terminal-title">rodolfo@portfolio: ~/blog</span><span class="terminal-cursor" aria-hidden="true"></span></span>
+      <nav class="site-nav" aria-label="Navegação principal" data-i18n="navigation" data-i18n-attr="aria-label"><a href="../index.html#journal" data-i18n="nav-blog">Blog</a><a href="../index.html#about" data-i18n="nav-about">Sobre</a><a class="nav-contact" href="../index.html#contact"><span data-i18n="nav-contact">Contato</span> <span aria-hidden="true">↗</span></a><label class="language-control"><span class="visually-hidden" data-i18n="language-label">Escolher idioma</span><select id="article-language-select" aria-label="Escolher idioma" data-i18n="language-label" data-i18n-attr="aria-label"><option value="pt">PT</option><option value="en">EN</option></select></label></nav>
+    </div></header>
+    <main class="container article-content">
+      <a class="article-back" href="../index.html#journal" data-i18n="back-blog">← Voltar ao blog</a>
+      <p class="eyebrow section-kicker"><span data-i18n="ef-performance-category">.NET E DADOS</span> · <time datetime="2026-10-27T20:37:00+00:00" data-article-date>27 out. 2026, 20:37</time></p>
+      <h1 data-i18n="ef-performance-title">Melhorando a performance com EF Core: consultas práticas sem excessos</h1>
+      <p class="article-summary" data-i18n="ef-performance-summary">Veja como evitar explosão cartesiana, projetar apenas os dados necessários, paginar com consistência e escolher views quando uma consulta complexa merece uma fronteira no banco.</p>
+      <div class="article-tags" aria-label="Temas do artigo" data-i18n="ef-performance-tags" data-i18n-attr="aria-label"><span data-i18n="ef-performance-tag-performance">Performance</span><span data-i18n="ef-performance-tag-efcore">EF Core</span><span data-i18n="ef-performance-tag-sql">SQL</span></div>
+      <article class="article-body">
+        <p data-i18n="ef-performance-intro">Performance com EF Core começa com uma pergunta: qual SQL esta expressão LINQ vai gerar e quantos dados ela vai transferir? O ORM não é inerentemente lento, mas uma consulta conveniente pode buscar linhas repetidas, todas as colunas de uma tabela larga ou um resultado inteiro quando a tela precisa apenas de uma página.</p>
+        <h2 data-i18n="ef-performance-heading-cartesian">SelectMany e a explosão cartesiana</h2><p data-i18n="ef-performance-cartesian">A explosão cartesiana acontece quando uma consulta combina múltiplos relacionamentos de coleção em um resultado. Um pedido com 10 itens e 5 envios pode retornar 50 linhas ao achatar as duas coleções. <code>SelectMany</code> é útil quando esse resultado é realmente necessário, mas deve ser uma decisão consciente: cada coleção adicional multiplica as linhas retornadas.</p>
+        <pre><code>// Achate apenas quando uma linha por item for o resultado desejado.
+var items = await db.Orders.Where(o =&gt; o.Id == orderId)
+    .SelectMany(o =&gt; o.Items, (o, item) =&gt; new { o.Id, item.ProductName })
+    .ToListAsync(cancellationToken);
+
+var order = await db.Orders.AsNoTracking().AsSplitQuery()
+    .Include(o =&gt; o.Items).Include(o =&gt; o.Shipments)
+    .SingleAsync(o =&gt; o.Id == orderId, cancellationToken);</code></pre>
+        <p data-i18n="ef-performance-cartesian-detail">Para um modelo que precisa do pedido e resumos separados dos filhos, projete o formato necessário. Se precisar de <code>Include</code> para múltiplas coleções, <code>AsSplitQuery()</code> pode evitar um join grande ao emitir consultas separadas para as coleções incluídas. É uma troca entre menos linhas duplicadas e mais viagens ao banco; meça com dados reais.</p>
+        <h2 data-i18n="ef-performance-heading-read">Leia somente o que o endpoint precisa</h2><p data-i18n="ef-performance-read"><code>AsNoTracking()</code> é um bom padrão para endpoints somente de leitura: ele evita o custo de manter change tracking para entidades que não serão alteradas. Combine-o com uma projeção para DTO; selecionar poucos campos evita carregar uma descrição grande, colunas de auditoria ou coleções inteiras sem necessidade.</p>
+        <pre><code>var products = await db.Products.AsNoTracking()
+    .Where(p =&gt; p.IsActive).OrderBy(p =&gt; p.Name)
+    .Select(p =&gt; new { p.Id, p.Name, p.Price, ReviewCount = p.Reviews.Count })
+    .ToListAsync(cancellationToken);</code></pre>
+        <h2 data-i18n="ef-performance-heading-queryable">Mantenha a consulta como IQueryable até executá-la</h2><p data-i18n="ef-performance-queryable"><code>IQueryable</code> representa uma consulta que o EF Core ainda pode traduzir para SQL. Componha filtros, ordenação, projeção e paginação antes de chamar <code>ToListAsync</code> ou outra operação terminal. Materializar cedo transforma filtros posteriores em trabalho em memória e pode fazer o banco retornar muito mais linhas que o necessário.</p>
+        <pre><code>IQueryable&lt;Product&gt; query = db.Products.AsNoTracking();
+if (!string.IsNullOrWhiteSpace(search)) query = query.Where(p =&gt; p.Name.Contains(search));
+var pageItems = await query.OrderBy(p =&gt; p.Name).ThenBy(p =&gt; p.Id)
+    .Select(p =&gt; new { p.Id, p.Name, p.Price })
+    .Skip((page - 1) * pageSize).Take(pageSize).ToListAsync(cancellationToken);</code></pre>
+        <h2 data-i18n="ef-performance-heading-pagination">Paginação com ordenação estável</h2><p data-i18n="ef-performance-pagination">Use <code>OrderBy</code> antes de <code>Skip</code> e <code>Take</code>; sem uma ordem determinística, páginas podem repetir ou omitir linhas. Valide e limite o tamanho da página, e projete antes de materializar. Para listas muito profundas e que mudam com frequência, paginação por chave, baseada na última chave indexada vista, pode ser mais adequada que offset.</p>
+        <h2 data-i18n="ef-performance-heading-view">Quando uma consulta complexa merece uma view</h2><p data-i18n="ef-performance-view">Um relatório complexo pode ser mais fácil de revisar, otimizar e reutilizar como uma view do banco. A view centraliza joins e agregações, enquanto o EF Core mapeia o resultado para um tipo sem chave. Ela não torna a consulta rápida automaticamente: os índices das tabelas de origem e o plano de execução continuam importantes.</p>
+        <pre><code>CREATE VIEW reporting.CustomerOrderSummary AS
+SELECT c.Id AS CustomerId, c.Name, COUNT(o.Id) AS OrderCount,
+       COALESCE(SUM(o.Total), 0) AS TotalSpent
+FROM Customers c LEFT JOIN Orders o ON o.CustomerId = c.Id AND o.Status = 'Paid'
+GROUP BY c.Id, c.Name;</code></pre>
+        <pre><code>public sealed class CustomerOrderSummary { public int CustomerId { get; init; } public string Name { get; init; } = ""; public decimal TotalSpent { get; init; } }
+modelBuilder.Entity&lt;CustomerOrderSummary&gt;().HasNoKey().ToView("CustomerOrderSummary", "reporting");
+var topCustomers = await db.Set&lt;CustomerOrderSummary&gt;().AsNoTracking()
+    .Where(c =&gt; c.TotalSpent &gt;= minimumSpent).OrderByDescending(c =&gt; c.TotalSpent)
+    .Take(20).ToListAsync(cancellationToken);</code></pre>
+        <h2 data-i18n="ef-performance-heading-measure">Meça antes de otimizar</h2><p data-i18n="ef-performance-conclusion">A regra prática não é “nunca use Include” ou “sempre use uma view”. Comece com o menor formato de dados que atende ao caso de uso, mantenha a composição do lado do banco, inspecione o SQL gerado e meça antes e depois de uma mudança pontual.</p>
+      </article>
+      <p class="journal-footnote"><span class="status-dot"></span><span data-i18n="article-footer">Artigo completo publicado neste portfólio.</span></p><p><strong data-i18n="closing-question">Uma pergunta para levar à próxima revisão:</strong> <span data-i18n="ef-performance-closing">qual consulta da sua aplicação mais se beneficiaria de medir linhas transferidas e colunas selecionadas?</span></p><a class="article-back article-back-bottom" href="../index.html#journal" data-i18n="back-blog">← Voltar ao blog</a>
+    </main>
+  </body>
+</html>

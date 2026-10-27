@@ -1,5 +1,13 @@
 [
   {
+    "slug": "2026-10-27-ef-core-performance",
+    "url": "blog/2026-10-27-ef-core-performance.html",
+    "title": {"pt": "Melhorando a performance com EF Core: consultas práticas sem excessos", "en": "Improving EF Core performance: practical queries without excess"},
+    "summary": {"pt": "Veja como evitar explosão cartesiana, projetar apenas os dados necessários, paginar com consistência e escolher views quando uma consulta complexa merece uma fronteira no banco.", "en": "Learn how to prevent cartesian explosion, project only the data you need, paginate consistently, and choose views when a complex query deserves a database boundary."},
+    "category": {"pt": ".NET e dados", "en": ".NET & data"},
+    "publishedAt": "2026-10-27T20:37:00+00:00"
+  },
+  {
     "slug": "2026-10-26-ef-core-dotnet-csharp-10",
     "url": "blog/2026-10-26-ef-core-dotnet-csharp-10.html",
     "title": {
