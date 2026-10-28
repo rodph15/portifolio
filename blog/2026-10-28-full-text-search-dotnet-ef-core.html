@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#10100f"><meta name="author" content="Rodolfo Schmidt">
+    <meta name="description" content="Configure full-text search com .NET, EF Core, PostgreSQL e SQL Server, com índices, consultas e ranking." data-i18n="fts-meta-description" data-i18n-attr="content">
+    <title data-i18n="fts-page-title">Full-text search com .NET e EF Core: PostgreSQL e SQL Server — Rodolfo Schmidt</title>
+    <meta property="og:type" content="article"><meta property="og:site_name" content="Rodolfo Schmidt"><meta property="og:title" content="Full-text search com .NET e EF Core: PostgreSQL e SQL Server — Rodolfo Schmidt" data-i18n="fts-page-title" data-i18n-attr="content"><meta property="og:description" content="Configure full-text search com .NET, EF Core, PostgreSQL e SQL Server, com índices, consultas e ranking." data-i18n="fts-meta-description" data-i18n-attr="content"><meta property="article:published_time" content="2026-10-28T22:51:00+00:00"><meta property="article:author" content="Rodolfo Schmidt">
+    <meta name="twitter:card" content="summary"><meta name="twitter:title" content="Full-text search com .NET e EF Core: PostgreSQL e SQL Server — Rodolfo Schmidt" data-i18n="fts-page-title" data-i18n-attr="content"><meta name="twitter:description" content="Configure full-text search com .NET, EF Core, PostgreSQL e SQL Server, com índices, consultas e ranking." data-i18n="fts-meta-description" data-i18n-attr="content">
+    <link rel="icon" type="image/svg+xml" href="../images/favicon.svg"><link rel="stylesheet" href="../assets/css/main.css"><script src="../assets/js/article.js?v=20261028-full-text-search" defer></script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Full-text search com .NET e EF Core: PostgreSQL e SQL Server","description":"Configure full-text search com .NET, EF Core, PostgreSQL e SQL Server, com índices, consultas e ranking.","datePublished":"2026-10-28T22:51:00+00:00","inLanguage":"pt-BR","author":{"@type":"Person","name":"Rodolfo Schmidt","sameAs":"https://www.linkedin.com/in/rodolfo-schmidt-623042b6/"},"keywords":["Full-text search",".NET","EF Core","PostgreSQL","SQL Server"]}</script>
+  </head>
+  <body class="article-page">
+    <header class="site-header"><div class="container header-inner">
+      <a class="brand" href="../index.html#home" aria-label="Rodolfo Schmidt, início" data-i18n="brand-home" data-i18n-attr="aria-label"><img class="brand-mark" src="https://media.licdn.com/dms/image/v2/C4E03AQEjvDpnBcZBBA/profile-displayphoto-shrink_100_100/profile-displayphoto-shrink_100_100/0/1652768084602?e=1793836800&amp;v=beta&amp;t=JAGe0l0jADz3eiOGHqDDew7zNt_kU4Po18SgMgVKfZc" alt=""><span>Rodolfo Schmidt</span></a>
+      <span class="terminal-window-title"><span data-i18n="terminal-title">rodolfo@portfolio: ~/blog</span><span class="terminal-cursor" aria-hidden="true"></span></span>
+      <nav class="site-nav" aria-label="Navegação principal" data-i18n="navigation" data-i18n-attr="aria-label"><a href="../index.html#journal" data-i18n="nav-blog">Blog</a><a href="../index.html#about" data-i18n="nav-about">Sobre</a><a class="nav-contact" href="../index.html#contact"><span data-i18n="nav-contact">Contato</span> <span aria-hidden="true">↗</span></a><label class="language-control"><span class="visually-hidden" data-i18n="language-label">Escolher idioma</span><select id="article-language-select" aria-label="Escolher idioma" data-i18n="language-label" data-i18n-attr="aria-label"><option value="pt">PT</option><option value="en">EN</option></select></label></nav>
+    </div></header>
+    <main class="container article-content">
+      <a class="article-back" href="../index.html#journal" data-i18n="back-blog">← Voltar ao blog</a>
+      <p class="eyebrow section-kicker"><span data-i18n="fts-category">.NET E DADOS</span> · <time datetime="2026-10-28T22:51:00+00:00" data-article-date>28 out. 2026, 22:51</time></p>
+      <h1 data-i18n="fts-title">Full-text search com .NET e EF Core: PostgreSQL e SQL Server</h1>
+      <p class="article-summary" data-i18n="fts-summary">Construa uma busca textual rápida e relevante: veja quando sair do LIKE, crie índices e conecte PostgreSQL ou SQL Server a uma aplicação ASP.NET Core com EF Core.</p>
+      <div class="article-tags" aria-label="Temas do artigo" data-i18n="fts-tags" data-i18n-attr="aria-label"><span data-i18n="fts-tag-dotnet">.NET</span><span data-i18n="fts-tag-efcore">EF Core</span><span data-i18n="fts-tag-database">Bancos de dados</span></div>
+      <article class="article-body">
+        <p data-i18n="fts-intro">Uma busca por título ou conteúdo costuma começar com Contains no LINQ, traduzido em muitos provedores para LIKE '%termo%'. É uma escolha honesta para poucos registros e um filtro simples. Quando a busca vira uma funcionalidade do produto, porém, full-text search (FTS) oferece outra estrutura: tokenização por idioma, normalização linguística, operadores de consulta, ranking e índices invertidos.</p>
+        <h2 data-i18n="fts-heading-like">Por que não depender apenas de LIKE?</h2>
+        <p data-i18n="fts-like">Com o curinga inicial, o otimizador normalmente não pode usar um índice B-tree convencional para localizar o prefixo; pode precisar examinar muitas linhas e comparar texto. LIKE também não sabe que “configuração” e “configurações” são formas próximas, não ordena por relevância e não fornece uma sintaxe própria para combinar termos. FTS indexa termos para encontrar documentos candidatos e calcula relevância; ainda assim, não substitui busca por identificador, igualdade, prefixos específicos ou filtros estruturados.</p>
+        <h2 data-i18n="fts-heading-model">1. Modele o documento pesquisável</h2>
+        <p data-i18n="fts-model">O exemplo usa artigos com título e corpo. Mantenha autorização, filtros de publicação e paginação na consulta final: um índice de texto acelera a localização, mas não aplica as regras do seu domínio.</p>
+        <pre><code>public sealed class Article
+{
+    public int Id { get; set; }
+    public string Title { get; set; } = "";
+    public string Body { get; set; } = "";
+    public bool IsPublished { get; set; }
+}</code></pre>
+        <h2 data-i18n="fts-heading-provider">2. Instale e registre o provedor do EF Core</h2>
+        <p data-i18n="fts-provider">Use um provedor por aplicação. As APIs de FTS abaixo são específicas do banco; mantê-las em uma implementação de busca própria evita fingir que PostgreSQL e SQL Server têm a mesma sintaxe ou o mesmo comportamento.</p>
+        <pre><code># PostgreSQL
+dotnet add package Npgsql.EntityFrameworkCore.PostgreSQL
+
+# SQL Server
+dotnet add package Microsoft.EntityFrameworkCore.SqlServer
+
+# Ferramentas de migration (se ainda não existirem)
+dotnet add package Microsoft.EntityFrameworkCore.Design
+dotnet tool install --global dotnet-ef</code></pre>
+        <pre><code>var connectionString = builder.Configuration.GetConnectionString("BlogDatabase")
+    ?? throw new InvalidOperationException("Connection string 'BlogDatabase' not found.");
+
+// Escolha somente uma das linhas conforme o banco usado.
+builder.Services.AddDbContext&lt;BlogDbContext&gt;(options =&gt;
+    options.UseNpgsql(connectionString));
+// options.UseSqlServer(connectionString);</code></pre>
+        <h2 data-i18n="fts-heading-postgres">3. PostgreSQL: vetor gerado e índice GIN</h2>
+        <p data-i18n="fts-postgres">No PostgreSQL, crie um tsvector gerado a partir das colunas pesquisáveis e um índice GIN sobre ele. A configuração de texto portuguese remove stop words e reduz palavras às suas raízes para português; escolha a configuração que corresponde ao conteúdo predominante e valide seus resultados com dados reais.</p>
+        <pre><code>using NpgsqlTypes;
+
+public sealed class Article
+{
+    public int Id { get; set; }
+    public string Title { get; set; } = "";
+    public string Body { get; set; } = "";
+    public bool IsPublished { get; set; }
+    public NpgsqlTsVector SearchVector { get; private set; } = null!;
+}
+
+protected override void OnModelCreating(ModelBuilder modelBuilder)
+{
+    modelBuilder.Entity&lt;Article&gt;()
+        .HasGeneratedTsVectorColumn(
+            article =&gt; article.SearchVector,
+            "portuguese",
+            article =&gt; new { article.Title, article.Body })
+        .HasIndex(article =&gt; article.SearchVector)
+        .HasMethod("GIN");
+}</code></pre>
+        <p data-i18n="fts-postgres-migration">Crie e aplique a migration. Ela registra a coluna gerada e o índice na mesma evolução de esquema que o restante do modelo.</p>
+        <pre><code>dotnet ef migrations add AddPostgresFullTextSearch
+dotnet ef database update</code></pre>
+        <p data-i18n="fts-postgres-query">A consulta usa a coluna indexada e WebSearchToTsQuery, que aceita uma sintaxe de pesquisa mais amigável. O termo entra como parâmetro do provider; não monte SQL concatenando a entrada da pessoa usuária.</p>
+        <pre><code>var term = request.Term?.Trim();
+if (string.IsNullOrWhiteSpace(term)) return Results.BadRequest("Search term is required.");
+
+var query = EF.Functions.WebSearchToTsQuery("portuguese", term);
+var results = await db.Articles.AsNoTracking()
+    .Where(article =&gt; article.IsPublished)
+    .Where(article =&gt; article.SearchVector.Matches(query))
+    .OrderByDescending(article =&gt; article.SearchVector.Rank(query))
+    .Select(article =&gt; new { article.Id, article.Title })
+    .Take(20)
+    .ToListAsync(cancellationToken);
+
+return Results.Ok(results);</code></pre>
+        <h2 data-i18n="fts-heading-sqlserver">4. SQL Server: catálogo e índice full-text</h2>
+        <p data-i18n="fts-sqlserver">No SQL Server, o catálogo e o índice full-text são objetos distintos. O índice precisa de uma chave única, não nula e de uma coluna; neste modelo, a chave primária criada pelo EF Core é PK_Articles. Ajuste o nome se sua migration usar outra convenção e confira se o componente Full-Text and Semantic Extractions for Search está disponível na instância.</p>
+        <pre><code>protected override void Up(MigrationBuilder migrationBuilder)
+{
+    migrationBuilder.Sql("""
+        CREATE FULLTEXT CATALOG BlogSearchCatalog AS DEFAULT;
+
+        CREATE FULLTEXT INDEX ON dbo.Articles
+        (
+            Title LANGUAGE 1046,
+            Body LANGUAGE 1046
+        )
+        KEY INDEX PK_Articles
+        WITH CHANGE_TRACKING AUTO;
+        """);
+}
+
+protected override void Down(MigrationBuilder migrationBuilder)
+{
+    migrationBuilder.Sql("""
+        DROP FULLTEXT INDEX ON dbo.Articles;
+        DROP FULLTEXT CATALOG BlogSearchCatalog;
+        """);
+}</code></pre>
+        <p data-i18n="fts-sqlserver-query">O EF Core não traduz uma expressão LINQ genérica para CONTAINSTABLE. Use uma consulta SQL parametrizada e mantenha a projeção no banco. A pessoa usuária pode informar uma condição FTS válida, por exemplo "entity framework" ou "entity*"; se a interface oferecer operadores, documente-os e valide a experiência esperada.</p>
+        <pre><code>var term = request.Term?.Trim();
+if (string.IsNullOrWhiteSpace(term)) return Results.BadRequest("Search term is required.");
+
+var results = await db.Articles.FromSqlInterpolated($"""
+    SELECT article.*
+    FROM dbo.Articles AS article
+    INNER JOIN CONTAINSTABLE(dbo.Articles, (Title, Body), {term}) AS search
+        ON article.Id = search.[KEY]
+    WHERE article.IsPublished = CAST(1 AS bit)
+    ORDER BY search.RANK DESC
+    """)
+    .AsNoTracking()
+    .Select(article =&gt; new { article.Id, article.Title })
+    .Take(20)
+    .ToListAsync(cancellationToken);
+
+return Results.Ok(results);</code></pre>
+        <h2 data-i18n="fts-heading-operate">5. Meça, trate limites e evolua a experiência</h2>
+        <p data-i18n="fts-operate">Compare o plano de execução e a latência com termos frequentes e raros, usando uma base representativa. Aplique um limite de resultados, ordene por ranking antes de paginar e combine FTS com filtros seletivos, como idioma ou publicação. Destaques, sinônimos, correção ortográfica e autocomplete são capacidades adicionais, não efeitos automáticos do índice. Para autocomplete no meio da palavra, avalie recursos específicos do banco ou um mecanismo dedicado.</p>
+        <p data-i18n="fts-conclusion">A mudança essencial é tratar a busca como uma consulta linguística indexada, e não como uma comparação de substring. Com uma coluna ou índice de texto, uma consulta parametrizada e métricas de produção, a aplicação ganha relevância e escala sem perder as regras de acesso e publicação que tornam os resultados corretos.</p>
+      </article>
+      <p class="journal-footnote"><span class="status-dot"></span><span data-i18n="article-footer">Artigo completo publicado neste portfólio.</span></p><p><strong data-i18n="closing-question">Uma pergunta para levar à próxima revisão:</strong> <span data-i18n="fts-closing">sua busca precisa apenas encontrar texto, ou precisa entender o que torna um resultado mais relevante?</span></p><a class="article-back article-back-bottom" href="../index.html#journal" data-i18n="back-blog">← Voltar ao blog</a>
+    </main>
+  </body>
+</html>
