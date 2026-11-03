@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#10100f"><meta name="author" content="Rodolfo Schmidt">
+    <meta name="description" content="Entenda cursor pagination no .NET: quando usá-la, qual problema ela resolve e como implementá-la com EF Core." data-i18n="cursor-meta-description" data-i18n-attr="content">
+    <title data-i18n="cursor-page-title">Cursor pagination com .NET e EF Core: desempenho além do offset — Rodolfo Schmidt</title>
+    <meta property="og:type" content="article"><meta property="og:site_name" content="Rodolfo Schmidt"><meta property="og:title" content="Cursor pagination com .NET e EF Core: desempenho além do offset — Rodolfo Schmidt" data-i18n="cursor-page-title" data-i18n-attr="content"><meta property="og:description" content="Entenda cursor pagination no .NET: quando usá-la, qual problema ela resolve e como implementá-la com EF Core." data-i18n="cursor-meta-description" data-i18n-attr="content"><meta property="article:published_time" content="2026-11-03T20:04:28+00:00"><meta property="article:author" content="Rodolfo Schmidt">
+    <meta name="twitter:card" content="summary"><meta name="twitter:title" content="Cursor pagination com .NET e EF Core: desempenho além do offset — Rodolfo Schmidt" data-i18n="cursor-page-title" data-i18n-attr="content"><meta name="twitter:description" content="Entenda cursor pagination no .NET: quando usá-la, qual problema ela resolve e como implementá-la com EF Core." data-i18n="cursor-meta-description" data-i18n-attr="content">
+    <link rel="icon" type="image/svg+xml" href="../images/favicon.svg"><link rel="stylesheet" href="../assets/css/main.css"><script src="../assets/js/article.js?v=20261103-cursor-pagination" defer></script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Cursor pagination com .NET e EF Core: desempenho além do offset","description":"Entenda cursor pagination no .NET: quando usá-la, qual problema ela resolve e como implementá-la com EF Core.","datePublished":"2026-11-03T20:04:28+00:00","inLanguage":"pt-BR","author":{"@type":"Person","name":"Rodolfo Schmidt","sameAs":"https://www.linkedin.com/in/rodolfo-schmidt-623042b6/"},"keywords":["Cursor pagination",".NET","C#","EF Core","Performance"]}</script>
+  </head>
+  <body class="article-page">
+    <header class="site-header"><div class="container header-inner">
+      <a class="brand" href="../index.html#home" aria-label="Rodolfo Schmidt, início" data-i18n="brand-home" data-i18n-attr="aria-label"><img class="brand-mark" src="https://media.licdn.com/dms/image/v2/C4E03AQEjvDpnBcZBBA/profile-displayphoto-shrink_100_100/profile-displayphoto-shrink_100_100/0/1652768084602?e=1793836800&amp;v=beta&amp;t=JAGe0l0jADz3eiOGHqDDew7zNt_kU4Po18SgMgVKfZc" alt=""><span>Rodolfo Schmidt</span></a>
+      <span class="terminal-window-title"><span data-i18n="terminal-title">rodolfo@portfolio: ~/blog</span><span class="terminal-cursor" aria-hidden="true"></span></span>
+      <nav class="site-nav" aria-label="Navegação principal" data-i18n="navigation" data-i18n-attr="aria-label"><a href="../index.html#journal" data-i18n="nav-blog">Blog</a><a href="../index.html#about" data-i18n="nav-about">Sobre</a><a class="nav-contact" href="../index.html#contact"><span data-i18n="nav-contact">Contato</span> <span aria-hidden="true">↗</span></a><label class="language-control"><span class="visually-hidden" data-i18n="language-label">Escolher idioma</span><select id="article-language-select" aria-label="Escolher idioma" data-i18n="language-label" data-i18n-attr="aria-label"><option value="pt">PT</option><option value="en">EN</option></select></label></nav>
+    </div></header>
+    <main class="container article-content">
+      <a class="article-back" href="../index.html#journal" data-i18n="back-blog">← Voltar ao blog</a>
+      <p class="eyebrow section-kicker"><span data-i18n="cursor-category">.NET E DADOS</span> · <time datetime="2026-11-03T20:04:28+00:00" data-article-date>3 nov. 2026, 20:04</time></p>
+      <h1 data-i18n="cursor-title">Cursor pagination com .NET e EF Core: desempenho além do offset</h1>
+      <p class="article-summary" data-i18n="cursor-summary">Use a última chave vista para buscar a próxima página sem fazer o banco atravessar milhares de linhas descartadas.</p>
+      <div class="article-tags" aria-label="Temas do artigo" data-i18n="cursor-tags" data-i18n-attr="aria-label"><span data-i18n="cursor-tag-dotnet">.NET</span><span data-i18n="cursor-tag-efcore">EF Core</span><span data-i18n="cursor-tag-performance">Performance</span></div>
+      <article class="article-body">
+        <p data-i18n="cursor-intro">Paginação por offset é simples: a API recebe o número da página, traduz esse número em Skip e retorna Take itens. Ela funciona bem para listas pequenas e telas que realmente precisam pular para uma página arbitrária. Em listas grandes, porém, o banco precisa localizar e descartar todas as linhas anteriores ao offset antes de devolver a página. Quanto mais profunda a página, mais trabalho pode ser feito para retornar sempre o mesmo pequeno conjunto.</p>
+        <h2 data-i18n="cursor-heading-problem">O problema que o cursor resolve</h2>
+        <p data-i18n="cursor-problem">Uma consulta como Skip(100_000).Take(20) não transfere necessariamente 100 mil registros para a aplicação, mas pode obrigar o banco a percorrê-los ou ordená-los antes de ignorá-los. Além da latência crescente, inserções e exclusões entre duas requisições podem deslocar o offset e causar duplicações ou lacunas. Cursor pagination, também chamada de keyset pagination, começa da última chave recebida: em vez de pedir “página 5.001”, a cliente pede “os próximos itens depois deste ponto”.</p>
+        <p data-i18n="cursor-when">Aplique-a em feeds cronológicos, auditorias, mensagens, eventos e APIs com navegação sequencial de “carregar mais”. Mantenha offset quando o produto exige ir diretamente para qualquer número de página, mostrar um total exato ou trabalhar com um conjunto pequeno e estável. Cursor não é uma substituição automática: ele troca salto arbitrário por uma busca incremental muito mais eficiente quando há um índice compatível.</p>
+        <h2 data-i18n="cursor-heading-model">1. Escolha uma ordenação estável e crie o índice</h2>
+        <p data-i18n="cursor-model">A coluna de ordenação deve ser determinística. Uma data sozinha pode empatar; por isso, o exemplo usa CreatedAt em ordem decrescente e Id como desempate. O predicado e o índice precisam refletir a mesma ordem. Ajuste o nome da tabela e do índice às convenções do seu projeto.</p>
+        <pre><code>public sealed class Activity
+{
+    public long Id { get; set; }
+    public DateTimeOffset CreatedAt { get; set; }
+    public string Message { get; set; } = "";
+}
+
+protected override void OnModelCreating(ModelBuilder modelBuilder)
+{
+    modelBuilder.Entity&lt;Activity&gt;()
+        .HasIndex(activity =&gt; new { activity.CreatedAt, activity.Id });
+}</code></pre>
+        <pre><code>dotnet ef migrations add AddActivityCursorIndex
+dotnet ef database update</code></pre>
+        <h2 data-i18n="cursor-heading-contract">2. Defina um cursor opaco e o contrato da resposta</h2>
+        <p data-i18n="cursor-contract">O cliente não precisa conhecer os detalhes da consulta. Retorne um token opaco que contenha a posição da última linha entregue e aceite-o de volta como after. Base64url evita caracteres que exigem escape na query string; a validação devolve um erro explícito para tokens inválidos, em vez de tratá-los silenciosamente como a primeira página.</p>
+        <pre><code>using System.Text;
+using System.Text.Json;
+
+public sealed record ActivityCursor(DateTimeOffset CreatedAt, long Id);
+public sealed record ActivityItem(long Id, DateTimeOffset CreatedAt, string Message);
+public sealed record ActivityPage(IReadOnlyList&lt;ActivityItem&gt; Items, string? NextCursor);
+
+static string EncodeCursor(ActivityCursor cursor) =&gt;
+    Convert.ToBase64String(Encoding.UTF8.GetBytes(JsonSerializer.Serialize(cursor)))
+        .TrimEnd('=').Replace('+', '-').Replace('/', '_');
+
+static bool TryDecodeCursor(string value, out ActivityCursor? cursor)
+{
+    cursor = null;
+    try
+    {
+        var base64 = value.Replace('-', '+').Replace('_', '/');
+        base64 = base64.PadRight(base64.Length + (4 - base64.Length % 4) % 4, '=');
+        cursor = JsonSerializer.Deserialize&lt;ActivityCursor&gt;(
+            Encoding.UTF8.GetString(Convert.FromBase64String(base64)));
+        return cursor is not null;
+    }
+    catch (FormatException) { return false; }
+    catch (JsonException) { return false; }
+}</code></pre>
+        <h2 data-i18n="cursor-heading-query">3. Busque depois da última chave, não depois de um número de linhas</h2>
+        <p data-i18n="cursor-query">O filtro reproduz a ordenação. Para CreatedAt DESC e Id DESC, uma linha posterior tem uma data menor ou a mesma data com Id menor. Solicitar um item extra permite saber se existe outra página sem executar COUNT. Faça a projeção e AsNoTracking antes da materialização para manter a leitura enxuta.</p>
+        <pre><code>app.MapGet("/activities", async (
+    string? after,
+    int? pageSize,
+    AppDbContext db,
+    CancellationToken cancellationToken) =&gt;
+{
+    const int defaultPageSize = 20;
+    const int maximumPageSize = 100;
+    var size = Math.Clamp(pageSize ?? defaultPageSize, 1, maximumPageSize);
+
+    ActivityCursor? cursor = null;
+    if (!string.IsNullOrWhiteSpace(after) &amp;&amp; !TryDecodeCursor(after, out cursor))
+        return Results.BadRequest(new { error = "The cursor is invalid." });
+
+    var query = db.Activities.AsNoTracking()
+        .OrderByDescending(activity =&gt; activity.CreatedAt)
+        .ThenByDescending(activity =&gt; activity.Id);
+
+    if (cursor is not null)
+    {
+        query = query.Where(activity =&gt;
+            activity.CreatedAt &lt; cursor.CreatedAt ||
+            (activity.CreatedAt == cursor.CreatedAt &amp;&amp; activity.Id &lt; cursor.Id))
+            .OrderByDescending(activity =&gt; activity.CreatedAt)
+            .ThenByDescending(activity =&gt; activity.Id);
+    }
+
+    var rows = await query
+        .Select(activity =&gt; new ActivityItem(activity.Id, activity.CreatedAt, activity.Message))
+        .Take(size + 1)
+        .ToListAsync(cancellationToken);
+
+    var hasNextPage = rows.Count &gt; size;
+    var items = rows.Take(size).ToList();
+    var nextCursor = hasNextPage
+        ? EncodeCursor(new ActivityCursor(items[^1].CreatedAt, items[^1].Id))
+        : null;
+
+    return Results.Ok(new ActivityPage(items, nextCursor));
+});</code></pre>
+        <h2 data-i18n="cursor-heading-client">4. Consuma a próxima página</h2>
+        <p data-i18n="cursor-client">A primeira chamada não envia after. Nas chamadas seguintes, a aplicação usa NextCursor retornado pela API. O cursor pertence à mesma ordenação e aos mesmos filtros da consulta; se filtros como tenant, status ou busca mudarem, descarte-o e comece outra sequência. Para impedir que um token seja reutilizado em outro contexto, inclua e valide esses valores no payload ou assine-o no servidor.</p>
+        <pre><code>GET /activities?pageSize=20
+
+{
+  "items": [
+    { "id": 812, "createdAt": "2026-11-03T19:58:00+00:00", "message": "..." }
+  ],
+  "nextCursor": "eyJDcmVhdGVkQXQiOiIyMDI2LTExLTAzVDE5OjU4OjAwKzAwOjAwIiwiSWQiOjgxMn0"
+}
+
+GET /activities?pageSize=20&amp;after=eyJDcmVhdGVkQXQiOiIyMDI2LTExLTAzVDE5OjU4OjAwKzAwOjAwIiwiSWQiOjgxMn0</code></pre>
+        <h2 data-i18n="cursor-heading-caveats">5. Valide o plano e defina a semântica de mudanças</h2>
+        <p data-i18n="cursor-caveats">Índice, ordenação e predicado devem caminhar juntos; confirme isso no plano de execução e com uma base representativa. A técnica evita percorrer offsets profundos, mas não congela o conjunto: um item novo antes do cursor normalmente aparecerá em uma atualização futura, não na sequência atual. Se a regra de negócio exige um retrato imutável, defina um limite temporal, use versionamento ou uma transação adequada ao banco. Para navegar para trás, gere um cursor de início e inverta o predicado e a ordem, depois reverta os itens antes de responder.</p>
+        <p data-i18n="cursor-conclusion">Cursor pagination resolve uma limitação concreta do offset: buscar a próxima página não deve ficar mais cara apenas porque a pessoa já percorreu muitas páginas. Com uma ordenação única, um índice correspondente, cursor validado e um contrato claro de próxima página, EF Core traduz a intenção para uma consulta que o banco pode continuar a partir da última chave conhecida.</p>
+      </article>
+      <p class="journal-footnote"><span class="status-dot"></span><span data-i18n="article-footer">Artigo completo publicado neste portfólio.</span></p><p><strong data-i18n="closing-question">Uma pergunta para levar à próxima revisão:</strong> <span data-i18n="cursor-closing">sua API precisa que usuários saltem para qualquer página ou apenas encontrem a próxima sequência de itens com rapidez?</span></p><a class="article-back article-back-bottom" href="../index.html#journal" data-i18n="back-blog">← Voltar ao blog</a>
+    </main>
+  </body>
+</html>

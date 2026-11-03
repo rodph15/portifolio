@@ -1,5 +1,13 @@
 [
   {
+    "slug": "2026-11-03-cursor-pagination-dotnet",
+    "url": "blog/2026-11-03-cursor-pagination-dotnet.html",
+    "title": {"pt": "Cursor pagination com .NET e EF Core: desempenho além do offset", "en": "Cursor pagination with .NET and EF Core: performance beyond offset"},
+    "summary": {"pt": "Entenda quando trocar Skip/Take por cursor pagination e implemente uma API eficiente com ordenação estável, índice e cursor opaco.", "en": "Learn when to replace Skip/Take with cursor pagination and implement an efficient API with stable ordering, an index, and an opaque cursor."},
+    "category": {"pt": ".NET e dados", "en": ".NET & data"},
+    "publishedAt": "2026-11-03T20:04:28+00:00"
+  },
+  {
     "slug": "2026-10-28-full-text-search-dotnet-ef-core",
     "url": "blog/2026-10-28-full-text-search-dotnet-ef-core.html",
     "title": {"pt": "Full-text search com .NET e EF Core: PostgreSQL e SQL Server", "en": "Full-text search with .NET and EF Core: PostgreSQL and SQL Server"},
