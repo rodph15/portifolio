@@ -1,5 +1,13 @@
 [
   {
+    "slug": "2026-11-04-n-plus-one-apis-ef-core",
+    "url": "blog/2026-11-04-n-plus-one-apis-ef-core.html",
+    "title": {"pt": "O problema N+1 em APIs: como identificá-lo e evitá-lo com EF Core", "en": "The N+1 problem in APIs: how to spot and avoid it with EF Core"},
+    "summary": {"pt": "Veja por que uma API pode transformar uma lista em dezenas de consultas, como isso acontece com carregamento lento e como projetar consultas eficientes no EF Core.", "en": "See why an API can turn one list into dozens of queries, how lazy loading causes it, and how to design efficient EF Core queries."},
+    "category": {"pt": ".NET e dados", "en": ".NET & data"},
+    "publishedAt": "2026-11-04T20:53:44+00:00"
+  },
+  {
     "slug": "2026-11-03-cursor-pagination-dotnet",
     "url": "blog/2026-11-03-cursor-pagination-dotnet.html",
     "title": {"pt": "Cursor pagination com .NET e EF Core: desempenho além do offset", "en": "Cursor pagination with .NET and EF Core: performance beyond offset"},

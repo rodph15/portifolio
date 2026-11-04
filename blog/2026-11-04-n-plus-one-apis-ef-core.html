@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#10100f"><meta name="author" content="Rodolfo Schmidt">
+    <meta name="description" content="Entenda o problema N+1 em APIs, veja um exemplo prático com .NET 10 e EF Core e aprenda a evitá-lo." data-i18n="n-plus-one-meta-description" data-i18n-attr="content">
+    <title data-i18n="n-plus-one-page-title">O problema N+1 em APIs: como identificá-lo e evitá-lo com EF Core — Rodolfo Schmidt</title>
+    <meta property="og:type" content="article"><meta property="og:site_name" content="Rodolfo Schmidt"><meta property="og:title" content="O problema N+1 em APIs: como identificá-lo e evitá-lo com EF Core — Rodolfo Schmidt" data-i18n="n-plus-one-page-title" data-i18n-attr="content"><meta property="og:description" content="Entenda o problema N+1 em APIs, veja um exemplo prático com .NET 10 e EF Core e aprenda a evitá-lo." data-i18n="n-plus-one-meta-description" data-i18n-attr="content"><meta property="article:published_time" content="2026-11-04T20:53:44+00:00"><meta property="article:author" content="Rodolfo Schmidt">
+    <meta name="twitter:card" content="summary"><meta name="twitter:title" content="O problema N+1 em APIs: como identificá-lo e evitá-lo com EF Core — Rodolfo Schmidt" data-i18n="n-plus-one-page-title" data-i18n-attr="content"><meta name="twitter:description" content="Entenda o problema N+1 em APIs, veja um exemplo prático com .NET 10 e EF Core e aprenda a evitá-lo." data-i18n="n-plus-one-meta-description" data-i18n-attr="content">
+    <link rel="icon" type="image/svg+xml" href="../images/favicon.svg"><link rel="stylesheet" href="../assets/css/main.css"><script src="../assets/js/article.js?v=20261104-n-plus-one" defer></script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"O problema N+1 em APIs: como identificá-lo e evitá-lo com EF Core","description":"Entenda o problema N+1 em APIs, veja um exemplo prático com .NET 10 e EF Core e aprenda a evitá-lo.","datePublished":"2026-11-04T20:53:44+00:00","inLanguage":"pt-BR","author":{"@type":"Person","name":"Rodolfo Schmidt","sameAs":"https://www.linkedin.com/in/rodolfo-schmidt-623042b6/"},"keywords":["N+1",".NET 10","C#","EF Core","APIs","Performance"]}</script>
+  </head>
+  <body class="article-page">
+    <header class="site-header"><div class="container header-inner">
+      <a class="brand" href="../index.html#home" aria-label="Rodolfo Schmidt, início" data-i18n="brand-home" data-i18n-attr="aria-label"><img class="brand-mark" src="https://media.licdn.com/dms/image/v2/C4E03AQEjvDpnBcZBBA/profile-displayphoto-shrink_100_100/profile-displayphoto-shrink_100_100/0/1652768084602?e=1793836800&amp;v=beta&amp;t=JAGe0l0jADz3eiOGHqDDew7zNt_kU4Po18SgMgVKfZc" alt=""><span>Rodolfo Schmidt</span></a>
+      <span class="terminal-window-title"><span data-i18n="terminal-title">rodolfo@portfolio: ~/blog</span><span class="terminal-cursor" aria-hidden="true"></span></span>
+      <nav class="site-nav" aria-label="Navegação principal" data-i18n="navigation" data-i18n-attr="aria-label"><a href="../index.html#journal" data-i18n="nav-blog">Blog</a><a href="../index.html#about" data-i18n="nav-about">Sobre</a><a class="nav-contact" href="../index.html#contact"><span data-i18n="nav-contact">Contato</span> <span aria-hidden="true">↗</span></a><label class="language-control"><span class="visually-hidden" data-i18n="language-label">Escolher idioma</span><select id="article-language-select" aria-label="Escolher idioma" data-i18n="language-label" data-i18n-attr="aria-label"><option value="pt">PT</option><option value="en">EN</option></select></label></nav>
+    </div></header>
+    <main class="container article-content">
+      <a class="article-back" href="../index.html#journal" data-i18n="back-blog">← Voltar ao blog</a>
+      <p class="eyebrow section-kicker"><span data-i18n="n-plus-one-category">.NET E DADOS</span> · <time datetime="2026-11-04T20:53:44+00:00" data-article-date>4 nov. 2026, 20:53</time></p>
+      <h1 data-i18n="n-plus-one-title">O problema N+1 em APIs: como identificá-lo e evitá-lo com EF Core</h1>
+      <p class="article-summary" data-i18n="n-plus-one-summary">Uma lista aparentemente simples pode disparar uma consulta inicial e mais uma para cada item retornado.</p>
+      <div class="article-tags" aria-label="Temas do artigo" data-i18n="n-plus-one-tags" data-i18n-attr="aria-label"><span data-i18n="n-plus-one-tag-dotnet">.NET 10</span><span data-i18n="n-plus-one-tag-efcore">EF Core</span><span data-i18n="n-plus-one-tag-performance">Performance</span></div>
+      <article class="article-body">
+        <p data-i18n="n-plus-one-intro">N+1 é um problema de acesso a dados muito comum em APIs. A aplicação faz uma consulta para buscar uma lista de entidades e, ao percorrê-la, executa outra consulta para cada entidade a fim de carregar uma relação. Com 50 pedidos, por exemplo, a requisição pode produzir 51 comandos SQL: um para os pedidos e 50 para seus itens.</p>
+        <p data-i18n="n-plus-one-impact">O efeito vai além do número exibido no log. Cada ida ao banco acrescenta latência, ocupa conexões e amplia o trabalho do servidor. Em desenvolvimento, uma base pequena e local pode esconder o custo; em produção, uma página maior, uma rede mais lenta ou concorrência suficiente transforma a rota em um gargalo.</p>
+        <h2 data-i18n="n-plus-one-heading-model">Um modelo de pedidos</h2>
+        <p data-i18n="n-plus-one-model">Considere uma API que lista pedidos e precisa retornar a quantidade de itens de cada um. Para demonstrar o problema com clareza, o exemplo habilita lazy loading proxies. Essa configuração é opcional no EF Core, mas quando está habilitada, acessar uma navegação ainda não carregada pode executar SQL de forma implícita.</p>
+        <pre><code>public sealed class Order
+{
+    public int Id { get; set; }
+    public DateTimeOffset CreatedAt { get; set; }
+    public virtual ICollection&lt;OrderItem&gt; Items { get; set; } = [];
+}
+
+public sealed class OrderItem
+{
+    public int Id { get; set; }
+    public int OrderId { get; set; }
+    public decimal UnitPrice { get; set; }
+    public int Quantity { get; set; }
+}
+
+builder.Services.AddDbContext&lt;StoreDbContext&gt;(options =&gt;
+    options.UseSqlServer(connectionString)
+        .UseLazyLoadingProxies()
+        .EnableSensitiveDataLogging()); // Use somente no desenvolvimento.</code></pre>
+        <h2 data-i18n="n-plus-one-heading-bad">Como o N+1 acontece</h2>
+        <p data-i18n="n-plus-one-bad">A rota abaixo parece inofensiva. O primeiro ToListAsync busca os pedidos. Depois, cada acesso a order.Items.Count pode acionar o carregamento lento para aquele pedido. Se a página contém 20 pedidos, são 21 consultas; se contém 100, são 101.</p>
+        <pre><code>app.MapGet("/orders", async (StoreDbContext db, CancellationToken cancellationToken) =&gt;
+{
+    var orders = await db.Orders
+        .OrderByDescending(order =&gt; order.CreatedAt)
+        .Take(20)
+        .ToListAsync(cancellationToken);
+
+    return orders.Select(order =&gt; new
+    {
+        order.Id,
+        order.CreatedAt,
+        ItemCount = order.Items.Count
+    });
+});</code></pre>
+        <p data-i18n="n-plus-one-log">Com o log de comandos do EF Core habilitado, o padrão é fácil de reconhecer: um SELECT para Orders, seguido de vários SELECTs filtrados por OrderId. Conte os comandos de uma única requisição e teste com uma quantidade realista de registros; medir apenas o tempo local pode não revelar o problema.</p>
+        <h2 data-i18n="n-plus-one-heading-projection">A opção preferida: projete a resposta</h2>
+        <p data-i18n="n-plus-one-projection">Em uma API, normalmente não é necessário materializar toda a entidade nem todos os itens para devolver um resumo. Projete exatamente o contrato da resposta dentro da consulta. EF Core traduz a agregação sobre a navegação para SQL, e o banco calcula a contagem sem uma viagem adicional por pedido.</p>
+        <pre><code>public sealed record OrderListItem(
+    int Id,
+    DateTimeOffset CreatedAt,
+    int ItemCount,
+    decimal Total);
+
+app.MapGet("/orders", async (StoreDbContext db, CancellationToken cancellationToken) =&gt;
+{
+    var orders = await db.Orders
+        .AsNoTracking()
+        .OrderByDescending(order =&gt; order.CreatedAt)
+        .Take(20)
+        .Select(order =&gt; new OrderListItem(
+            order.Id,
+            order.CreatedAt,
+            order.Items.Count,
+            order.Items.Sum(item =&gt; item.UnitPrice * item.Quantity)))
+        .ToListAsync(cancellationToken);
+
+    return Results.Ok(orders);
+});</code></pre>
+        <p data-i18n="n-plus-one-projection-note">Além de evitar o N+1, a projeção reduz colunas e objetos materializados. AsNoTracking é adequado para leitura quando as entidades não serão alteradas naquele contexto. Confira o SQL gerado e o plano de execução no provedor usado pela aplicação, especialmente quando as agregações ou filtros ficarem mais complexos.</p>
+        <h2 data-i18n="n-plus-one-heading-include">Quando a resposta precisa da coleção</h2>
+        <p data-i18n="n-plus-one-include">Se o contrato realmente precisa dos itens, carregue a relação de forma explícita. Include evita uma consulta por pedido, mas uma coleção grande combinada com outras coleções pode gerar muitas linhas repetidas em um único JOIN. AsSplitQuery pode dividir Includes de coleções em poucas consultas planejadas — não uma por entidade — e pode ser uma escolha melhor quando a explosão cartesiana for o risco principal.</p>
+        <pre><code>var orders = await db.Orders
+    .AsNoTracking()
+    .OrderByDescending(order =&gt; order.CreatedAt)
+    .Take(20)
+    .Include(order =&gt; order.Items)
+    .AsSplitQuery()
+    .ToListAsync(cancellationToken);</code></pre>
+        <h2 data-i18n="n-plus-one-heading-prevention">Como prevenir o problema</h2>
+        <p data-i18n="n-plus-one-prevention">Escolha a estratégia a partir do formato da resposta: projeção para DTOs de leitura; Include para um grafo que será realmente usado; carregamento explícito quando a relação é condicional e controlada. Evite serializar entidades rastreadas diretamente, pois o serializador ou código de mapeamento pode tocar em navegações inesperadas. Em rotas críticas, considere não habilitar lazy loading e trate cada carregamento de relação como uma decisão visível no código.</p>
+        <p data-i18n="n-plus-one-conclusion">N+1 não é uma peculiaridade do EF Core: é a consequência de consultar dados relacionados sem planejar o acesso. O remédio não é adicionar Include em toda consulta, mas definir o que a API precisa devolver, carregar isso de forma explícita e verificar os comandos SQL. Assim, o custo da rota continua previsível quando a lista cresce.</p>
+      </article>
+      <p class="journal-footnote"><span class="status-dot"></span><span data-i18n="article-footer">Artigo completo publicado neste portfólio.</span></p><p><strong data-i18n="closing-question">Uma pergunta para levar à próxima revisão:</strong> <span data-i18n="n-plus-one-closing">sua rota faz um número previsível de consultas quando a lista passa de 20 para 200 itens?</span></p><a class="article-back article-back-bottom" href="../index.html#journal" data-i18n="back-blog">← Voltar ao blog</a>
+    </main>
+  </body>
+</html>
