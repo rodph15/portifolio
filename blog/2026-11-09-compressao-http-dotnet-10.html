@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#10100f"><meta name="author" content="Rodolfo Schmidt">
+    <meta name="description" content="Entenda quando a compressão HTTP reduz latência e custos, quais riscos ela traz e como configurar respostas e requisições comprimidas no ASP.NET Core .NET 10." data-i18n="compression-meta-description" data-i18n-attr="content">
+    <title data-i18n="compression-page-title">Compressão HTTP em APIs .NET 10: ganhos, riscos e implementação passo a passo — Rodolfo Schmidt</title>
+    <meta property="og:type" content="article"><meta property="og:site_name" content="Rodolfo Schmidt"><meta property="og:title" content="Compressão HTTP em APIs .NET 10: ganhos, riscos e implementação passo a passo — Rodolfo Schmidt" data-i18n="compression-page-title" data-i18n-attr="content"><meta property="og:description" content="Entenda quando a compressão HTTP reduz latência e custos, quais riscos ela traz e como configurar respostas e requisições comprimidas no ASP.NET Core .NET 10." data-i18n="compression-meta-description" data-i18n-attr="content"><meta property="article:published_time" content="2026-11-09T23:24:39+00:00"><meta property="article:author" content="Rodolfo Schmidt">
+    <meta name="twitter:card" content="summary"><meta name="twitter:title" content="Compressão HTTP em APIs .NET 10: ganhos, riscos e implementação passo a passo — Rodolfo Schmidt" data-i18n="compression-page-title" data-i18n-attr="content"><meta name="twitter:description" content="Entenda quando a compressão HTTP reduz latência e custos, quais riscos ela traz e como configurar respostas e requisições comprimidas no ASP.NET Core .NET 10." data-i18n="compression-meta-description" data-i18n-attr="content">
+    <link rel="icon" type="image/svg+xml" href="../images/favicon.svg"><link rel="stylesheet" href="../assets/css/main.css"><script src="../assets/js/article.js?v=20261109-compression" defer></script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Compressão HTTP em APIs .NET 10: ganhos, riscos e implementação passo a passo","description":"Entenda quando a compressão HTTP reduz latência e custos, quais riscos ela traz e como configurar respostas e requisições comprimidas no ASP.NET Core .NET 10.","datePublished":"2026-11-09T23:24:39+00:00","inLanguage":"pt-BR","author":{"@type":"Person","name":"Rodolfo Schmidt","sameAs":"https://www.linkedin.com/in/rodolfo-schmidt-623042b6/"},"keywords":[".NET 10","C#","ASP.NET Core","HTTP","Brotli","Gzip","Compressão"]}</script>
+  </head>
+  <body class="article-page">
+    <header class="site-header"><div class="container header-inner">
+      <a class="brand" href="../index.html#home" aria-label="Rodolfo Schmidt, início" data-i18n="brand-home" data-i18n-attr="aria-label"><img class="brand-mark" src="https://media.licdn.com/dms/image/v2/C4E03AQEjvDpnBcZBBA/profile-displayphoto-shrink_100_100/profile-displayphoto-shrink_100_100/0/1652768084602?e=1793836800&amp;v=beta&amp;t=JAGe0l0jADz3eiOGHqDDew7zNt_kU4Po18SgMgVKfZc" alt=""><span>Rodolfo Schmidt</span></a>
+      <span class="terminal-window-title"><span data-i18n="terminal-title">rodolfo@portfolio: ~/blog</span><span class="terminal-cursor" aria-hidden="true"></span></span>
+      <nav class="site-nav" aria-label="Navegação principal" data-i18n="navigation" data-i18n-attr="aria-label"><a href="../index.html#journal" data-i18n="nav-blog">Blog</a><a href="../index.html#about" data-i18n="nav-about">Sobre</a><a class="nav-contact" href="../index.html#contact"><span data-i18n="nav-contact">Contato</span> <span aria-hidden="true">↗</span></a><label class="language-control"><span class="visually-hidden" data-i18n="language-label">Escolher idioma</span><select id="article-language-select" aria-label="Escolher idioma" data-i18n="language-label" data-i18n-attr="aria-label"><option value="pt">PT</option><option value="en">EN</option></select></label></nav>
+    </div></header>
+    <main class="container article-content">
+      <a class="article-back" href="../index.html#journal" data-i18n="back-blog">← Voltar ao blog</a>
+      <p class="eyebrow section-kicker"><span data-i18n="compression-category">.NET E PERFORMANCE</span> · <time datetime="2026-11-09T23:24:39+00:00" data-article-date>9 nov. 2026, 23:24</time></p>
+      <h1 data-i18n="compression-title">Compressão HTTP em APIs .NET 10: ganhos, riscos e implementação passo a passo</h1>
+      <p class="article-summary" data-i18n="compression-summary">Reduza bytes transferidos sem transformar CPU, observabilidade ou segurança em efeitos colaterais invisíveis.</p>
+      <div class="article-tags" aria-label="Temas do artigo" data-i18n="compression-tags" data-i18n-attr="aria-label"><span data-i18n="compression-tag-dotnet">.NET 10</span><span data-i18n="compression-tag-http">HTTP</span><span data-i18n="compression-tag-performance">Performance</span></div>
+      <article class="article-body">
+        <p data-i18n="compression-intro">“Request compression” costuma descrever duas direções diferentes. A mais comum é a compressão da resposta: o cliente envia Accept-Encoding e a API devolve JSON, HTML ou texto em Brotli ou Gzip. A outra é uma requisição comprimida: o cliente envia Content-Encoding e o servidor descompacta o corpo antes de processá-lo. Em uma API .NET, as duas podem coexistir, mas têm objetivos, riscos e configuração próprios.</p>
+        <h2 data-i18n="compression-heading-why">O que a compressão resolve</h2>
+        <p data-i18n="compression-why">Compressão troca CPU por menos bytes na rede. JSON repetitivo, CSS, JavaScript, HTML, XML e SVG normalmente comprimem muito bem; imagens JPEG, PNG, WebP, vídeos, arquivos ZIP e dados já codificados em base64 raramente justificam outra passagem. Menos bytes tende a reduzir tempo de transferência, uso de banda e custo de egress, principalmente para clientes móveis, redes distantes ou respostas com muitos registros.</p>
+        <p data-i18n="compression-benefits">Os ganhos devem ser medidos no tamanho transferido e na latência de ponta a ponta, não apenas no tempo da action. Uma resposta de 500 KB que se torna 80 KB pode chegar mais cedo em uma conexão limitada, embora o servidor e o cliente gastem algum tempo comprimindo e descomprimindo. Em uma LAN rápida e para respostas pequenas, esse custo pode superar o benefício.</p>
+        <h2 data-i18n="compression-heading-tradeoffs">Desvantagens, limites e segurança</h2>
+        <p data-i18n="compression-tradeoffs">A compressão adiciona trabalho de CPU, pode aumentar a latência de respostas pequenas e torna métricas de tamanho mais importantes: Content-Length pode desaparecer porque o corpo é produzido em streaming. Níveis mais altos reduzem mais bytes, mas custam mais CPU; por isso, o melhor nível é uma decisão medida sob carga representativa, não uma regra universal.</p>
+        <p data-i18n="compression-security">Há também um limite de segurança. Em respostas HTTPS que misturam um segredo com conteúdo controlável pelo atacante, a variação do tamanho comprimido pode revelar informações por ataques como BREACH. ASP.NET Core mantém a compressão de respostas HTTPS desabilitada por padrão. Só habilite EnableForHttps quando tiver analisado as respostas: não comprima páginas que reflitam entrada controlada junto de tokens, cookies ou segredos e mantenha proteção CSRF, autorização e cache adequados.</p>
+        <p data-i18n="compression-request-risk">Para corpos recebidos, aceite apenas codificações que você suporta e imponha limites depois da descompressão. Um corpo comprimido pequeno pode expandir muito: sem limite de tamanho, tempo limite e rate limiting, ele vira uma forma de exaurir memória, CPU ou disco. A descompressão não substitui validação de payload nem limites do proxy e do Kestrel.</p>
+        <h2 data-i18n="compression-heading-response">Passo a passo: comprimir respostas</h2>
+        <p data-i18n="compression-step-project">1. Crie ou atualize uma Web API que use o SDK Microsoft.NET.Sdk.Web e tenha como alvo net10.0. Response compression faz parte do framework compartilhado do ASP.NET Core; não é necessário instalar um pacote NuGet para a configuração abaixo.</p>
+        <pre><code>dotnet new webapi --framework net10.0 --name CompressionApi
+cd CompressionApi</code></pre>
+        <p data-i18n="compression-step-services">2. Registre os provedores e os tipos de conteúdo que fazem sentido para a API. Brotli costuma produzir corpos menores, enquanto Gzip é amplamente compatível. O middleware negocia o algoritmo com o cabeçalho Accept-Encoding do cliente; não é preciso escolher um algoritmo em cada endpoint.</p>
+        <pre><code>using Microsoft.AspNetCore.ResponseCompression;
+using System.IO.Compression;
+
+var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddResponseCompression(options =&gt;
+{
+    options.EnableForHttps = true; // Habilite somente após avaliar o risco de BREACH.
+    options.Providers.Add&lt;BrotliCompressionProvider&gt;();
+    options.Providers.Add&lt;GzipCompressionProvider&gt;();
+    options.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat([
+        "application/json",
+        "application/problem+json",
+        "application/xml",
+        "image/svg+xml"
+    ]);
+});
+
+builder.Services.Configure&lt;BrotliCompressionProviderOptions&gt;(options =&gt;
+    options.Level = CompressionLevel.Fastest);
+builder.Services.Configure&lt;GzipCompressionProviderOptions&gt;(options =&gt;
+    options.Level = CompressionLevel.Fastest);</code></pre>
+        <p data-i18n="compression-step-pipeline">3. Adicione o middleware cedo no pipeline. Se a aplicação serve arquivos estáticos e você quer que eles também possam ser comprimidos, UseResponseCompression deve aparecer antes de UseStaticFiles. Para uma API pura, coloque-o antes dos endpoints que escrevem a resposta.</p>
+        <pre><code>var app = builder.Build();
+
+app.UseResponseCompression();
+app.UseHttpsRedirection();
+
+app.MapGet("/products", () =&gt;
+{
+    var products = Enumerable.Range(1, 1_000).Select(id =&gt; new
+    {
+        id,
+        Name = $"Product {id}",
+        Description = "A description with repeated text that compresses well."
+    });
+
+    return Results.Ok(products);
+});
+
+app.Run();</code></pre>
+        <p data-i18n="compression-step-behavior">O middleware só comprime uma resposta elegível quando o cliente aceita uma codificação e o Content-Type é permitido. Ele acrescenta Content-Encoding e Vary: Accept-Encoding, para que caches não devolvam por engano uma variante Brotli a um cliente que só aceita Gzip. Não force Content-Encoding manualmente e não comprima novamente dados já comprimidos.</p>
+        <h2 data-i18n="compression-heading-request">Passo a passo: aceitar requisições comprimidas</h2>
+        <p data-i18n="compression-request-setup">O middleware de descompressão de requisições lê Content-Encoding e expõe o corpo descompactado aos model binders e endpoints seguintes. Registre-o nos serviços e adicione-o antes dos endpoints que leem Request.Body. O suporte padrão cobre Gzip e Brotli; um Content-Encoding ausente preserva o comportamento normal.</p>
+        <pre><code>var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddRequestDecompression();
+
+var app = builder.Build();
+
+app.UseRequestDecompression();
+
+app.MapPost("/imports", async (HttpRequest request, CancellationToken cancellationToken) =&gt;
+{
+    using var reader = new StreamReader(request.Body);
+    var json = await reader.ReadToEndAsync(cancellationToken);
+
+    // Desserialize, valide o contrato e aplique limites de domínio aqui.
+    return Results.Accepted("/imports/123", new { receivedBytes = json.Length });
+});
+
+app.Run();</code></pre>
+        <p data-i18n="compression-request-client">O cliente deve informar exatamente a codificação aplicada. Este exemplo comprime um JSON com Gzip e o envia para a rota. Em aplicações reais, prefira streaming e limites no servidor a carregar corpos grandes inteiros na memória como o exemplo didático faz.</p>
+        <pre><code>gzip -c import.json &gt; import.json.gz
+curl -i -X POST http://localhost:5000/imports \
+  -H "Content-Type: application/json" \
+  -H "Content-Encoding: gzip" \
+  --data-binary @import.json.gz</code></pre>
+        <h2 data-i18n="compression-heading-verify">Como verificar e operar</h2>
+        <p data-i18n="compression-verify">Teste a negociação da resposta com curl. A opção --compressed envia um Accept-Encoding suportado e descompacta a resposta para exibição. Para inspecionar cabeçalhos, observe Content-Encoding e Vary; compare o tamanho no proxy, nas métricas de egress ou em uma captura HTTP, não apenas o texto já descompactado que curl imprime.</p>
+        <pre><code>curl --compressed -i http://localhost:5000/products
+curl -s -D - -o /dev/null \
+  -H "Accept-Encoding: br, gzip" \
+  http://localhost:5000/products</code></pre>
+        <p data-i18n="compression-proxy">Antes de publicar, descubra onde a compressão realmente acontece. Um CDN, ingress, Nginx, IIS ou balanceador pode comprimir respostas antes de elas chegarem ao cliente. Escolha uma camada responsável, evite dupla compressão e preserve Vary: Accept-Encoding. Meça CPU da aplicação, latência p50/p95/p99, tamanho original e transferido, taxa de respostas por Content-Encoding e erros de descompressão.</p>
+        <h2 data-i18n="compression-heading-decision">Uma decisão prática</h2>
+        <p data-i18n="compression-decision">Comece com respostas textuais suficientemente grandes, Brotli e Gzip, nível Fastest e métricas. Exclua mídia e arquivos já compactados. Habilite HTTPS apenas após revisar os fluxos que expõem segredos. Para requisições comprimidas, adote o middleware apenas quando clientes enviam corpos grandes com benefício mensurável e combine-o com limites de tamanho descompactado, timeouts e rate limiting. Assim, compressão vira uma otimização explícita e observável, não uma aposta global.</p>
+      </article>
+      <p class="journal-footnote"><span class="status-dot"></span><span data-i18n="article-footer">Artigo completo publicado neste portfólio.</span></p><p><strong data-i18n="closing-question">Uma pergunta para levar à próxima revisão:</strong> <span data-i18n="compression-closing">sua API mede os bytes economizados e os custos de CPU antes de habilitar a compressão para todo endpoint?</span></p><a class="article-back article-back-bottom" href="../index.html#journal" data-i18n="back-blog">← Voltar ao blog</a>
+    </main>
+  </body>
+</html>
