@@ -1,5 +1,13 @@
 [
   {
+    "slug": "2026-11-10-middlewares-dotnet",
+    "url": "blog/2026-11-10-middlewares-dotnet.html",
+    "title": {"pt": "Middlewares no ASP.NET Core: pipelines e exemplos práticos", "en": "Middlewares in ASP.NET Core: pipelines and practical examples"},
+    "summary": {"pt": "Entenda para que servem middlewares e pipelines no ASP.NET Core e veja exemplos de observabilidade e tratamento global de erros.", "en": "Learn what middlewares and pipelines do in ASP.NET Core, with observability and global error-handling examples."},
+    "category": {"pt": ".NET e arquitetura", "en": ".NET & architecture"},
+    "publishedAt": "2026-11-10T22:21:37+00:00"
+  },
+  {
     "slug": "2026-11-09-compressao-http-dotnet-10",
     "url": "blog/2026-11-09-compressao-http-dotnet-10.html",
     "title": {"pt": "Compressão HTTP em APIs .NET 10: ganhos, riscos e implementação passo a passo", "en": "HTTP compression in .NET 10 APIs: benefits, risks, and a step-by-step implementation"},

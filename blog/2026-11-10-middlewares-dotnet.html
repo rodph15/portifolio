@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#10100f"><meta name="author" content="Rodolfo Schmidt">
+    <meta name="description" content="Entenda o que são middlewares e pipelines no ASP.NET Core e crie exemplos práticos, incluindo um tratamento global de erros." data-i18n="middleware-meta-description" data-i18n-attr="content">
+    <title data-i18n="middleware-page-title">Middlewares no ASP.NET Core: pipelines e exemplos práticos — Rodolfo Schmidt</title>
+    <meta property="og:type" content="article"><meta property="og:site_name" content="Rodolfo Schmidt"><meta property="og:title" content="Middlewares no ASP.NET Core: pipelines e exemplos práticos — Rodolfo Schmidt" data-i18n="middleware-page-title" data-i18n-attr="content"><meta property="og:description" content="Entenda o que são middlewares e pipelines no ASP.NET Core e crie exemplos práticos, incluindo um tratamento global de erros." data-i18n="middleware-meta-description" data-i18n-attr="content"><meta property="article:published_time" content="2026-11-10T22:21:37+00:00"><meta property="article:author" content="Rodolfo Schmidt">
+    <meta name="twitter:card" content="summary"><meta name="twitter:title" content="Middlewares no ASP.NET Core: pipelines e exemplos práticos — Rodolfo Schmidt" data-i18n="middleware-page-title" data-i18n-attr="content"><meta name="twitter:description" content="Entenda o que são middlewares e pipelines no ASP.NET Core e crie exemplos práticos, incluindo um tratamento global de erros." data-i18n="middleware-meta-description" data-i18n-attr="content">
+    <link rel="icon" type="image/svg+xml" href="../images/favicon.svg"><link rel="stylesheet" href="../assets/css/main.css"><script src="../assets/js/article.js?v=20261110-middlewares" defer></script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Middlewares no ASP.NET Core: pipelines e exemplos práticos","description":"Entenda o que são middlewares e pipelines no ASP.NET Core e crie exemplos práticos, incluindo um tratamento global de erros.","datePublished":"2026-11-10T22:21:37+00:00","inLanguage":"pt-BR","author":{"@type":"Person","name":"Rodolfo Schmidt","sameAs":"https://www.linkedin.com/in/rodolfo-schmidt-623042b6/"},"keywords":[".NET","C#","ASP.NET Core","Middleware","Pipeline","Tratamento de erros"]}</script>
+  </head>
+  <body class="article-page">
+    <header class="site-header"><div class="container header-inner">
+      <a class="brand" href="../index.html#home" aria-label="Rodolfo Schmidt, início" data-i18n="brand-home" data-i18n-attr="aria-label"><img class="brand-mark" src="https://media.licdn.com/dms/image/v2/C4E03AQEjvDpnBcZBBA/profile-displayphoto-shrink_100_100/profile-displayphoto-shrink_100_100/0/1652768084602?e=1793836800&amp;v=beta&amp;t=JAGe0l0jADz3eiOGHqDDew7zNt_kU4Po18SgMgVKfZc" alt=""><span>Rodolfo Schmidt</span></a>
+      <span class="terminal-window-title"><span data-i18n="terminal-title">rodolfo@portfolio: ~/blog</span><span class="terminal-cursor" aria-hidden="true"></span></span>
+      <nav class="site-nav" aria-label="Navegação principal" data-i18n="navigation" data-i18n-attr="aria-label"><a href="../index.html#journal" data-i18n="nav-blog">Blog</a><a href="../index.html#about" data-i18n="nav-about">Sobre</a><a class="nav-contact" href="../index.html#contact"><span data-i18n="nav-contact">Contato</span> <span aria-hidden="true">↗</span></a><label class="language-control"><span class="visually-hidden" data-i18n="language-label">Escolher idioma</span><select id="article-language-select" aria-label="Escolher idioma" data-i18n="language-label" data-i18n-attr="aria-label"><option value="pt">PT</option><option value="en">EN</option></select></label></nav>
+    </div></header>
+    <main class="container article-content">
+      <a class="article-back" href="../index.html#journal" data-i18n="back-blog">← Voltar ao blog</a>
+      <p class="eyebrow section-kicker"><span data-i18n="middleware-category">.NET E ARQUITETURA</span> · <time datetime="2026-11-10T22:21:37+00:00" data-article-date>10 nov. 2026, 22:21</time></p>
+      <h1 data-i18n="middleware-title">Middlewares no ASP.NET Core: pipelines e exemplos práticos</h1>
+      <p class="article-summary" data-i18n="middleware-summary">Uma forma previsível de concentrar preocupações transversais antes e depois de cada requisição.</p>
+      <div class="article-tags" aria-label="Temas do artigo" data-i18n="middleware-tags" data-i18n-attr="aria-label"><span data-i18n="middleware-tag-dotnet">.NET</span><span data-i18n="middleware-tag-aspnet">ASP.NET Core</span><span data-i18n="middleware-tag-architecture">Arquitetura</span></div>
+      <article class="article-body">
+        <p data-i18n="middleware-intro">Em uma aplicação ASP.NET Core, cada requisição HTTP passa por uma sequência de componentes antes de chegar a um endpoint. Middlewares são esses componentes: código reutilizável que pode observar, alterar ou encerrar uma requisição e sua resposta. Eles evitam repetir a mesma regra em controllers e endpoints.</p>
+        <h2 data-i18n="middleware-heading-pipeline">O que é a pipeline?</h2>
+        <p data-i18n="middleware-pipeline">A pipeline é a ordem em que os middlewares executam. Na ida, cada componente pode trabalhar antes de chamar o próximo; na volta, ele recebe o controle novamente e pode trabalhar sobre a resposta. Um middleware também pode fazer short-circuit: devolver uma resposta sem chamar o próximo. Autenticação, autorização, CORS, arquivos estáticos, roteamento e endpoints são exemplos comuns nessa cadeia.</p>
+        <pre><code>Request
+  ↓
+Exception handler → HTTPS → Routing → Authentication → Authorization → Endpoint
+  ↑
+Response</code></pre>
+        <p data-i18n="middleware-order">A ordem não é detalhe de implementação. Um handler de exceções precisa estar cedo para capturar falhas de quem vem depois. UseAuthentication precisa vir antes de UseAuthorization, e ambos antes dos endpoints protegidos. Registrar um middleware depois de MapGet ou MapControllers pode significar que ele nunca vê a requisição que você pretendia tratar.</p>
+        <h2 data-i18n="middleware-heading-built-in">Middlewares prontos do framework</h2>
+        <p data-i18n="middleware-built-in">Muitas necessidades já têm middleware no framework. O exemplo abaixo configura HTTPS, roteamento, autenticação e autorização. Cada chamada Use adiciona um componente à pipeline; MapControllers define o terminal que atende a rota correspondente.</p>
+        <pre><code>var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddAuthentication().AddJwtBearer();
+builder.Services.AddAuthorization();
+builder.Services.AddControllers();
+
+var app = builder.Build();
+
+app.UseHttpsRedirection();
+app.UseAuthentication();
+app.UseAuthorization();
+app.MapControllers();
+
+app.Run();</code></pre>
+        <h2 data-i18n="middleware-heading-custom">Um middleware personalizado para medir requisições</h2>
+        <p data-i18n="middleware-custom">Para regras específicas da aplicação, Use aceita uma função que recebe o contexto e o próximo componente. Este exemplo mede o tempo total da requisição e inclui método, caminho e status no log. Evite registrar informações sensíveis — como tokens, senhas ou corpos completos — sem uma política clara de proteção de dados.</p>
+        <pre><code>using System.Diagnostics;
+
+app.Use(async (context, next) =&gt;
+{
+    var stopwatch = Stopwatch.StartNew();
+
+    await next();
+
+    stopwatch.Stop();
+    app.Logger.LogInformation(
+        "{Method} {Path} responded {StatusCode} in {ElapsedMs} ms",
+        context.Request.Method,
+        context.Request.Path,
+        context.Response.StatusCode,
+        stopwatch.ElapsedMilliseconds);
+});</code></pre>
+        <h2 data-i18n="middleware-heading-error">Exemplo: handler global de erros</h2>
+        <p data-i18n="middleware-error-intro">Tratamento global de erros é uma das aplicações mais importantes de middleware. Em vez de colocar try/catch em toda action, um único componente registra a exceção e produz uma resposta consistente. Para APIs, ProblemDetails é um formato padronizado e útil para clientes e ferramentas.</p>
+        <pre><code>using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Mvc;
+
+public sealed class GlobalExceptionHandler(
+    ILogger&lt;GlobalExceptionHandler&gt; logger,
+    IProblemDetailsService problemDetails) : IExceptionHandler
+{
+    public async ValueTask&lt;bool&gt; TryHandleAsync(
+        HttpContext context,
+        Exception exception,
+        CancellationToken cancellationToken)
+    {
+        logger.LogError(exception,
+            "Unhandled exception for {Method} {Path}",
+            context.Request.Method,
+            context.Request.Path);
+
+        context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+
+        await problemDetails.WriteAsync(new ProblemDetailsContext
+        {
+            HttpContext = context,
+            Exception = exception,
+            ProblemDetails = new ProblemDetails
+            {
+                Status = StatusCodes.Status500InternalServerError,
+                Title = "An unexpected error occurred."
+            }
+        });
+
+        return true;
+    }
+}</code></pre>
+        <p data-i18n="middleware-error-registration">Registre o handler e ProblemDetails no contêiner de dependências; depois, ative o middleware uma única vez no começo da pipeline.</p>
+        <pre><code>var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddProblemDetails();
+builder.Services.AddExceptionHandler&lt;GlobalExceptionHandler&gt;();
+
+var app = builder.Build();
+
+app.UseExceptionHandler();
+
+app.MapGet("/orders/{id:int}", (int id) =&gt;
+    id &gt; 0 ? Results.Ok(new { id }) : throw new InvalidOperationException());
+
+app.Run();</code></pre>
+        <p data-i18n="middleware-error-detail">Essa implementação mantém o Program.cs enxuto, permite testar o handler isoladamente e centraliza a decisão sobre logs e respostas. Coloque UseExceptionHandler no início da pipeline, antes de componentes que possam lançar exceções. Em produção, não devolva stack traces, mensagens de banco de dados ou detalhes internos ao cliente. Erros previstos de validação, autorização ou recurso inexistente devem continuar retornando seus status apropriados, como 400, 401, 403 ou 404, em vez de virar 500.</p>
+        <h2 data-i18n="middleware-heading-guidelines">Como escolher e testar a ordem</h2>
+        <p data-i18n="middleware-guidelines">Comece pelos middlewares de infraestrutura que protegem toda a aplicação, depois aplique roteamento, identidade e autorização, e por fim endpoints. Mantenha cada middleware pequeno, com uma responsabilidade clara, e use injeção de dependência para serviços como logs ou métricas. Teste os caminhos de sucesso, o short-circuit e as falhas: a resposta deve ter status, cabeçalhos e corpo esperados, e exceções não devem vazar detalhes.</p>
+        <p data-i18n="middleware-conclusion">Uma pipeline bem ordenada torna as regras transversais explícitas e consistentes. Com middlewares, a aplicação pode tratar erros, segurança e observabilidade em um só lugar, deixando os endpoints concentrados no caso de uso que realmente precisam atender.</p>
+      </article>
+      <p class="journal-footnote"><span class="status-dot"></span><span data-i18n="article-footer">Artigo completo publicado neste portfólio.</span></p><p><strong data-i18n="closing-question">Uma pergunta para levar à próxima revisão:</strong> <span data-i18n="middleware-closing">sua pipeline expressa claramente onde sua API trata falhas, identifica usuários e encerra uma requisição?</span></p><a class="article-back article-back-bottom" href="../index.html#journal" data-i18n="back-blog">← Voltar ao blog</a>
+    </main>
+  </body>
+</html>
