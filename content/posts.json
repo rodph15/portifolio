@@ -1,5 +1,13 @@
 [
   {
+    "slug": "2026-11-11-injecao-dependencia-dotnet-10",
+    "url": "blog/2026-11-11-injecao-dependencia-dotnet-10.html",
+    "title": {"pt": "Injeção de dependência no .NET 10: por que importa e como aplicar", "en": "Dependency injection in .NET 10: why it matters and how to apply it"},
+    "summary": {"pt": "Entenda como a injeção de dependência reduz acoplamento, facilita testes e organiza serviços, com exemplos de configuração e uso no .NET 10.", "en": "Learn how dependency injection reduces coupling, makes testing easier, and organizes services with .NET 10 configuration and usage examples."},
+    "category": {"pt": ".NET e arquitetura", "en": ".NET & architecture"},
+    "publishedAt": "2026-11-11T19:47:48+00:00"
+  },
+  {
     "slug": "2026-11-10-middlewares-dotnet",
     "url": "blog/2026-11-10-middlewares-dotnet.html",
     "title": {"pt": "Middlewares no ASP.NET Core: pipelines e exemplos práticos", "en": "Middlewares in ASP.NET Core: pipelines and practical examples"},

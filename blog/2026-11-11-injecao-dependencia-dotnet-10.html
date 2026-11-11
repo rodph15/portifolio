@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#10100f"><meta name="author" content="Rodolfo Schmidt">
+    <meta name="description" content="Entenda por que injeção de dependência importa, como configurar ciclos de vida e aplicar o contêiner nativo em aplicações .NET 10." data-i18n="di-meta-description" data-i18n-attr="content">
+    <title data-i18n="di-page-title">Injeção de dependência no .NET 10: por que importa e como aplicar — Rodolfo Schmidt</title>
+    <meta property="og:type" content="article"><meta property="og:site_name" content="Rodolfo Schmidt"><meta property="og:title" content="Injeção de dependência no .NET 10: por que importa e como aplicar — Rodolfo Schmidt" data-i18n="di-page-title" data-i18n-attr="content"><meta property="og:description" content="Entenda por que injeção de dependência importa, como configurar ciclos de vida e aplicar o contêiner nativo em aplicações .NET 10." data-i18n="di-meta-description" data-i18n-attr="content"><meta property="article:published_time" content="2026-11-11T19:47:48+00:00"><meta property="article:author" content="Rodolfo Schmidt">
+    <meta name="twitter:card" content="summary"><meta name="twitter:title" content="Injeção de dependência no .NET 10: por que importa e como aplicar — Rodolfo Schmidt" data-i18n="di-page-title" data-i18n-attr="content"><meta name="twitter:description" content="Entenda por que injeção de dependência importa, como configurar ciclos de vida e aplicar o contêiner nativo em aplicações .NET 10." data-i18n="di-meta-description" data-i18n-attr="content">
+    <link rel="icon" type="image/svg+xml" href="../images/favicon.svg"><link rel="stylesheet" href="../assets/css/main.css"><script src="../assets/js/article.js?v=20261111-dependency-injection" defer></script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Injeção de dependência no .NET 10: por que importa e como aplicar","description":"Entenda por que injeção de dependência importa, como configurar ciclos de vida e aplicar o contêiner nativo em aplicações .NET 10.","datePublished":"2026-11-11T19:47:48+00:00","inLanguage":"pt-BR","author":{"@type":"Person","name":"Rodolfo Schmidt","sameAs":"https://www.linkedin.com/in/rodolfo-schmidt-623042b6/"},"keywords":[".NET 10","C#","Injeção de dependência","Dependency injection","ASP.NET Core","Testes"]}</script>
+  </head>
+  <body class="article-page">
+    <header class="site-header"><div class="container header-inner">
+      <a class="brand" href="../index.html#home" aria-label="Rodolfo Schmidt, início" data-i18n="brand-home" data-i18n-attr="aria-label"><img class="brand-mark" src="https://media.licdn.com/dms/image/v2/C4E03AQEjvDpnBcZBBA/profile-displayphoto-shrink_100_100/profile-displayphoto-shrink_100_100/0/1652768084602?e=1793836800&amp;v=beta&amp;t=JAGe0l0jADz3eiOGHqDDew7zNt_kU4Po18SgMgVKfZc" alt=""><span>Rodolfo Schmidt</span></a>
+      <span class="terminal-window-title"><span data-i18n="terminal-title">rodolfo@portfolio: ~/blog</span><span class="terminal-cursor" aria-hidden="true"></span></span>
+      <nav class="site-nav" aria-label="Navegação principal" data-i18n="navigation" data-i18n-attr="aria-label"><a href="../index.html#journal" data-i18n="nav-blog">Blog</a><a href="../index.html#about" data-i18n="nav-about">Sobre</a><a class="nav-contact" href="../index.html#contact"><span data-i18n="nav-contact">Contato</span> <span aria-hidden="true">↗</span></a><label class="language-control"><span class="visually-hidden" data-i18n="language-label">Escolher idioma</span><select id="article-language-select" aria-label="Escolher idioma" data-i18n="language-label" data-i18n-attr="aria-label"><option value="pt">PT</option><option value="en">EN</option></select></label></nav>
+    </div></header>
+    <main class="container article-content">
+      <a class="article-back" href="../index.html#journal" data-i18n="back-blog">← Voltar ao blog</a>
+      <p class="eyebrow section-kicker"><span data-i18n="di-category">.NET E ARQUITETURA</span> · <time datetime="2026-11-11T19:47:48+00:00" data-article-date>11 nov. 2026, 19:47</time></p>
+      <h1 data-i18n="di-title">Injeção de dependência no .NET 10: por que importa e como aplicar</h1>
+      <p class="article-summary" data-i18n="di-summary">Uma maneira de reduzir acoplamento, tornar regras explícitas e construir aplicações mais fáceis de evoluir e testar.</p>
+      <div class="article-tags" aria-label="Temas do artigo" data-i18n="di-tags" data-i18n-attr="aria-label"><span data-i18n="di-tag-dotnet">.NET 10</span><span data-i18n="di-tag-architecture">Arquitetura</span><span data-i18n="di-tag-testing">Testes</span></div>
+      <article class="article-body">
+        <p data-i18n="di-intro">Injeção de dependência, ou DI, é o padrão em que uma classe recebe os serviços de que precisa em vez de criá-los internamente. No .NET 10, o contêiner nativo do ASP.NET Core resolve essas dependências e entrega a implementação configurada quando cria controllers, endpoints, hosted services e outros componentes. O resultado é uma aplicação em que as colaborações ficam visíveis no construtor.</p>
+        <h2 data-i18n="di-heading-problem">O problema de criar dependências dentro da classe</h2>
+        <p data-i18n="di-problem">Quando um serviço instancia diretamente um repositório, um cliente HTTP ou um relógio, ele fica preso a detalhes concretos. Trocar a infraestrutura exige alterar a regra de negócio; testar o comportamento exige banco, rede ou tempo real. DI inverte esse controle: a classe declara o contrato de que depende, e a composição da aplicação decide qual implementação usar.</p>
+        <pre><code>public sealed class OrderService
+{
+    private readonly SqlOrderRepository _repository = new();
+
+    // A regra de negócio agora conhece a infraestrutura.
+}</code></pre>
+        <h2 data-i18n="di-heading-registration">1. Registre contratos e implementações</h2>
+        <p data-i18n="di-registration">O ponto de composição costuma ser o Program.cs. Registre a interface, a implementação e o ciclo de vida adequado. O contêiner consegue criar a cadeia inteira se todas as dependências do construtor também estiverem registradas.</p>
+        <pre><code>var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddScoped&lt;IOrderRepository, EfOrderRepository&gt;();
+builder.Services.AddScoped&lt;IOrderService, OrderService&gt;();
+builder.Services.AddSingleton&lt;IClock, SystemClock&gt;();
+builder.Services.AddTransient&lt;IEmailSender, SmtpEmailSender&gt;();
+
+var app = builder.Build();</code></pre>
+        <p data-i18n="di-lifetimes">Use Singleton para objetos seguros de compartilhar por toda a aplicação, como configurações imutáveis ou um cache projetado para concorrência. Scoped cria uma instância por requisição HTTP e é a escolha comum para DbContext e serviços que dependem dele. Transient cria uma instância a cada resolução e serve para componentes leves e sem estado. Um singleton não pode depender de um scoped: isso manteria uma dependência de requisição viva além do seu escopo.</p>
+        <h2 data-i18n="di-heading-application">2. Aplique DI à regra de negócio</h2>
+        <p data-i18n="di-application">A regra recebe abstrações pelo construtor e concentra-se em coordenar o caso de uso. A sintaxe de construtor primário do C# deixa isso conciso, mas o benefício é arquitetural: o serviço deixa de escolher banco, relógio e telemetria por conta própria.</p>
+        <pre><code>public interface IOrderService
+{
+    Task&lt;Order&gt; CreateAsync(CreateOrder command, CancellationToken cancellationToken);
+}
+
+public sealed class OrderService(
+    IOrderRepository repository,
+    IClock clock,
+    ILogger&lt;OrderService&gt; logger) : IOrderService
+{
+    public async Task&lt;Order&gt; CreateAsync(
+        CreateOrder command,
+        CancellationToken cancellationToken)
+    {
+        var order = Order.Create(command.CustomerId, clock.UtcNow);
+
+        await repository.AddAsync(order, cancellationToken);
+        logger.LogInformation("Order {OrderId} created", order.Id);
+
+        return order;
+    }
+}</code></pre>
+        <p data-i18n="di-endpoint">Um endpoint minimal API pode solicitar o serviço como parâmetro. O framework o resolve a partir do contêiner para cada chamada, preservando o controller ou endpoint como uma camada fina de transporte.</p>
+        <pre><code>app.MapPost("/orders", async (
+    CreateOrder command,
+    IOrderService orderService,
+    CancellationToken cancellationToken) =&gt;
+{
+    var order = await orderService.CreateAsync(command, cancellationToken);
+    return Results.Created($"/orders/{order.Id}", order);
+});</code></pre>
+        <h2 data-i18n="di-heading-benefits">Benefícios que aparecem na aplicação</h2>
+        <p data-i18n="di-benefits">O primeiro benefício é menor acoplamento: trocar EF Core por outro armazenamento ou um provedor de e-mail não obriga a reescrever o caso de uso. O segundo é consistência: logging, opções, clientes HTTP tipados e tratamento de configuração seguem um único ponto de composição. O terceiro é clareza de responsabilidade: um construtor grande é um sinal útil de que a classe pode estar fazendo trabalho demais, não um motivo para usar um service locator.</p>
+        <p data-i18n="di-httpclient">DI também evita criar HttpClient indiscriminadamente. Registre um cliente tipado para concentrar URL base, headers e resiliência; depois injete-o no adaptador que fala com o serviço externo.</p>
+        <pre><code>builder.Services.AddHttpClient&lt;IPaymentGateway, PaymentGateway&gt;(client =&gt;
+{
+    client.BaseAddress = new Uri("https://payments.example");
+    client.Timeout = TimeSpan.FromSeconds(10);
+});</code></pre>
+        <h2 data-i18n="di-heading-tests">3. Teste sem infraestrutura real</h2>
+        <p data-i18n="di-tests">Como as dependências são contratos, um teste pode fornecer implementações controladas. O exemplo usa um relógio fixo e um repositório em memória, tornando a data e o efeito observado determinísticos. Em projetos reais, mocks, fakes ou bancos de teste devem representar apenas a fronteira necessária ao cenário.</p>
+        <pre><code>var repository = new InMemoryOrderRepository();
+var clock = new FixedClock(new DateTimeOffset(2026, 11, 11, 12, 0, 0, TimeSpan.Zero));
+var logger = NullLogger&lt;OrderService&gt;.Instance;
+var service = new OrderService(repository, clock, logger);
+
+var order = await service.CreateAsync(
+    new CreateOrder(customerId),
+    CancellationToken.None);
+
+Assert.Equal(clock.UtcNow, order.CreatedAt);
+Assert.Single(repository.Orders);</code></pre>
+        <h2 data-i18n="di-heading-guidelines">Cuidados para manter DI útil</h2>
+        <p data-i18n="di-guidelines">Registre serviços no ponto de entrada e injete apenas o que a classe realmente usa. Evite IServiceProvider dentro da lógica de negócio: ele esconde dependências e adia erros de configuração para execução. Valide o grafo na inicialização em desenvolvimento, mantenha ciclos de vida compatíveis e prefira interfaces nas fronteiras que você precisa variar ou testar. Uma interface para cada classe, sem necessidade, não cria flexibilidade automaticamente.</p>
+        <p data-i18n="di-conclusion">DI não elimina decisões de arquitetura nem substitui testes. Ela cria uma fronteira clara entre a regra e seus detalhes, permitindo que a aplicação evolua com menos alterações em cascata. No .NET 10, o suporte nativo torna essa composição uma parte simples e central do desenho de uma API ou serviço.</p>
+      </article>
+      <p class="journal-footnote"><span class="status-dot"></span><span data-i18n="article-footer">Artigo completo publicado neste portfólio.</span></p><p><strong data-i18n="closing-question">Uma pergunta para levar à próxima revisão:</strong> <span data-i18n="di-closing">quais detalhes de infraestrutura suas regras de negócio ainda estão criando diretamente?</span></p><a class="article-back article-back-bottom" href="../index.html#journal" data-i18n="back-blog">← Voltar ao blog</a>
+    </main>
+  </body>
+</html>
