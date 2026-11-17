@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#10100f"><meta name="author" content="Rodolfo Schmidt">
+    <meta name="description" content="Aprenda a aplicar os cinco princípios SOLID em C# e .NET 10 e entenda por que eles melhoram manutenção, code review e colaboração com IA." data-i18n="solid-meta-description" data-i18n-attr="content">
+    <title data-i18n="solid-page-title">SOLID em C# e .NET 10: código mais fácil de manter e revisar — Rodolfo Schmidt</title>
+    <meta property="og:type" content="article"><meta property="og:site_name" content="Rodolfo Schmidt"><meta property="og:title" content="SOLID em C# e .NET 10: código mais fácil de manter e revisar — Rodolfo Schmidt" data-i18n="solid-page-title" data-i18n-attr="content"><meta property="og:description" content="Aprenda a aplicar os cinco princípios SOLID em C# e .NET 10." data-i18n="solid-meta-description" data-i18n-attr="content"><meta property="article:published_time" content="2026-11-17T12:00:00+00:00"><meta property="article:author" content="Rodolfo Schmidt">
+    <meta name="twitter:card" content="summary"><meta name="twitter:title" content="SOLID em C# e .NET 10: código mais fácil de manter e revisar — Rodolfo Schmidt" data-i18n="solid-page-title" data-i18n-attr="content"><meta name="twitter:description" content="Aprenda a aplicar os cinco princípios SOLID em C# e .NET 10." data-i18n="solid-meta-description" data-i18n-attr="content">
+    <link rel="icon" type="image/svg+xml" href="../images/favicon.svg"><link rel="stylesheet" href="../assets/css/main.css"><script src="../assets/js/article.js?v=20261117-solid" defer></script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"SOLID em C# e .NET 10: código mais fácil de manter e revisar","description":"Aprenda a aplicar os cinco princípios SOLID em C# e .NET 10.","datePublished":"2026-11-17T12:00:00+00:00","inLanguage":"pt-BR","author":{"@type":"Person","name":"Rodolfo Schmidt"},"keywords":["SOLID","C#",".NET 10","Code review","Inteligência artificial"]}</script>
+  </head>
+  <body class="article-page">
+    <header class="site-header"><div class="container header-inner"><a class="brand" href="../index.html#home" aria-label="Rodolfo Schmidt, início" data-i18n="brand-home" data-i18n-attr="aria-label"><img class="brand-mark" src="https://media.licdn.com/dms/image/v2/C4E03AQEjvDpnBcZBBA/profile-displayphoto-shrink_100_100/profile-displayphoto-shrink_100_100/0/1652768084602?e=1793836800&amp;v=beta&amp;t=JAGe0l0jADz3eiOGHqDDew7zNt_kU4Po18SgMgVKfZc" alt=""><span>Rodolfo Schmidt</span></a><span class="terminal-window-title"><span data-i18n="terminal-title">rodolfo@portfolio: ~/blog</span><span class="terminal-cursor" aria-hidden="true"></span></span><nav class="site-nav" aria-label="Navegação principal" data-i18n="navigation" data-i18n-attr="aria-label"><a href="../index.html#journal" data-i18n="nav-blog">Blog</a><a href="../index.html#about" data-i18n="nav-about">Sobre</a><a href="../index.html#contact"><span data-i18n="nav-contact">Contato</span> ↗</a><label class="language-control"><span class="visually-hidden" data-i18n="language-label">Escolher idioma</span><select id="article-language-select" aria-label="Escolher idioma" data-i18n="language-label" data-i18n-attr="aria-label"><option value="pt">PT</option><option value="en">EN</option></select></label></nav></div></header>
+    <main class="container article-content"><a class="article-back" href="../index.html#journal" data-i18n="back-blog">← Voltar ao blog</a><p class="eyebrow section-kicker"><span data-i18n="solid-category">.NET E ARQUITETURA</span> · <time datetime="2026-11-17T12:00:00+00:00" data-article-date>17 nov. 2026, 12:00</time></p><h1 data-i18n="solid-title">SOLID em C# e .NET 10: código mais fácil de manter e revisar</h1><p class="article-summary" data-i18n="solid-summary">Os cinco princípios não são regras para criar mais abstrações: são heurísticas para manter responsabilidades claras, mudanças locais e reviews compreensíveis — inclusive quando a primeira versão vem de uma IA.</p><div class="article-tags" aria-label="Temas do artigo" data-i18n="solid-tags" data-i18n-attr="aria-label"><span data-i18n="solid-tag-csharp">C#</span><span data-i18n="solid-tag-architecture">Arquitetura</span><span data-i18n="solid-tag-ai">Code review e IA</span></div>
+      <article class="article-body"><p data-i18n="solid-intro">SOLID é um conjunto de cinco princípios de design orientado a objetos. Em vez de decorar siglas, use-os para fazer uma pergunta prática durante a implementação ou revisão: este código deixa claro o que muda, quem depende de quem e qual é o menor lugar que precisa ser alterado?</p><h2 data-i18n="solid-heading-why">Por que SOLID importa ainda mais com IA</h2><p data-i18n="solid-why">Assistentes geram código rapidamente, mas não conhecem automaticamente as fronteiras do domínio, os riscos operacionais nem o custo de uma abstração. Princípios explícitos reduzem o espaço de interpretação: uma classe pequena é mais fácil de explicar, uma interface específica é mais fácil de testar e uma mudança localizada é mais fácil de revisar. Isso torna o diff legível para pessoas, ferramentas estáticas e a IA usada na próxima alteração.</p><h2 data-i18n="solid-heading-srp">1. SRP — Single Responsibility Principle</h2><p data-i18n="solid-srp">Uma classe deve ter uma razão principal para mudar. Não significa “uma linha por classe”; significa separar políticas que evoluem por motivos diferentes. Um handler que valida pedido, calcula preço, grava no banco e envia e-mail mistura regras e infraestrutura.</p><pre><code>public sealed class OrderPricing
+{
+    public decimal Calculate(Order order) =&gt; order.Items.Sum(i =&gt; i.Price * i.Quantity);
+}
+
+public sealed class CreateOrderHandler(
+    OrderPricing pricing,
+    IOrderRepository repository,
+    IReceiptSender receiptSender)
+{
+    public async Task HandleAsync(Order order, CancellationToken ct)
+    {
+        var total = pricing.Calculate(order);
+        await repository.SaveAsync(order, total, ct);
+        await receiptSender.SendAsync(order.CustomerEmail, total, ct);
+    }
+}</code></pre><h2 data-i18n="solid-heading-ocp">2. OCP — Open/Closed Principle</h2><p data-i18n="solid-ocp">Componentes devem estar abertos para extensão e fechados para alterações recorrentes. Quando cada novo desconto exige editar um grande if, o risco cresce. Modele uma política e adicione implementações.</p><pre><code>public interface IDiscountPolicy
+{
+    decimal Apply(decimal subtotal);
+}
+
+public sealed class VipDiscount : IDiscountPolicy
+{
+    public decimal Apply(decimal subtotal) =&gt; subtotal * 0.90m;
+}
+
+public sealed class Checkout(IReadOnlyCollection&lt;IDiscountPolicy&gt; policies)
+{
+    public decimal Total(decimal subtotal) =&gt; policies.Aggregate(subtotal, (value, p) =&gt; p.Apply(value));
+}</code></pre><h2 data-i18n="solid-heading-lsp">3. LSP — Liskov Substitution Principle</h2><p data-i18n="solid-lsp">Uma implementação deve poder substituir o contrato sem quebrar as expectativas do consumidor. Se uma subclasse lança NotSupportedException para uma operação prometida pela interface, a abstração está errada. Separe capacidades.</p><pre><code>public interface IReadableDocument
+{
+    string Read();
+}
+
+public interface IWritableDocument
+{
+    void Write(string content);
+}
+
+public sealed class ReadOnlyDocument(string content) : IReadableDocument
+{
+    public string Read() =&gt; content;
+}</code></pre><h2 data-i18n="solid-heading-isp">4. ISP — Interface Segregation Principle</h2><p data-i18n="solid-isp">Clientes não devem depender de métodos que não usam. Interfaces menores tornam as dependências e os testes claros. Em APIs de aplicação, prefira contratos orientados ao caso de uso a uma interface “Deus”.</p><pre><code>public interface IOrderReader
+{
+    Task&lt;Order?&gt; FindAsync(Guid id, CancellationToken ct);
+}
+
+public interface IOrderWriter
+{
+    Task SaveAsync(Order order, decimal total, CancellationToken ct);
+}
+
+public sealed class OrderQuery(IOrderReader reader)
+{
+    public Task&lt;Order?&gt; GetAsync(Guid id, CancellationToken ct) =&gt; reader.FindAsync(id, ct);
+}</code></pre><h2 data-i18n="solid-heading-dip">5. DIP — Dependency Inversion Principle</h2><p data-i18n="solid-dip">Módulos de alto nível devem depender de abstrações, não de detalhes. O .NET 10 facilita a composição no ponto de entrada com DI; a regra de negócio conhece o contrato e o Program.cs escolhe a infraestrutura.</p><pre><code>public interface IClock
+{
+    DateTimeOffset UtcNow { get; }
+}
+
+public sealed class ExpirationService(IClock clock)
+{
+    public bool IsExpired(DateTimeOffset expiresAt) =&gt; expiresAt &lt;= clock.UtcNow;
+}
+
+builder.Services.AddSingleton&lt;IClock, SystemClock&gt;();
+builder.Services.AddScoped&lt;ExpirationService&gt;();</code></pre><h2 data-i18n="solid-heading-review">Como usar SOLID no code review</h2><p data-i18n="solid-review">Não procure a sigla por si só. Pergunte: a classe tem motivos de mudança diferentes? Uma nova variação exige editar código estável? Toda implementação respeita o contrato? O consumidor precisa conhecer métodos que não usa? A regra depende de banco, relógio ou HTTP diretamente? Essas perguntas transformam SOLID em critérios objetivos para revisar código gerado por IA, em vez de uma opinião estética.</p><h2 data-i18n="solid-heading-balance">SOLID não é burocracia</h2><p data-i18n="solid-balance">Abstrações sem variação real aumentam indirection e custo cognitivo. Comece pelo comportamento, extraia fronteiras quando houver uma mudança provável ou uma necessidade de teste e mantenha o design proporcional ao problema. SOLID é uma ferramenta de comunicação e evolução, não uma obrigação de criar cinco interfaces para cada classe.</p><p data-i18n="solid-conclusion">Quando aplicado com contexto, SOLID reduz alterações em cascata, melhora a testabilidade e deixa as decisões visíveis. Para equipes que usam IA, isso é especialmente valioso: quanto mais claro o design, melhor o prompt, menor o diff e mais confiável a revisão humana.</p></article><p class="journal-footnote"><span class="status-dot"></span><span data-i18n="article-footer">Artigo completo publicado neste portfólio.</span></p><p><strong data-i18n="closing-question">Uma pergunta para levar à próxima revisão:</strong> <span data-i18n="solid-closing">qual princípio tornaria a próxima mudança menor e mais segura?</span></p><a class="article-back article-back-bottom" href="../index.html#journal" data-i18n="back-blog">← Voltar ao blog</a></main>
+  </body>
+</html>

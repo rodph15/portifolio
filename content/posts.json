@@ -1,4 +1,13 @@
-[{
+[
+  {
+    "slug": "2026-11-17-solid-dotnet-10",
+    "url": "blog/2026-11-17-solid-dotnet-10.html",
+    "title": {"pt": "SOLID em C# e .NET 10: código mais fácil de manter e revisar", "en": "SOLID in C# and .NET 10: code that is easier to maintain and review"},
+    "summary": {"pt": "Aprenda a aplicar os cinco princípios SOLID em C# e .NET 10 e entenda por que eles melhoram manutenção, code review e colaboração com IA.", "en": "Learn how to apply the five SOLID principles in C# and .NET 10, and why they improve maintainability, code review, and collaboration with AI."},
+    "category": {"pt": ".NET e arquitetura", "en": ".NET & architecture"},
+    "publishedAt": "2026-11-17T12:00:00+00:00"
+  },
+  {
     "slug": "2026-11-16-clean-code-na-era-da-ia",
     "url": "blog/2026-11-16-clean-code-na-era-da-ia.html",
     "title": {"pt": "Clean Code na era da IA: escrever menos não significa pensar menos", "en": "Clean Code in the AI Era: Writing Less Does Not Mean Thinking Less"},

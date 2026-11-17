@@ -1,5 +1,13 @@
 # Copilot instructions
 
+## Mandatory project initialization
+
+- At the start of every task, read this file and every relevant skill under `.github/skills/` before editing or publishing.
+- Run the `project-init` checklist when the task involves this portfolio, its blog, or LinkedIn.
+- Inspect the working tree first and preserve unrelated changes. Never assume that a token, deployment, public URL, or MCP tool is unavailable without checking the configured local files and server safely.
+- For LinkedIn tasks, verify the configured `linkedin-mcp` token file and MCP tools without printing secrets; call `linkedin_get_profile` before any publication.
+- Never claim an external publication succeeded without a real API response containing both a post identifier and a verifiable URL. Never remove drafts before that confirmation.
+
 ## Project overview
 
 - This repository is a static, bilingual portfolio and blog. It has no application build system or package manager.
