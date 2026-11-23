@@ -1,5 +1,13 @@
 [
   {
+    "slug": "2026-11-23-circuit-breaker-dotnet-10",
+    "url": "blog/2026-11-23-circuit-breaker-dotnet-10.html",
+    "title": {"pt": "Circuit Breaker em C# e .NET 10: como proteger chamadas HTTP", "en": "Circuit Breaker in C# and .NET 10: how to protect HTTP calls"},
+    "summary": {"pt": "Aprenda a implementar Circuit Breaker em C# e .NET 10 para evitar cascatas de falhas em chamadas HTTP.", "en": "Learn how to implement a Circuit Breaker in C# and .NET 10 to prevent cascading failures in HTTP calls."},
+    "category": {"pt": ".NET e resiliência", "en": ".NET & resilience"},
+    "publishedAt": "2026-11-23T12:00:00+00:00"
+  },
+  {
     "slug": "2026-11-17-solid-dotnet-10",
     "url": "blog/2026-11-17-solid-dotnet-10.html",
     "title": {"pt": "SOLID em C# e .NET 10: código mais fácil de manter e revisar", "en": "SOLID in C# and .NET 10: code that is easier to maintain and review"},

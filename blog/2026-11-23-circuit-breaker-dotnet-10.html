@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#10100f"><meta name="author" content="Rodolfo Schmidt">
+    <meta name="description" content="Aprenda a implementar Circuit Breaker em C# e .NET 10 para evitar cascatas de falhas em chamadas HTTP." data-i18n="breaker-meta-description" data-i18n-attr="content">
+    <title data-i18n="breaker-page-title">Circuit Breaker em C# e .NET 10: como proteger chamadas HTTP — Rodolfo Schmidt</title>
+    <meta property="og:type" content="article"><meta property="og:site_name" content="Rodolfo Schmidt"><meta property="og:title" content="Circuit Breaker em C# e .NET 10: como proteger chamadas HTTP — Rodolfo Schmidt" data-i18n="breaker-page-title" data-i18n-attr="content"><meta property="og:description" content="Aprenda a implementar Circuit Breaker em C# e .NET 10 para evitar cascatas de falhas em chamadas HTTP." data-i18n="breaker-meta-description" data-i18n-attr="content"><meta property="article:published_time" content="2026-11-23T12:00:00+00:00"><meta property="article:author" content="Rodolfo Schmidt">
+    <meta name="twitter:card" content="summary"><meta name="twitter:title" content="Circuit Breaker em C# e .NET 10: como proteger chamadas HTTP — Rodolfo Schmidt" data-i18n="breaker-page-title" data-i18n-attr="content"><meta name="twitter:description" content="Aprenda a implementar Circuit Breaker em C# e .NET 10 para evitar cascatas de falhas em chamadas HTTP." data-i18n="breaker-meta-description" data-i18n-attr="content">
+    <link rel="icon" type="image/svg+xml" href="../images/favicon.svg"><link rel="stylesheet" href="../assets/css/main.css"><script src="../assets/js/article.js?v=20261123-breaker" defer></script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Circuit Breaker em C# e .NET 10: como proteger chamadas HTTP","description":"Aprenda a implementar Circuit Breaker em C# e .NET 10 para evitar cascatas de falhas em chamadas HTTP.","datePublished":"2026-11-23T12:00:00+00:00","inLanguage":"pt-BR","author":{"@type":"Person","name":"Rodolfo Schmidt"},"keywords":["Circuit Breaker","C#",".NET 10","Resiliência","HTTP"]}</script>
+  </head>
+  <body class="article-page">
+    <header class="site-header"><div class="container header-inner"><a class="brand" href="../index.html#home" aria-label="Rodolfo Schmidt, início" data-i18n="brand-home" data-i18n-attr="aria-label"><img class="brand-mark" src="https://media.licdn.com/dms/image/v2/C4E03AQEjvDpnBcZBBA/profile-displayphoto-shrink_100_100/profile-displayphoto-shrink_100_100/0/1652768084602?e=1793836800&amp;v=beta&amp;t=JAGe0l0jADz3eiOGHqDDew7zNt_kU4Po18SgMgVKfZc" alt=""><span>Rodolfo Schmidt</span></a><span class="terminal-window-title"><span data-i18n="terminal-title">rodolfo@portfolio: ~/blog</span><span class="terminal-cursor" aria-hidden="true"></span></span><nav class="site-nav" aria-label="Navegação principal" data-i18n="navigation" data-i18n-attr="aria-label"><a href="../index.html#journal" data-i18n="nav-blog">Blog</a><a href="../index.html#about" data-i18n="nav-about">Sobre</a><a href="../index.html#contact"><span data-i18n="nav-contact">Contato</span> ↗</a><label class="language-control"><span class="visually-hidden" data-i18n="language-label">Escolher idioma</span><select id="article-language-select" aria-label="Escolher idioma" data-i18n="language-label" data-i18n-attr="aria-label"><option value="pt">PT</option><option value="en">EN</option></select></label></nav></div></header>
+    <main class="container article-content"><a class="article-back" href="../index.html#journal" data-i18n="back-blog">← Voltar ao blog</a><p class="eyebrow section-kicker"><span data-i18n="breaker-category">.NET E RESILIÊNCIA</span> · <time datetime="2026-11-23T12:00:00+00:00" data-article-date>23 nov. 2026, 12:00</time></p><h1 data-i18n="breaker-title">Circuit Breaker em C# e .NET 10: como proteger chamadas HTTP</h1><p class="article-summary" data-i18n="breaker-summary">Quando um serviço externo falha, repetir chamadas indefinidamente pode transformar uma indisponibilidade isolada em uma falha em cascata. O Circuit Breaker interrompe temporariamente o tráfego, dá tempo para a dependência se recuperar e evita desperdiçar recursos.</p><div class="article-tags" aria-label="Temas do artigo" data-i18n="breaker-tags" data-i18n-attr="aria-label"><span data-i18n="breaker-tag-dotnet">.NET 10</span><span data-i18n="breaker-tag-resilience">Resiliência</span><span data-i18n="breaker-tag-http">HTTP</span></div>
+      <article><p data-i18n="breaker-intro">Circuit Breaker é um padrão de resiliência inspirado no disjuntor elétrico. Em vez de continuar chamando uma dependência que está falhando, o cliente abre o circuito e falha rapidamente. Isso reduz latência, pressão sobre o serviço remoto e consumo de threads, conexões e CPU.</p>
+        <h2 data-i18n="breaker-heading-states">As três fases do circuito</h2><p data-i18n="breaker-states">Um circuito começa <strong>Closed</strong>: as chamadas passam e as falhas são contabilizadas. Depois de atingir o limite configurado, ele muda para <strong>Open</strong>: novas chamadas são rejeitadas sem acessar a rede. Após uma janela de espera, entra em <strong>Half-Open</strong> para testar a recuperação; se a chamada funcionar, volta a Closed, e se falhar, retorna a Open.</p>
+        <h2 data-i18n="breaker-heading-native">Implementação recomendada para HttpClient</h2><p data-i18n="breaker-native">No .NET 10, a opção prática para uma API ASP.NET Core é registrar o cliente com <code>Microsoft.Extensions.Http.Resilience</code>. O handler padrão combina timeout, retry, circuit breaker e outras estratégias com configurações seguras para HTTP. Para um caso específico, customize o pipeline e defina quais erros são transitórios.</p><pre><code>dotnet add package Microsoft.Extensions.Http.Resilience
+
+builder.Services.AddHttpClient&lt;PaymentsClient&gt;(client =&gt;
+{
+    client.BaseAddress = new Uri("https://payments.example.com");
+})
+.AddStandardResilienceHandler(options =&gt;
+{
+    options.TotalRequestTimeout.Timeout = TimeSpan.FromSeconds(10);
+    options.CircuitBreaker.SamplingDuration = TimeSpan.FromSeconds(30);
+    options.CircuitBreaker.FailureRatio = 0.5;
+    options.CircuitBreaker.MinimumThroughput = 20;
+    options.CircuitBreaker.BreakDuration = TimeSpan.FromSeconds(15);
+});</code></pre><p data-i18n="breaker-config">O exemplo abre o circuito quando pelo menos 20 operações foram observadas na janela e metade delas falhou. Os valores não são universais: ajuste-os com métricas, considerando volume, latência e comportamento do fornecedor.</p>
+        <h2 data-i18n="breaker-heading-manual">Entendendo a máquina de estados</h2><p data-i18n="breaker-manual">Uma implementação manual ajuda a enxergar a regra, mas exige cuidar de concorrência, relógio, telemetria e sincronização. Em produção, prefira uma biblioteca mantida e testada; use o exemplo abaixo como modelo didático de decisão.</p><pre><code>public sealed class SimpleCircuitBreaker
+{
+    private readonly object gate = new();
+    private readonly int threshold;
+    private readonly TimeSpan breakDuration;
+    private int failures;
+    private DateTimeOffset? openedAt;
+
+    public SimpleCircuitBreaker(int threshold, TimeSpan breakDuration)
+        =&gt; (this.threshold, this.breakDuration) = (threshold, breakDuration);
+
+    public bool AllowRequest()
+    {
+        lock (gate)
+        {
+            if (openedAt is null) return true;
+            if (DateTimeOffset.UtcNow - openedAt &lt; breakDuration) return false;
+            openedAt = null; // tentativa Half-Open simplificada
+            return true;
+        }
+    }
+
+    public void RecordSuccess() { lock (gate) failures = 0; }
+    public void RecordFailure()
+    {
+        lock (gate)
+        {
+            if (++failures &gt;= threshold) openedAt = DateTimeOffset.UtcNow;
+        }
+    }
+}</code></pre>
+        <h2 data-i18n="breaker-heading-benefits">Vantagens e limites</h2><p data-i18n="breaker-benefits">Entre os ganhos estão falha rápida, menor efeito cascata, recuperação mais previsível e uma fronteira clara para observabilidade. O Circuit Breaker não corrige a causa da falha, não substitui timeout e não deve ser usado para mascarar erros permanentes, como validação inválida ou autorização negada.</p><p data-i18n="breaker-practices">Combine-o com timeout, retry com backoff e jitter, limites de concorrência e fallback apenas quando houver uma resposta degradada correta. Não repita operações não idempotentes sem uma estratégia de idempotência. Registre mudanças de estado, rejeições, taxa de falha e duração do circuito para alertas e diagnóstico.</p>
+        <h2 data-i18n="breaker-heading-conclusion">Circuit Breaker é uma decisão operacional</h2><p data-i18n="breaker-conclusion">O padrão funciona quando o sistema aceita falhar de maneira controlada. Comece com o handler padrão, meça o comportamento real e customize apenas o que a dependência e o domínio exigirem. Assim, a aplicação protege seus próprios recursos sem esconder a indisponibilidade do serviço remoto.</p>
+      </article><p class="journal-footnote"><span class="status-dot"></span><span data-i18n="article-footer">Artigo completo publicado neste portfólio.</span></p><p><strong data-i18n="closing-question">Uma pergunta para levar à próxima revisão:</strong> <span data-i18n="breaker-closing">quais chamadas externas da sua aplicação precisam falhar rápido em vez de esperar até o timeout?</span></p><a class="article-back article-back-bottom" href="../index.html#journal" data-i18n="back-blog">← Voltar ao blog</a></main>
+  </body>
+</html>
