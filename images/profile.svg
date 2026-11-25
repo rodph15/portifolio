@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" role="img" aria-labelledby="title desc">
+  <title id="title">Rodolfo Schmidt</title>
+  <desc id="desc">Avatar com as iniciais RS</desc>
+  <defs>
+    <linearGradient id="background" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#27332d"/>
+      <stop offset="1" stop-color="#10100f"/>
+    </linearGradient>
+  </defs>
+  <rect width="160" height="160" rx="80" fill="url(#background)"/>
+  <circle cx="80" cy="80" r="70" fill="none" stroke="#b6d96b" stroke-width="2" opacity=".8"/>
+  <text x="80" y="94" fill="#f3f1e9" font-family="Arial, Helvetica, sans-serif" font-size="48" font-weight="700" text-anchor="middle">RS</text>
+</svg>

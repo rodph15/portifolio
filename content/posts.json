@@ -1,5 +1,13 @@
 [
   {
+    "slug": "2026-11-25-minimal-apis-vs-controllers-dotnet-10",
+    "url": "blog/2026-11-25-minimal-apis-vs-controllers-dotnet-10.html",
+    "title": {"pt": "Minimal APIs ou Controllers no .NET 10: diferenças, vantagens e desvantagens", "en": "Minimal APIs or Controllers in .NET 10: differences, benefits, and trade-offs"},
+    "summary": {"pt": "Compare Minimal APIs e Controllers no .NET 10, com exemplos de código, features, vantagens e desvantagens de cada abordagem.", "en": "Compare Minimal APIs and Controllers in .NET 10 with code examples, features, benefits, and trade-offs for each approach."},
+    "category": {"pt": ".NET e arquitetura", "en": ".NET & architecture"},
+    "publishedAt": "2026-11-25T12:00:00+00:00"
+  },
+  {
     "slug": "2026-11-23-circuit-breaker-dotnet-10",
     "url": "blog/2026-11-23-circuit-breaker-dotnet-10.html",
     "title": {"pt": "Circuit Breaker em C# e .NET 10: como proteger chamadas HTTP", "en": "Circuit Breaker in C# and .NET 10: how to protect HTTP calls"},

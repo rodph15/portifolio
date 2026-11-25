@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#10100f"><meta name="author" content="Rodolfo Schmidt">
+    <meta name="description" content="Compare Minimal APIs e Controllers no .NET 10, com exemplos de código, features, vantagens e desvantagens de cada abordagem." data-i18n="api-meta-description" data-i18n-attr="content">
+    <title data-i18n="api-page-title">Minimal APIs ou Controllers no .NET 10: diferenças, vantagens e desvantagens — Rodolfo Schmidt</title>
+    <meta property="og:type" content="article"><meta property="og:site_name" content="Rodolfo Schmidt"><meta property="og:title" content="Minimal APIs ou Controllers no .NET 10: diferenças, vantagens e desvantagens — Rodolfo Schmidt" data-i18n="api-page-title" data-i18n-attr="content"><meta property="og:description" content="Compare Minimal APIs e Controllers no .NET 10, com exemplos de código, features, vantagens e desvantagens de cada abordagem." data-i18n="api-meta-description" data-i18n-attr="content"><meta property="article:published_time" content="2026-11-25T12:00:00+00:00"><meta property="article:author" content="Rodolfo Schmidt">
+    <meta name="twitter:card" content="summary"><meta name="twitter:title" content="Minimal APIs ou Controllers no .NET 10: diferenças, vantagens e desvantagens — Rodolfo Schmidt" data-i18n="api-page-title" data-i18n-attr="content"><meta name="twitter:description" content="Compare Minimal APIs e Controllers no .NET 10, com exemplos de código, features, vantagens e desvantagens de cada abordagem." data-i18n="api-meta-description" data-i18n-attr="content">
+    <link rel="icon" type="image/svg+xml" href="../images/favicon.svg"><link rel="stylesheet" href="../assets/css/main.css"><script src="../assets/js/article.js?v=20261125-minimal-apis" defer></script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Minimal APIs ou Controllers no .NET 10: diferenças, vantagens e desvantagens","description":"Compare Minimal APIs e Controllers no .NET 10, com exemplos de código, features, vantagens e desvantagens de cada abordagem.","datePublished":"2026-11-25T12:00:00+00:00","inLanguage":"pt-BR","author":{"@type":"Person","name":"Rodolfo Schmidt"},"keywords":["Minimal APIs","Controllers","ASP.NET Core",".NET 10","Web API"]}</script>
+  </head>
+  <body class="article-page">
+    <header class="site-header"><div class="container header-inner"><a class="brand" href="../index.html#home" aria-label="Rodolfo Schmidt, início" data-i18n="brand-home" data-i18n-attr="aria-label"><img class="brand-mark" src="../images/profile.svg" alt=""><span>Rodolfo Schmidt</span></a><span class="terminal-window-title"><span data-i18n="terminal-title">rodolfo@portfolio: ~/blog</span><span class="terminal-cursor" aria-hidden="true"></span></span><nav class="site-nav" aria-label="Navegação principal" data-i18n="navigation" data-i18n-attr="aria-label"><a href="../index.html#journal" data-i18n="nav-blog">Blog</a><a href="../index.html#about" data-i18n="nav-about">Sobre</a><a href="../index.html#contact"><span data-i18n="nav-contact">Contato</span> ↗</a><label class="language-control"><span class="visually-hidden" data-i18n="language-label">Escolher idioma</span><select id="article-language-select" aria-label="Escolher idioma" data-i18n="language-label" data-i18n-attr="aria-label"><option value="pt">PT</option><option value="en">EN</option></select></label></nav></div></header>
+    <main class="container article-content"><a class="article-back" href="../index.html#journal" data-i18n="back-blog">← Voltar ao blog</a><p class="eyebrow section-kicker"><span data-i18n="api-category">.NET E ARQUITETURA</span> · <time datetime="2026-11-25T12:00:00+00:00" data-article-date>25 nov. 2026, 12:00</time></p><h1 data-i18n="api-title">Minimal APIs ou Controllers no .NET 10: diferenças, vantagens e desvantagens</h1><p class="article-summary" data-i18n="api-summary">Minimal APIs e Controllers resolvem o mesmo problema — expor endpoints HTTP — mas organizam o código de maneiras diferentes. Entenda as features, os trade-offs e como escolher uma abordagem sem transformar preferência em regra.</p><div class="article-tags" aria-label="Temas do artigo" data-i18n="api-tags" data-i18n-attr="aria-label"><span data-i18n="api-tag-minimal">Minimal APIs</span><span data-i18n="api-tag-controllers">Controllers</span><span data-i18n="api-tag-dotnet">.NET 10</span></div>
+      <article class="article-body">
+        <p data-i18n="api-intro">No ASP.NET Core, uma API HTTP pode ser construída com endpoints definidos diretamente no pipeline ou com classes que representam controllers. No .NET 10, as duas opções continuam sendo suportadas, recebem integração com DI, OpenAPI, autenticação, autorização, validação e observabilidade. A diferença principal está na forma de expressar o transporte HTTP e separar responsabilidades — não em uma suposta diferença de capacidade fundamental.</p>
+        <h2 data-i18n="api-heading-difference">A diferença fundamental</h2>
+        <p data-i18n="api-difference">Uma Minimal API mapeia uma rota para um delegate ou método de handler. O endpoint fica próximo do registro da aplicação e suas dependências podem ser parâmetros do método. Um Controller organiza ações dentro de uma classe derivada de <code>ControllerBase</code>; atributos como <code>[HttpGet]</code>, <code>[Route]</code> e <code>[ApiController]</code> descrevem o contrato. Em ambos os casos, o runtime executa routing, model binding, filtros ou middleware, autorização e serialização.</p>
+        <h2 data-i18n="api-heading-minimal">Exemplo de Minimal API</h2>
+        <p data-i18n="api-minimal-explanation">Para um catálogo pequeno, o ponto de entrada pode registrar os serviços e mapear os endpoints de forma direta. O resultado é curto, explícito e fácil de acompanhar de cima para baixo.</p>
+        <pre><code>var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddSingleton&lt;ProductService&gt;();
+builder.Services.AddOpenApi();
+
+var app = builder.Build();
+
+if (app.Environment.IsDevelopment())
+{
+    app.MapOpenApi();
+}
+
+app.MapGet("/api/products/{id:int}", async (int id, ProductService service, CancellationToken ct) =&gt;
+{
+    var product = await service.FindAsync(id, ct);
+    return product is null ? Results.NotFound() : Results.Ok(product);
+})
+.WithName("GetProduct")
+.WithTags("Products")
+.RequireAuthorization();
+
+app.MapPost("/api/products", async (CreateProductRequest request, ProductService service, CancellationToken ct) =&gt;
+{
+    var product = await service.CreateAsync(request, ct);
+    return Results.Created($"/api/products/{product.Id}", product);
+})
+.WithName("CreateProduct")
+.WithTags("Products");
+
+app.Run();</code></pre>
+        <p data-i18n="api-minimal-features">Nesse exemplo, o binding converte o segmento <code>{id}</code> para <code>int</code>, injeta <code>ProductService</code> pelo container e fornece o <code>CancellationToken</code> da requisição. Métodos como <code>WithName</code>, <code>WithTags</code>, <code>RequireAuthorization</code> e metadados de OpenAPI tornam o contrato mais descritivo sem exigir uma classe de controller.</p>
+        <h2 data-i18n="api-heading-controller">Exemplo com Controller</h2>
+        <p data-i18n="api-controller-explanation">A mesma API pode usar uma classe dedicada. O atributo <code>[ApiController]</code> habilita convenções úteis, como inferência de origem dos parâmetros, respostas de validação e erros HTTP padronizados. O método pode retornar <code>ActionResult&lt;T&gt;</code> para combinar dados e resultados HTTP.</p>
+        <pre><code>var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddControllers();
+builder.Services.AddOpenApi();
+builder.Services.AddSingleton&lt;ProductService&gt;();
+
+var app = builder.Build();
+
+if (app.Environment.IsDevelopment())
+{
+    app.MapOpenApi();
+}
+
+app.MapControllers();
+app.Run();
+
+[ApiController]
+[Route("api/[controller]")]
+public sealed class ProductsController(ProductService service) : ControllerBase
+{
+    [HttpGet("{id:int}")]
+    [Authorize]
+    public async Task&lt;ActionResult&lt;Product&gt;&gt; Get(int id, CancellationToken ct)
+    {
+        var product = await service.FindAsync(id, ct);
+        return product is null ? NotFound() : Ok(product);
+    }
+
+    [HttpPost]
+    public async Task&lt;ActionResult&lt;Product&gt;&gt; Create(
+        [FromBody] CreateProductRequest request,
+        CancellationToken ct)
+    {
+        var product = await service.CreateAsync(request, ct);
+        return CreatedAtAction(nameof(Get), new { id = product.Id }, product);
+    }
+}</code></pre>
+        <p data-i18n="api-controller-features">O controller oferece uma fronteira explícita para um conjunto de ações relacionadas. Atributos documentam o contrato perto da ação, filtros podem atuar antes ou depois dela e convenções de API ajudam a manter respostas previsíveis. Em projetos maiores, isso pode facilitar a navegação e a divisão do trabalho entre equipes.</p>
+        <h2 data-i18n="api-heading-features">Features comuns e diferenças práticas</h2>
+        <p data-i18n="api-features-intro">A escolha não elimina os recursos do ASP.NET Core. Middleware, DI, configuração, logging, autenticação, autorização, health checks, rate limiting, output caching e OpenAPI podem ser usados nas duas abordagens. O que muda é a superfície de composição.</p>
+        <ul><li data-i18n="api-feature-routing"><strong>Routing:</strong> Minimal APIs usam <code>MapGet</code>, <code>MapPost</code> e route groups; Controllers usam atributos ou convenções de rota.</li><li data-i18n="api-feature-binding"><strong>Binding:</strong> Minimal APIs inferem parâmetros do delegate e aceitam atributos como <code>[FromBody]</code>; Controllers combinam inferência com o comportamento de <code>[ApiController]</code>.</li><li data-i18n="api-feature-filters"><strong>Cross-cutting:</strong> Minimal APIs têm endpoint filters e grupos; Controllers têm action filters, authorization filters e filtros globais.</li><li data-i18n="api-feature-openapi"><strong>OpenAPI:</strong> ambas podem publicar metadados, nomes, tags, summaries e respostas para gerar documentação.</li><li data-i18n="api-feature-testing"><strong>Testes:</strong> ambas podem ser testadas com <code>WebApplicationFactory</code>; handlers pequenos também podem ser isolados como funções ou serviços.</li></ul>
+        <h2 data-i18n="api-heading-comparison">Vantagens e desvantagens em comparação</h2>
+        <h3 data-i18n="api-heading-minimal-pros">Onde Minimal APIs brilham</h3><p data-i18n="api-minimal-pros">Elas reduzem cerimônia, deixam o fluxo de uma API pequena visível em poucos arquivos e funcionam muito bem para microserviços, endpoints internos, health checks, protótipos e APIs orientadas a poucos casos de uso. Route groups permitem aplicar prefixos e metadados comuns sem duplicação. Também é natural manter cada endpoint próximo do seu contrato e da composição necessária.</p>
+        <h3 data-i18n="api-heading-minimal-cons">Limites das Minimal APIs</h3><p data-i18n="api-minimal-cons">Quando muitos endpoints, regras e filtros crescem no mesmo arquivo, a concisão pode virar concentração de responsabilidades. A expressão com delegates também pode ficar menos familiar para equipes acostumadas a APIs ASP.NET Core baseadas em atributos. É preciso criar módulos, grupos, handlers e serviços deliberadamente; caso contrário, o <code>Program.cs</code> vira um novo controller gigante.</p>
+        <h3 data-i18n="api-heading-controller-pros">Onde Controllers brilham</h3><p data-i18n="api-controller-pros">Controllers oferecem uma organização convencional, fácil de reconhecer em equipes que usam APIs baseadas em atributos e convenções do ASP.NET Core, além de uma rica infraestrutura de filtros. A separação por recurso, políticas de convenção, action results e filtros globais ajuda quando a API tem muitos endpoints ou precisa seguir padrões consistentes. Também é uma boa escolha quando a equipe já possui bibliotecas, testes e práticas construídos em torno de controllers.</p>
+        <h3 data-i18n="api-heading-controller-cons">Limites dos Controllers</h3><p data-i18n="api-controller-cons">A estrutura pode adicionar cerimônia para uma API simples: classes, atributos e métodos pequenos podem esconder o fluxo real. Controllers também podem acumular lógica de negócio ou depender demais de filtros implícitos. A solução não é abandonar controllers, mas manter as ações finas e mover regras para serviços e casos de uso testáveis.</p>
+        <h2 data-i18n="api-heading-performance">Performance: o que as evidências mostram</h2>
+        <p data-i18n="api-performance">Em benchmarks focados no pipeline HTTP, Minimal APIs tendem a apresentar menor overhead e maior throughput do que Controllers, porque percorrem menos infraestrutura de ativação, convenções e filtros. A própria documentação do ASP.NET Core classifica Minimal APIs como uma abordagem de alta performance e aponta overhead reduzido em comparação com Controllers. Isso é uma diferença real, mas não significa que uma aplicação completa será automaticamente mais rápida: consultas ao banco, chamadas externas, serialização, autenticação, logging e regras de negócio normalmente dominam o tempo total.</p>
+        <p data-i18n="api-performance-evidence">A evidência precisa ser interpretada pelo tipo de teste. O repositório oficial de benchmarks do ASP.NET Core mede cenários controlados, úteis para acompanhar o custo do framework. Ele não representa o comportamento de todo domínio, banco ou infraestrutura. Para decidir, compare endpoints equivalentes, mesmo payload, mesma autenticação, mesmos middlewares, mesma versão do .NET e carga realista. Meça throughput, latência p95/p99, alocações e consumo de CPU; depois confirme com profiling em produção ou staging.</p>
+        <p data-i18n="api-performance-conclusion">Na prática, não escolha Minimal APIs apenas por uma diferença de benchmark sintético, nem descarte Controllers por alguns microssegundos de overhead. Se o endpoint é um proxy simples ou uma rota de alta frequência, a diferença pode importar. Se ele espera 80 ms no banco, economizar uma fração desse tempo no transporte provavelmente não será o gargalo. Performance deve ser uma decisão baseada em medição, não em slogan.</p>
+        <h2 data-i18n="api-heading-choice">Como escolher</h2>
+        <p data-i18n="api-choice">Escolha Minimal APIs quando a prioridade for baixo overhead estrutural, poucos endpoints, composição explícita ou uma aplicação organizada por features. Escolha Controllers quando convenções de equipe, filtros baseados em atributos, muitos endpoints e uma separação familiar por recursos trouxerem mais clareza. Em um sistema real, é possível usar as duas abordagens: por exemplo, controllers para uma área pública tradicional e Minimal APIs para endpoints internos ou módulos novos. O importante é não misturar estilos sem uma regra de organização.</p>
+        <h2 data-i18n="api-heading-sources">Fontes e evidências</h2>
+        <p data-i18n="api-sources-intro">Para aprofundar a comparação, consulte a documentação oficial e os benchmarks mantidos pela equipe do ASP.NET Core:</p>
+        <ul><li><a href="https://learn.microsoft.com/en-us/aspnet/core/fundamentals/apis?view=aspnetcore-10.0" target="_blank" rel="noreferrer" data-i18n="api-source-overview">Visão geral oficial de APIs no ASP.NET Core 10</a></li><li><a href="https://github.com/aspnet/Benchmarks" target="_blank" rel="noreferrer" data-i18n="api-source-benchmarks">Repositório oficial de benchmarks do ASP.NET Core</a></li></ul>
+        <h2 data-i18n="api-heading-conclusion">A melhor abstração é a que mantém o contrato claro</h2>
+        <p data-i18n="api-conclusion">Minimal APIs não são automaticamente mais performáticas, assim como Controllers não são automaticamente mais enterprise. O custo decisivo costuma estar em banco, rede, serialização e regras de negócio, não na quantidade de classes do transporte. Compare legibilidade, testabilidade, observabilidade, experiência da equipe e evolução esperada. Uma API bem desenhada mantém endpoints finos, contratos explícitos e responsabilidades fora da camada HTTP — independentemente da sintaxe escolhida.</p>
+      </article><p class="journal-footnote"><span class="status-dot"></span><span data-i18n="article-footer">Artigo completo publicado neste portfólio.</span></p><p><strong data-i18n="closing-question">Uma pergunta para levar à próxima revisão:</strong> <span data-i18n="api-closing">a estrutura escolhida torna o próximo endpoint mais claro ou apenas repete uma preferência da equipe?</span></p><a class="article-back article-back-bottom" href="../index.html#journal" data-i18n="back-blog">← Voltar ao blog</a></main>
+  </body>
+</html>
